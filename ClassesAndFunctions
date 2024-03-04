@@ -1,4 +1,4 @@
-from math import sin, cos, pi
+from math import sin, cos, pi, radians, degrees
 
 class Character:
     def __init__(self, name, speed, x_pos, y_pos, angle):
@@ -12,7 +12,7 @@ class Character:
     def __str__(self):
         return f"{self.name}: {self.speed} m/s of speed. Currently at ({self.x}; {self.y}) position"
     
-    def movement(self, friction, gravity):
+    def movement(self, friction, gravity): # friction et gravité de la map
         while True: # faudra changer quand on aura construit quelque
             velocity = 0 chose avec des events
             for event in pygame.event.get():
@@ -31,13 +31,21 @@ class Character:
                     self.x += velocity
 
 
-class BulletType:
-    def __init__(self, bullet_name, weight):
+class Bullet:
+    def __init__(self, position, bullet_name, weight):
+        self.position = position
         self.bullet = bullet_name
         self.weight = weight
 
+    def fire(self, initial_pos, angle, gravity): # initial position et angle du joueur, gravité de la map
+        while True: # pareil, faudra faire un truc avec les events
+            radians = math.radians(angle)
+            for i in range(0, 100):
+                t = i/10
+                self.position = -0.5 * gravity * t**2 + sin(radians) * 1 + initial_pos # va falloir voir pour v0 ici
 
-class MapType:
+
+class Map:
     def __init__(self, map_name, friction, gravity):
         self.map = map_name
         self.friction = friction
