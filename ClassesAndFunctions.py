@@ -53,3 +53,18 @@ class Map:
         self.map = map_name
         self.friction = friction
         self.gravity = gravity
+
+
+class Button:
+    def __init__(self, command, fontsize, text = "Click!", pos=[0, 0], color = (255, 255, 255)):
+        self.command = command
+        self.fontsize = fontsize
+        self.text = text
+        self.pos = pos
+        self.color = color
+
+
+    def clicked(self):
+        if self.rect.collidepoint(pygame.mouse.get_pos()):
+            if pygame.mouse.get_pressed()[0] == 1:
+                self.command()
