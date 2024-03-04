@@ -8,4 +8,16 @@ class Character:
     
     def __str__(self):
         return f"{self.name}: {self.speed} m/s of speed. Currently at ({self.x}; {self.y}) position"
-    
+
+
+class BulletType:
+    def __init__(self, bullet_name, weight):
+        self.bullet = bullet_name
+        self.weight = weight
+
+
+class MapType:
+    def __init__(self, map_name, friction, gravity):
+        self.map = map_name
+        self.friction = friction
+        self.gravity = gravity
