@@ -1,4 +1,4 @@
-from math import sin, cos
+from math import sin, cos, pi
 
 class Character:
     def __init__(self, name, speed, x_pos, y_pos, angle):
@@ -19,11 +19,13 @@ class Character:
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT:
-                        velocity += 1
+                        velocity += self.speed
                     if event.key == pygame.K_LEFT:
-                        velocity -= 1
+                        velocity -= self.speed
                     if event.key == pygame.K_UP:
-                        break
+                        for i in range(0, 100):
+                            t = i/10
+                            self.y = -1/2 * gravity * t**2 + sin(pi/3) * velocity + self.y
                     
                     velocity *= friction
                     self.x += velocity
