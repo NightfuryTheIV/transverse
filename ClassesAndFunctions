@@ -1,0 +1,15 @@
+class Character:
+    def __init__(self, name, speed, x_pos, y_pos):
+        self.name = name
+        self.speed = speed
+        self.x = x_pos
+        self.y = y_pos
+
+    
+    def __str__(self):
+        return f"{self.name}: {self.speed} m/s of speed. Currently at ({self.x}; {self.y}) position"
+    
+    def right(self):
+        self.x += 1
+    
+    
