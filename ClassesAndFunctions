@@ -32,8 +32,9 @@ class Character:
 
 
 class Bullet:
-    def __init__(self, position, bullet_name, weight):
-        self.position = position
+    def __init__(self, x_pos, y_pos, bullet_name, weight):
+        self.x = x_pos
+        self.y = y_pos
         self.bullet = bullet_name
         self.weight = weight
 
@@ -42,7 +43,8 @@ class Bullet:
             radians = math.radians(angle)
             for i in range(0, 100):
                 t = i/10
-                self.position = -0.5 * gravity * t**2 + sin(radians) * 1 + initial_pos # va falloir voir pour v0 ici
+                self.y = -0.5 * gravity * t**2 + sin(radians) * 1 + initial_pos # va falloir voir pour v0 ici
+                self.x = cos(radians) * t
 
 
 class Map:
