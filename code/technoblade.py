@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite) :
         self.max_healf = 100
         self.attack = 10
         self.velocity = 5
-        self.image = pygame.image.load('/Users/benjamin/Documents/GitHub/transverse/image/eddc371fd0c837e43da69554602fc388.png')
+        self.image = pygame.image.load('/Users/benjamin/Documents/GitHub/transverse/image/pngtree-sprite-sheet-of-the-flash-character-with-animation-for-creating-2d-png-image_5268150.png')
         self.rect= self.image.get_rect()
         self.rect.x = 400
         self.rect.y = 400
@@ -25,7 +25,7 @@ class Player(pygame.sprite.Sprite) :
 
 
 
-class Game:
+class technoblade:
     def __init__(self):
         self.player = Player()
         self.pressed = {}
