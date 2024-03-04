@@ -2,17 +2,17 @@ from math import sin, cos, pi, radians, degrees
 import pygame
 
 class Character:
-    def __init__(self, name, speed, x_pos, y_pos, angle):
+    def __init__(self, name, speed, x_pos, y_pos):
         self.name = name
         self.speed = speed
         self.x = x_pos
         self.y = y_pos
-        self.angle = angle
+        self.angle = 0
 
     
     def __str__(self):
         return f"{self.name}: {self.speed} m/s of speed. Currently at ({self.x}; {self.y}) position"
-    
+
     def movement(self, friction, gravity): # friction et gravité de la map
         while True: # faudra changer quand on aura construit quelque chose avec des events
             velocity = 0 
@@ -30,6 +30,8 @@ class Character:
                     
                     velocity *= friction
                     self.x += velocity
+                
+                
 
 
 class Bullet:
