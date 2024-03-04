@@ -1,13 +1,32 @@
+from math import sin, cos
+
 class Character:
-    def __init__(self, name, speed, x_pos, y_pos):
+    def __init__(self, name, speed, x_pos, y_pos, angle):
         self.name = name
         self.speed = speed
         self.x = x_pos
         self.y = y_pos
+        self.angle = angle
 
     
     def __str__(self):
         return f"{self.name}: {self.speed} m/s of speed. Currently at ({self.x}; {self.y}) position"
+    
+    def movement(self, friction, gravity):
+        while True: # faudra changer quand on aura construit quelque
+            velocity = 0 chose avec des events
+            for event in pygame.event.get():
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RIGHT:
+                        velocity += 1
+                    if event.key == pygame.K_LEFT:
+                        velocity -= 1
+                    if event.key == pygame.K_UP:
+                        break
+                    
+                    velocity *= friction
+                    self.x += velocity
 
 
 class BulletType:
