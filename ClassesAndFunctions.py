@@ -9,7 +9,6 @@ class Character:
         self.y = y_pos
         self.angle = 0
 
-    
     def __str__(self):
         return f"{self.name}: {self.speed} m/s of speed. Currently at ({self.x}; {self.y}) position"
 
