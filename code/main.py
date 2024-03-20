@@ -37,10 +37,9 @@ while running:
             technoblade.pressed[event.key] = True
         elif event.type == pygame.KEYUP:
             technoblade.pressed[event.key]=False
-
+    screen.blit(technoblade.player.image, technoblade.player.rect)
     zoomimg(scale)
     zoomimg2(scale)
-    """    screen.blit(Player.image, Player.rect)"""
     if technoblade.pressed.get(pygame.K_d):
         technoblade.player.move_right()
     elif technoblade.pressed.get(pygame.K_q):

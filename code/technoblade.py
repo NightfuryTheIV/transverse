@@ -7,9 +7,9 @@ class Player(pygame.sprite.Sprite) :
         self.health = 100
         self.max_healf = 100
         self.attack = 10
-        self.velocity = 5
-        self.image = pygame.image.load('/Users/benjamin/Documents/GitHub/transverse/image/pngtree-sprite-sheet-of-the-flash-character-with-animation-for-creating-2d-png-image_5268150.png')
-        self.rect= self.image.get_rect()
+        self.velocity = 10
+        self.image = pygame.image.load('/Users/benjamin/Documents/GitHub/transverse/image/pngtree-sprite-sheet-of-the-flash-character-with-animation-for-creating-2d-png-image_5268150-removebg-preview.png')
+        self.rect = self.image.get_rect()
         self.rect.x = 400
         self.rect.y = 400
 
