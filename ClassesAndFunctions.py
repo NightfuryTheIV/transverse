@@ -34,12 +34,12 @@ class Button:
                     print("YOOOOOOOOOOOOOOOOOOO")
 
         if self.button_rect.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.rect(self.surface, (127, 255, 212), (1, 1, 148, 48))
+            pygame.draw.rect(self.surface, self.color, (1, 1, self.length - 2, self.height - 2))
         else:
-            pygame.draw.rect(self.surface, (0, 0, 0), (0, 0, 150, 50))
-            pygame.draw.rect(self.surface, (255, 255, 255), (1, 1, 148, 48))
-            pygame.draw.rect(self.surface, (0, 0, 0), (1, 1, 148, 1), 2)
-            pygame.draw.rect(self.surface, (0, 100, 0), (1, 48, 148, 10), 2)
+            pygame.draw.rect(self.surface, (0, 0, 0), (0, 0, self.length, self.height))
+            pygame.draw.rect(self.surface, (255, 255, 255), (1, 1, self.length - 2, self.height - 2))
+            pygame.draw.rect(self.surface, (0, 0, 0), (1, 1, self.length - 2, 1), 2)
+            pygame.draw.rect(self.surface, (0, 100, 0), (1, 48, self.length - 2, 10), 2)
 
         pygame.display.update()
 
