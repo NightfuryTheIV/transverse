@@ -58,7 +58,7 @@ class Button:
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.button_rect.collidepoint(event.pos):
-                    print("YOOOOOOOOOOOOOOOOOOO")
+                    print(self.text)
 
         if self.button_rect.collidepoint(pygame.mouse.get_pos()):
             pygame.draw.rect(self.surface, self.color, (1, 1, self.length - 2, self.height - 2))

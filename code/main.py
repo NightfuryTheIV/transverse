@@ -2,6 +2,7 @@ import pygame
 import sys
 from technoblade import technoblade
 from technoblade import Player
+from technoblade import Button
 pygame.init()
 
 #All necessaries
@@ -35,6 +36,13 @@ def zoomimg3(scale):
     screen.blit(Title_im, (360, 0))
     pygame.display.flip()
     clock.tick(frame_rate)
+
+
+easy = Button(525, 250, 210, 70, "Easy", 0, 0, 0)
+medium = Button(525, 350, 210, 70, "Medium", 0, 0, 0)
+hard = Button(525, 450, 210, 70, "Hard", 0, 0, 0)
+insane = Button(525, 550, 210, 70, "Insane", 0, 0, 0)
+
 while running:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
@@ -47,6 +55,11 @@ while running:
             technoblade.pressed[event.key]=False
 
         print(f"x : {pygame.mouse.get_pos()[0]}, y : {pygame.mouse.get_pos()[1]}")
+
+    easy.pressed_check()
+    medium.pressed_check()
+    hard.pressed_check()
+    insane.pressed_check()
 
 
     screen.blit(technoblade.player.image, technoblade.player.rect)
@@ -63,4 +76,3 @@ while running:
         technoblade.player.move_up()
 
     print(technoblade.pressed)
-
