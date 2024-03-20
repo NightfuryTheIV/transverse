@@ -2,6 +2,7 @@ import pygame
 import sys
 from technoblade import technoblade
 from technoblade import Player
+from technoblade import Button
 pygame.init()
 
 #All necessaries
@@ -15,15 +16,18 @@ running = True
 scale=1.7
 scale2=1.5
 
+
 def zoomimg(scale):
     zommimg = pygame.transform.scale(background, (int(background.get_width()*scale),int(background.get_height()*scale)))
     screen.blit(zommimg, (0, 0))
     pygame.display.flip()
 
+
 def zoomimg2(scale):
     Menu_im = pygame.transform.scale(menu, (int(menu.get_width()*scale2),int(menu.get_height()*scale2)))
     screen.blit(Menu_im, (475, 100))
     pygame.display.flip()
+
 
 while running:
     for event in pygame.event.get():
@@ -35,6 +39,8 @@ while running:
             technoblade.pressed[event.key] = True
         elif event.type == pygame.KEYUP:
             technoblade.pressed[event.key]=False
+
+        print(f"x : {pygame.mouse.get_pos()[0]}, y : {pygame.mouse.get_pos()[1]}")
 
 
     screen.blit(technoblade.player.image, technoblade.player.rect)
@@ -51,3 +57,4 @@ while running:
 
     print(technoblade.pressed)
 
+easy = Button(480, 100, 300, 100, "waaa", 0, 0, 0)
