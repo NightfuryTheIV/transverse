@@ -1,6 +1,37 @@
 import pygame,sys
 
 
+class Player(pygame.sprite.Sprite) :
+
+    def __init__(self):
+        super().__init__()
+        self.health = 100
+        self.max_healf = 100
+        self.attack = 10
+        self.velocity = 5
+        self.image = pygame.image.load('../image/perso.png')
+        self.rect= self.image.get_rect()
+        self.rect.x = 400
+        self.rect.y = 400
+
+    def move_right(self):
+        self.rect.x += self.velocity
+    def move_left(self):
+        self.rect.x -= self.velocity
+
+    def move_up(self):
+        self.rect.y += self.velocity
+
+
+
+
+class technoblade:
+    def __init__(self):
+        self.player = Player()
+        self.pressed = {}
+
+
+
 class Button:
     def __init__(self, x, y, length, height, text, r, g, b):
         self.length = length
@@ -40,35 +71,3 @@ class Button:
         pygame.display.update()
 
         # DOES NOT DISPLAY THE BUTTON !!
-
-
-class Player(pygame.sprite.Sprite) :
-
-    def __init__(self):
-        super().__init__()
-        self.health = 100
-        self.max_healf = 100
-        self.attack = 10
-        self.velocity = 5
-        self.image = pygame.image.load('../image/perso.png')
-        self.rect= self.image.get_rect()
-        self.rect.x = 400
-        self.rect.y = 400
-
-    def move_right(self):
-        self.rect.x += self.velocity
-    def move_left(self):
-        self.rect.x -= self.velocity
-
-    def move_up(self):
-        self.rect.y += self.velocity
-
-
-
-
-class technoblade:
-    def __init__(self):
-        self.player = Player()
-        self.pressed = {}
-
-

@@ -15,6 +15,9 @@ running = True
 scale=1.7
 scale2=1.5
 
+clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
+frame_rate = 1  # Set your desired frame rate here
+
 def zoomimg(scale):
     zommimg = pygame.transform.scale(background, (int(background.get_width()*scale),int(background.get_height()*scale)))
     screen.blit(zommimg, (0, 0))
@@ -24,6 +27,7 @@ def zoomimg2(scale):
     Menu_im = pygame.transform.scale(menu, (int(menu.get_width()*scale2),int(menu.get_height()*scale2)))
     screen.blit(Menu_im, (475, 100))
     pygame.display.flip()
+    clock.tick(frame_rate)
 
 while running:
     for event in pygame.event.get():
