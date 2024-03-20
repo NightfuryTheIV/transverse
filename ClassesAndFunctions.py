@@ -3,22 +3,19 @@ import sys
 
 
 class Button:
-    def __init__(self, x, y,  length, height, font_size, text, r, g, b):
+    def __init__(self, x, y,  length, height, text, r, g, b):
         self.length = length
         self.height = height
         self.text = text
         self.rect = self
         self.color = (r, g, b)
-        self.font_size = font_size
-
         self.surface = pygame.Surface((length, height))
 
-        font = pygame.font.Font(None, self.font_size)
+        font = pygame.font.Font(None, 24)
         text_act = font.render(self.text, True, self.color)
         text_rect = text_act.get_rect(center=(self.surface.get_width() / 2, self.surface.get_height() / 2))
         self.button_rect = pygame.Rect(x, y, length, height)  # Adjust the position as needed
 
-        # Shwo the button text
         self.surface.blit(text_act, text_rect)
 
         # Draw the button on the screen
