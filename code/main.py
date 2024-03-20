@@ -16,7 +16,7 @@ scale=1.7
 scale2=1.5
 
 clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
-frame_rate = 1  # Set your desired frame rate here
+frame_rate = 10  # Set your desired frame rate here
 
 def zoomimg(scale):
     zommimg = pygame.transform.scale(background, (int(background.get_width()*scale),int(background.get_height()*scale)))
