@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite) :
     def move_up(self):
         self.rect.y += self.velocity
 
-
+    "k,dkf,,"
 
 
 
