@@ -40,6 +40,8 @@ while running:
         elif event.type == pygame.KEYUP:
             technoblade.pressed[event.key]=False
 
+        print(f"x : {pygame.mouse.get_pos()[0]}, y : {pygame.mouse.get_pos()[1]}")
+
 
     screen.blit(technoblade.player.image, technoblade.player.rect)
     zoomimg(scale)
