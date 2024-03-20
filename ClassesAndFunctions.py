@@ -40,6 +40,8 @@ class Button:
 
         pygame.display.update()
 
+        # DOES NOT DISPLAY THE BUTTON !!
+
 # Initialize Pygame
 pygame.init()
 
