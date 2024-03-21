@@ -2,7 +2,6 @@ import pygame
 import sys
 from technoblade import technoblade
 from technoblade import Player
-from technoblade import Button
 pygame.init()
 
 #All necessaries
@@ -20,6 +19,47 @@ scale3=0.7
 
 clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
 frame_rate = 10  # Set your desired frame rate here
+
+
+class Button:
+    def __init__(self, x, y, length, height, text, r, g, b):
+        self.length = length
+        self.height = height
+        self.text = text
+        self.rect = self
+        self.color = (r, g, b)
+        self.surface = pygame.Surface((length, height))
+
+        font = pygame.font.Font(None, 24)
+        text_act = font.render(self.text, True, self.color)
+        text_rect = text_act.get_rect(center=(self.surface.get_width() / 2, self.surface.get_height() / 2))
+        self.button_rect = pygame.Rect(x, y, length, height)  # Adjust the position as needed
+
+        self.surface.blit(text_act, text_rect)
+
+        # Draw the button on the screen
+        screen.blit(self.surface, (self.button_rect.x, self.button_rect.y))
+
+    def pressed_check(self):
+        clock.tick(60)
+
+        for events in pygame.event.get():
+            if events.type == pygame.MOUSEBUTTONDOWN and events.button == 1:
+                if self.button_rect.collidepoint(events.pos):
+                    print(self.text)
+
+        if self.button_rect.collidepoint(pygame.mouse.get_pos()):
+            pygame.draw.rect(self.surface, self.color, (1, 1, self.length - 2, self.height - 2))
+            print(self.text)
+        else:
+            pygame.draw.rect(self.surface, (0, 0, 0), (0, 0, self.length, self.height))
+            pygame.draw.rect(self.surface, (255, 255, 255), (1, 1, self.length - 2, self.height - 2))
+            pygame.draw.rect(self.surface, (0, 0, 0), (1, 1, self.length - 2, 1), 2)
+            pygame.draw.rect(self.surface, (0, 100, 0), (1, 48, self.length - 2, 10), 2)
+
+        pygame.display.update()
+
+        # DOES NOT DISPLAY THE BUTTON !!
 
 def zoomimg(scale):
     zommimg = pygame.transform.scale(background, (int(background.get_width()*scale),int(background.get_height()*scale)))
@@ -53,8 +93,6 @@ while running:
             technoblade.pressed[event.key] = True
         elif event.type == pygame.KEYUP:
             technoblade.pressed[event.key]=False
-
-        print(f"x : {pygame.mouse.get_pos()[0]}, y : {pygame.mouse.get_pos()[1]}")
 
     easy.pressed_check()
     medium.pressed_check()
