@@ -8,7 +8,7 @@ scale2=1
 scale3=0.7
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
-frame_rate = 1  # Set your desired frame rate here
+frame_rate = 120  # Set your desired frame rate here
 
 class Screen:
 
