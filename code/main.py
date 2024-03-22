@@ -10,6 +10,8 @@ clock = pygame.time.Clock()  # Creating a clock object for controlling the frame
 frame_rate = 1  # Set your desired frame rate here
 running = True
 Menu(True)
+
+
 while running:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:

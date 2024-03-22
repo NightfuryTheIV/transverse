@@ -28,16 +28,17 @@ class Screen:
     def get_display(self):
         return self.display
 class Button:
-    def __init__(self, x, y, length, height, text, r, g, b):
+    def __init__(self, x, y, length, height, text, r, g, b, alpha=255):
         self.length = length
         self.height = height
         self.text = text
         self.rect = self
         self.color = (r, g, b)
-        self.surface = pygame.Surface((length, height))
+        self.surface = pygame.Surface((length, height), pygame.SRCALPHA)
+        self.surface.set_alpha(alpha)
 
         font = pygame.font.Font(None, 24)
-        text_act = font.render(self.text, True, self.color)
+        text_act = font.render(self.text, True, (self.color[0], self.color[1], self.color[2], alpha))
         text_rect = text_act.get_rect(center=(self.surface.get_width() / 2, self.surface.get_height() / 2))
         self.button_rect = pygame.Rect(x, y, length, height)  # Adjust the position as needed
 
@@ -45,6 +46,7 @@ class Button:
 
         # Draw the button on the screen
         screen.blit(self.surface, (self.button_rect.x, self.button_rect.y))
+
 
     def pressed_check(self):
         clock.tick(60)
@@ -86,17 +88,15 @@ def zoomimg3(scale):
     clock.tick(frame_rate)
     pygame.display.update()
 
-
-
 def Menu (cond):
     if cond == True :
         zoomimg(scale)
         zoomimg2(scale2)
         zoomimg3(scale3)
-        easy = Button(525, 250, 210, 70, "Easy", 0, 0, 0)
-        medium = Button(525, 350, 210, 70, "Medium", 0, 0, 0)
-        hard = Button(525, 450, 210, 70, "Hard", 0, 0, 0)
-        insane = Button(525, 550, 210, 70, "Insane", 0, 0, 0)
+        easy = Button(525, 275, 210, 70, "Easy", 0, 0, 0,255)
+        medium = Button(525, 365, 210, 70, "Medium", 0, 0, 0,255)
+        hard = Button(525, 460, 210, 70, "Hard", 0, 0, 0,255)
+        insane = Button(525, 550, 210, 70, "Insane", 0, 0, 0,255)
         easy.pressed_check()
         medium.pressed_check()
         hard.pressed_check()
