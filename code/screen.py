@@ -30,48 +30,6 @@ class Screen:
         return self.display
 
 
-class Button:
-    def __init__(self, x, y, length, height, text, r, g, b, alpha=255):
-        self.length = length
-        self.height = height
-        self.text = ""
-        self.rect = self
-        self.color = (r, g, b)
-        self.surface = pygame.Surface((length, height), pygame.SRCALPHA)
-        self.surface.set_alpha(alpha)
-
-        font = pygame.font.Font(None, 24)
-        text_act = font.render(self.text, True, (self.color[0], self.color[1], self.color[2], alpha))
-        text_rect = text_act.get_rect(center=(self.surface.get_width() / 2, self.surface.get_height() / 2))
-        self.button_rect = pygame.Rect(x, y, length, height)  # Adjust the position as needed
-
-        self.surface.blit(text_act, text_rect)
-
-        # Draw the button on the screen
-        screen.blit(self.surface, (self.button_rect.x, self.button_rect.y))
-
-
-    def pressed_check(self):
-        clock.tick(60)
-
-        for events in pygame.event.get():
-            if events.type == pygame.MOUSEBUTTONDOWN and events.button == 1:
-                if self.button_rect.collidepoint(events.pos):
-                    print(self.text)
-
-        if self.button_rect.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.rect(self.surface, self.color, (1, 1, self.length - 2, self.height - 2))
-            print(self.text)
-        else:
-            pygame.draw.rect(self.surface, (0, 0, 0), (0, 0, self.length, self.height))
-            pygame.draw.rect(self.surface, (255, 255, 255), (1, 1, self.length - 2, self.height - 2))
-            pygame.draw.rect(self.surface, (0, 0, 0), (1, 1, self.length - 2, 1), 2)
-            pygame.draw.rect(self.surface, (0, 100, 0), (1, 48, self.length - 2, 10), 2)
-
-        pygame.display.update()
-
-        # DOES NOT DISPLAY THE BUTTON !!
-
 def zoomimg(scale):
     zommimg = pygame.transform.scale(background, (
     int(background.get_width() * scale), int(background.get_height() * scale)))
@@ -91,8 +49,47 @@ def zoomimg3(scale):
     clock.tick(frame_rate)
     pygame.display.update()
 
-def Menu (cond):
-    if cond == True :
+
+class Button:
+    def __init__(self, x, y, length, height, text, r, g, b, alpha=255):
+        self.length = length
+        self.height = height
+        self.text = text
+        self.rect = self
+        self.color = (r, g, b)
+        self.surface = pygame.Surface((length, height), pygame.SRCALPHA)
+        self.surface.set_alpha(alpha)
+
+        font = pygame.font.Font(None, 0)
+        text_act = font.render(self.text, True, (self.color[0], self.color[1], self.color[2], alpha))
+        text_rect = text_act.get_rect(center=(self.surface.get_width() / 2, self.surface.get_height() / 2))
+        self.button_rect = pygame.Rect(x, y, length, height)  # Adjust the position as needed
+
+        self.surface.blit(text_act, text_rect)
+
+        # Draw the button on the screen
+        screen.blit(self.surface, (self.button_rect.x, self.button_rect.y))
+
+    def pressed_check(self, mouse_x, mouse_y):
+        clock.tick(60)
+
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                print("MMMMMMM")
+                if self.button_rect.collidepoint(mouse_x, mouse_y):
+                    print(self.text)
+
+        print(mouse_x, mouse_y)
+
+
+"""
+            # DOES NOT DISPLAY THE BUTTON !
+            pygame.display.update()
+"""
+
+
+def Menu(cond):
+    if cond:
         zoomimg(scale)
         zoomimg2(scale2)
         zoomimg3(scale3)
@@ -100,10 +97,9 @@ def Menu (cond):
         medium = Button(525, 365, 210, 70, "Medium", 0, 0, 0,255)
         hard = Button(525, 460, 210, 70, "Hard", 0, 0, 0,255)
         insane = Button(525, 550, 210, 70, "Insane", 0, 0, 0,255)
-        easy.pressed_check()
-        medium.pressed_check()
-        hard.pressed_check()
-        insane.pressed_check()
 
-
-
+        for i in range(50):
+            easy.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+            medium.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+            hard.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+            insane.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])

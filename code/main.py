@@ -25,7 +25,7 @@ while running:
         elif event.type == pygame.KEYUP:
             technoblade.pressed[event.key]=False
 
-    #See witch key is pressed and makes the character move right, left, up
+    #See which key is pressed and makes the character move right, left, up
     if technoblade.pressed.get(pygame.K_d):
         technoblade.player.move_right()
     elif technoblade.pressed.get(pygame.K_q):
@@ -34,5 +34,5 @@ while running:
         technoblade.player.move_up()
     """screen.blit(technoblade.player.image, technoblade.player.rect)"""
 
-    print(technoblade.pressed)
+    #print(technoblade.pressed)
 
