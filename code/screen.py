@@ -1,4 +1,5 @@
 import pygame
+# from technoblade import Button
 Title = pygame.image.load('../image/TITLE.png')
 menu = pygame.image.load('../image/menu.png')
 background = pygame.image.load('../image/Fond.png')
@@ -27,11 +28,13 @@ class Screen:
         return self.display.get_size()
     def get_display(self):
         return self.display
+
+
 class Button:
     def __init__(self, x, y, length, height, text, r, g, b, alpha=255):
         self.length = length
         self.height = height
-        self.text = text
+        self.text = ""
         self.rect = self
         self.color = (r, g, b)
         self.surface = pygame.Surface((length, height), pygame.SRCALPHA)
