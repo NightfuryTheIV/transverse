@@ -1,4 +1,5 @@
 import pygame
+# from technoblade import Button
 Title = pygame.image.load('../image/TITLE.png')
 menu = pygame.image.load('../image/menu.png')
 background = pygame.image.load('../image/Fond.png')
@@ -27,47 +28,7 @@ class Screen:
         return self.display.get_size()
     def get_display(self):
         return self.display
-class Button:
-    def __init__(self, x, y, length, height, text, r, g, b, alpha=255):
-        self.length = length
-        self.height = height
-        self.text = text
-        self.rect = self
-        self.color = (r, g, b)
-        self.surface = pygame.Surface((length, height), pygame.SRCALPHA)
-        self.surface.set_alpha(alpha)
 
-        font = pygame.font.Font(None, 24)
-        text_act = font.render(self.text, True, (self.color[0], self.color[1], self.color[2], alpha))
-        text_rect = text_act.get_rect(center=(self.surface.get_width() / 2, self.surface.get_height() / 2))
-        self.button_rect = pygame.Rect(x, y, length, height)  # Adjust the position as needed
-
-        self.surface.blit(text_act, text_rect)
-
-        # Draw the button on the screen
-        screen.blit(self.surface, (self.button_rect.x, self.button_rect.y))
-
-
-    def pressed_check(self):
-        clock.tick(60)
-
-        for events in pygame.event.get():
-            if events.type == pygame.MOUSEBUTTONDOWN and events.button == 1:
-                if self.button_rect.collidepoint(events.pos):
-                    print(self.text)
-
-        if self.button_rect.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.rect(self.surface, self.color, (1, 1, self.length - 2, self.height - 2))
-            print(self.text)
-        else:
-            pygame.draw.rect(self.surface, (0, 0, 0), (0, 0, self.length, self.height))
-            pygame.draw.rect(self.surface, (255, 255, 255), (1, 1, self.length - 2, self.height - 2))
-            pygame.draw.rect(self.surface, (0, 0, 0), (1, 1, self.length - 2, 1), 2)
-            pygame.draw.rect(self.surface, (0, 100, 0), (1, 48, self.length - 2, 10), 2)
-
-        pygame.display.update()
-
-        # DOES NOT DISPLAY THE BUTTON !!
 
 def zoomimg(scale):
     zommimg = pygame.transform.scale(background, (
@@ -88,19 +49,78 @@ def zoomimg3(scale):
     clock.tick(frame_rate)
     pygame.display.update()
 
-def Menu (cond):
-    if cond == True :
+
+class Button:
+    def __init__(self, x, y, length, height, text, function, r, g, b, alpha=255):
+        self.length = length
+        self.height = height
+        self.text = text
+        self.rect = self
+        self.function = function
+        self.color = (r, g, b)
+        self.surface = pygame.Surface((length, height), pygame.SRCALPHA)
+        self.surface.set_alpha(alpha)
+
+        font = pygame.font.Font(None, 0)
+        text_act = font.render(self.text, True, (self.color[0], self.color[1], self.color[2], alpha))
+        text_rect = text_act.get_rect(center=(self.surface.get_width() / 2, self.surface.get_height() / 2))
+        self.button_rect = pygame.Rect(x, y, length, height)  # Adjust the position as needed
+
+        self.surface.blit(text_act, text_rect)
+
+        # Draw the button on the screen
+        screen.blit(self.surface, (self.button_rect.x, self.button_rect.y))
+
+    def pressed_check(self, mouse_x, mouse_y):
+        clock.tick(60)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    print("\nMMMMMMMMM")
+                    if self.button_rect.collidepoint(mouse_x, mouse_y):
+                        print(self.text)
+                        self.function()
+                        return True
+            else:
+                return False
+
+
+"""
+            # DOES NOT DISPLAY THE BUTTON !
+            pygame.display.update()
+"""
+
+
+def buttons(bt1:Button, bt2:Button, bt3:Button, bt4:Button):
+    p1, p2, p3, p4 = False, False, False, False  # These variables are used to determine when a button is clicked and will serve to break the loop
+
+    while not p1 and not p2 and not p3 and not p4:
+        p1 = bt1.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        p2 = bt2.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        p3 = bt3.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        p4 = bt4.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        print(p1, p2, p3, p4)
+
+
+def Menu(cond):
+    if cond:
         zoomimg(scale)
         zoomimg2(scale2)
         zoomimg3(scale3)
-        easy = Button(525, 275, 210, 70, "Easy", 0, 0, 0,255)
-        medium = Button(525, 365, 210, 70, "Medium", 0, 0, 0,255)
-        hard = Button(525, 460, 210, 70, "Hard", 0, 0, 0,255)
-        insane = Button(525, 550, 210, 70, "Insane", 0, 0, 0,255)
-        easy.pressed_check()
-        medium.pressed_check()
-        hard.pressed_check()
-        insane.pressed_check()
 
-
-
+        easy = Button(525, 275, 210, 70, "Easy", print("Accessing Easy Level"), 0, 0, 0,255)
+        medium = Button(525, 365, 210, 70, "Medium", print("Accessing Medium Level"), 0, 0, 0,255)
+        hard = Button(525, 460, 210, 70, "Hard", print("Accessing Hard Level"), 0, 0, 0,255)
+        insane = Button(525, 550, 210, 70, "Insane", print("Accessing Insane Level"), 0, 0, 0,255)
+        # IL VOUS FAUDRA JUSTE REMPLACER LE PRINT PAR LE NOM DE LA FONCTION QUE VOUS ALLEZ FAIRE QUI APPELLE LE NIVEAU OKAY ?
+        """
+        for i in range(50):
+            easy.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+            medium.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+            hard.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+            insane.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        """
+        buttons(easy, medium, hard, insane)
