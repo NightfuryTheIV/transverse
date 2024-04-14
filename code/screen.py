@@ -51,11 +51,12 @@ def zoomimg3(scale):
 
 
 class Button:
-    def __init__(self, x, y, length, height, text, r, g, b, alpha=255):
+    def __init__(self, x, y, length, height, text, function, r, g, b, alpha=255):
         self.length = length
         self.height = height
         self.text = text
         self.rect = self
+        self.function = function
         self.color = (r, g, b)
         self.surface = pygame.Surface((length, height), pygame.SRCALPHA)
         self.surface.set_alpha(alpha)
@@ -81,6 +82,7 @@ class Button:
                     print("\nMMMMMMMMM")
                     if self.button_rect.collidepoint(mouse_x, mouse_y):
                         print(self.text)
+                        self.function()
                         return True
             else:
                 return False
@@ -109,10 +111,11 @@ def Menu(cond):
         zoomimg2(scale2)
         zoomimg3(scale3)
 
-        easy = Button(525, 275, 210, 70, "Easy", 0, 0, 0,255)
-        medium = Button(525, 365, 210, 70, "Medium", 0, 0, 0,255)
-        hard = Button(525, 460, 210, 70, "Hard", 0, 0, 0,255)
-        insane = Button(525, 550, 210, 70, "Insane", 0, 0, 0,255)
+        easy = Button(525, 275, 210, 70, "Easy", print("Accessing Easy Level"), 0, 0, 0,255)
+        medium = Button(525, 365, 210, 70, "Medium", print("Accessing Medium Level"), 0, 0, 0,255)
+        hard = Button(525, 460, 210, 70, "Hard", print("Accessing Hard Level"), 0, 0, 0,255)
+        insane = Button(525, 550, 210, 70, "Insane", print("Accessing Insane Level"), 0, 0, 0,255)
+        # IL VOUS FAUDRA JUSTE REMPLACER LE PRINT PAR LE NOM DE LA FONCTION QUE VOUS ALLEZ FAIRE QUI APPELLE LE NIVEAU OKAY ?
         """
         for i in range(50):
             easy.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
