@@ -74,12 +74,16 @@ class Button:
         clock.tick(60)
 
         for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                print("MMMMMMM")
-                if self.button_rect.collidepoint(mouse_x, mouse_y):
-                    print(self.text)
-
-        print(mouse_x, mouse_y)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    print("\nMMMMMMMMM")
+                    if self.button_rect.collidepoint(mouse_x, mouse_y):
+                        print(self.text)
+                        return True
+            else:
+                return False
 
 
 """
@@ -88,18 +92,32 @@ class Button:
 """
 
 
+def buttons(bt1:Button, bt2:Button, bt3:Button, bt4:Button):
+    p1, p2, p3, p4 = False, False, False, False  # These variables are used to determine when a button is clicked and will serve to break the loop
+
+    while not p1 and not p2 and not p3 and not p4:
+        p1 = bt1.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        p2 = bt2.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        p3 = bt3.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        p4 = bt4.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        print(p1, p2, p3, p4)
+
+
 def Menu(cond):
     if cond:
         zoomimg(scale)
         zoomimg2(scale2)
         zoomimg3(scale3)
+
         easy = Button(525, 275, 210, 70, "Easy", 0, 0, 0,255)
         medium = Button(525, 365, 210, 70, "Medium", 0, 0, 0,255)
         hard = Button(525, 460, 210, 70, "Hard", 0, 0, 0,255)
         insane = Button(525, 550, 210, 70, "Insane", 0, 0, 0,255)
-
+        """
         for i in range(50):
             easy.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
             medium.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
             hard.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
             insane.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        """
+        buttons(easy, medium, hard, insane)
