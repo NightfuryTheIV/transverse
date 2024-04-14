@@ -79,9 +79,9 @@ class Button:
                 pygame.quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    print("\nMMMMMMMMM")
+                    # print("\nMMMMMMMMM")
                     if self.button_rect.collidepoint(mouse_x, mouse_y):
-                        print(self.text)
+                        # print(self.text)
                         self.function()
                         return True
             else:
@@ -102,7 +102,7 @@ def buttons(bt1:Button, bt2:Button, bt3:Button, bt4:Button):
         p2 = bt2.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
         p3 = bt3.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
         p4 = bt4.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-        print(p1, p2, p3, p4)
+        # print(p1, p2, p3, p4)
 
 
 def Menu(cond):
