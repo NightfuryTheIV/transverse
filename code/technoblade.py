@@ -9,25 +9,46 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()#All characteristic of character
         self.health = 100
-        self.max_healf = 100
+        self.max_health = 100
         self.attack = 10
         self.velocity = 5
         self.image = pygame.image.load('../image/perso.png')
         self.rect = self.image.get_rect()
-        self.rect.x = 400#Character position on x
-        self.rect.y = 400#Character position on y
-
-    def move_right(self):
-        self.rect.x += self.velocity#Takes actual position and add velocity
-    def move_left(self):
-        self.rect.x -= self.velocity#Takes actual position and reduce velocity
+        self.rect.x = 400
+        self.rect.y = 400
+        self.pressed = {"UP": False, "LEFT": False, "RIGHT": False}
 
     def move_up(self):
-        self.rect.y += self.velocity#Takes actual position and add velocity
+        # Gravitational constant
+        g = 9.81
+        # Initial eight
+        h0 = 0
+        # Initial speed
+        Vc = 50
+        #Real angle timme and angle time max
+        temps_angle_reel = 2
+        temps_angle_max = 5
+        # Calcul de V0y
+        V0y = (temps_angle_reel / temps_angle_max) * Vc
+        V0y = min(V0y, Vc)  # Max speed
+        # Trajectory calculator
+        def trajectory_calculator(t):
+            return V0y * t - 0.5 * g * t**2 + h0
+
+        self.rect.y -= trajectory_calculator(1)
+    def update(self):
+        if self.pressed["RIGHT"]:
+            self.rect.x += self.velocity
+        if self.pressed["LEFT"]:
+            self.rect.x -= self.velocity
+        if self.pressed["UP"]:
+            self.move_up()
+
 
 
 class technoblade:
     def __init__(self):
         self.player = Player()
-        self.pressed = {}
+        self.pressed = {"UP": False, "LEFT": False, "RIGHT": False}
+
 

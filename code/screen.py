@@ -1,4 +1,6 @@
 import pygame
+from technoblade import Player
+from technoblade import technoblade
 # from technoblade import Button
 Title = pygame.image.load('../image/TITLE.png')
 menu = pygame.image.load('../image/menu.png')
@@ -10,7 +12,7 @@ scale3=0.7
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
 frame_rate = 120  # Set your desired frame rate here
-
+Player = Player()
 class Screen:
 
     def __init__(self):
@@ -55,7 +57,7 @@ class Button:
         self.length = length
         self.height = height
         self.text = text
-        self.rect = self
+        self.rect = pygame.Rect(x, y, length, height)  # Rect representing button position and size
         self.function = function
         self.color = (r, g, b)
         self.surface = pygame.Surface((length, height), pygame.SRCALPHA)
@@ -64,12 +66,10 @@ class Button:
         font = pygame.font.Font(None, 0)
         text_act = font.render(self.text, True, (self.color[0], self.color[1], self.color[2], alpha))
         text_rect = text_act.get_rect(center=(self.surface.get_width() / 2, self.surface.get_height() / 2))
-        self.button_rect = pygame.Rect(x, y, length, height)  # Adjust the position as needed
-
         self.surface.blit(text_act, text_rect)
 
         # Draw the button on the screen
-        screen.blit(self.surface, (self.button_rect.x, self.button_rect.y))
+        screen.blit(self.surface, (x, y))
 
     def pressed_check(self, mouse_x, mouse_y):
         clock.tick(60)
@@ -79,19 +79,10 @@ class Button:
                 pygame.quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    # print("\nMMMMMMMMM")
-                    if self.button_rect.collidepoint(mouse_x, mouse_y):
-                        # print(self.text)
-                        self.function()
+                    if self.rect.collidepoint(mouse_x, mouse_y):
+                        self.function()  # Call the button function
                         return True
-            else:
-                return False
-
-
-"""
-            # DOES NOT DISPLAY THE BUTTON !
-            pygame.display.update()
-"""
+        return False  # Return False if no events are handled
 
 
 def buttons(bt1:Button, bt2:Button, bt3:Button, bt4:Button):
@@ -103,24 +94,26 @@ def buttons(bt1:Button, bt2:Button, bt3:Button, bt4:Button):
         p3 = bt3.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
         p4 = bt4.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
         # print(p1, p2, p3, p4)
-
-
 def Menu(cond):
     if cond:
         zoomimg(scale)
         zoomimg2(scale2)
         zoomimg3(scale3)
+        screen.blit(Player.image, Player.rect)
+        pygame.display.flip()
 
-        easy = Button(525, 275, 210, 70, "Easy", print("Accessing Easy Level"), 0, 0, 0,255)
-        medium = Button(525, 365, 210, 70, "Medium", print("Accessing Medium Level"), 0, 0, 0,255)
-        hard = Button(525, 460, 210, 70, "Hard", print("Accessing Hard Level"), 0, 0, 0,255)
-        insane = Button(525, 550, 210, 70, "Insane", print("Accessing Insane Level"), 0, 0, 0,255)
-        # IL VOUS FAUDRA JUSTE REMPLACER LE PRINT PAR LE NOM DE LA FONCTION QUE VOUS ALLEZ FAIRE QUI APPELLE LE NIVEAU OKAY ?
-        """
-        for i in range(50):
-            easy.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-            medium.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-            hard.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-            insane.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-        """
+        easy = Button(525, 275, 210, 70, "Easy", print, 0, 0, 0, 255)  # Example function print
+        medium = Button(525, 365, 210, 70, "Medium", print, 0, 0, 0, 255)  # Example function print
+        hard = Button(525, 460, 210, 70, "Hard", print, 0, 0, 0, 255)  # Example function print
+        insane = Button(525, 550, 210, 70, "Insane", print, 0, 0, 0, 255)  # Example function print
+
+        # Display buttons
+        pygame.display.update()
+
+        # Handle button events
         buttons(easy, medium, hard, insane)
+
+
+
+
+
