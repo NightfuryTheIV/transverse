@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.max_health = 100
         self.attack = 10
         self.velocity = 2.5
-        self.image = pygame.image.load('../image/perso.png')
+        self.image = pygame.image.load('../image/character/run/Xnip2024-05-04_18-25-53-removebg-preview.png')
         self.rect = self.image.get_rect()
         self.rect.x = 0
         self.rect.y = 670
