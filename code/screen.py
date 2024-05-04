@@ -3,7 +3,6 @@ import sys
 from technoblade import Player
 from technoblade import technoblade
 player = Player()
-# from technoblade import Button
 Title = pygame.image.load('../image/TITLE.png')
 menu = pygame.image.load('../image/menu.png')
 background = pygame.image.load('../image/Fond.png')
