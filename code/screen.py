@@ -3,6 +3,7 @@ import sys
 from technoblade import Player
 from technoblade import technoblade
 player = Player()
+icon_image = pygame.image.load('../image/game image.jpg')
 Title = pygame.image.load('../image/TITLE.png')
 menu = pygame.image.load('../image/menu.png')
 background = pygame.image.load('../image/Fond.png')
@@ -29,6 +30,7 @@ class Screen:
     def __init__(self):
         self.display = pygame.display.set_mode((1280, 720))
         pygame.display.set_caption("Technoblade Trinity")
+        pygame.display.set_icon(icon_image)
         self.clock =pygame.time.Clock()
         self.framerate = 60
     def update(self):
@@ -151,7 +153,6 @@ def level1(cond):
         Menu(False)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
                 Menu(True)
                 level1(False)
 

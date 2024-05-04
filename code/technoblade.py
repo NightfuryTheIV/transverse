@@ -50,5 +50,3 @@ class technoblade:
     def __init__(self):
         print
 
-
-
