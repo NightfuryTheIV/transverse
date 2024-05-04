@@ -11,11 +11,11 @@ class Player(pygame.sprite.Sprite):
         self.health = 100
         self.max_health = 100
         self.attack = 10
-        self.velocity = 5
+        self.velocity = 2.5
         self.image = pygame.image.load('../image/perso.png')
         self.rect = self.image.get_rect()
-        self.rect.x = 400
-        self.rect.y = 400
+        self.rect.x = 0
+        self.rect.y = 670
         self.pressed = {"UP": False, "LEFT": False, "RIGHT": False}
 
     def move_up(self):

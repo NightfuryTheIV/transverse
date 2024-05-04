@@ -12,14 +12,15 @@ level1_im = pygame.image.load('../image/niv 1 jour.png')
 level2_im = pygame.image.load('../image/level2.png')
 level3_im = pygame.image.load('../image/level3.png')
 level4_im = pygame.image.load('../image/level4.png')
+block= pygame.image.load('../image/blockherbe.png')
 scale=1.7
 scale2=1
 scale3=0.7
 scale4=2.6
 scale5=0.1
-scale6=0.1
-scale7=0.1
-scale8=0.1
+scale6=2.6
+scale7=2.6
+scale8=2.6
 
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
@@ -48,37 +49,32 @@ def zoomimg_menu_background(scale):
     screen.blit(zommimg, (0, 0))
     pygame.display.flip()
 def zoomimg_menu_levels(scale):
-    Menu_im = pygame.transform.scale(menu, (int(menu.get_width() * scale2), int(menu.get_height() * scale2)))
+    Menu_im = pygame.transform.scale(menu, (int(menu.get_width() * scale), int(menu.get_height() * scale)))
     screen.blit(Menu_im, (525, 280))
     pygame.display.flip()
     clock.tick(frame_rate)
     pygame.display.update()
 def zoomimg_menu_title(scale):
-    Title_im = pygame.transform.scale(Title, (int(Title.get_width() * scale3), int(Title.get_height() * scale3)))
+    Title_im = pygame.transform.scale(Title, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(Title_im, (450, -30))
     pygame.display.flip()
     clock.tick(frame_rate)
     pygame.display.update()
 def zoomimg_player(scale):
-    player_im = pygame.transform.scale(player.image, (int(Title.get_width() * scale5), int(Title.get_height() * scale5)))
+    player_im = pygame.transform.scale(player.image, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(player_im, player.rect)
-
 def zoomimg_level1_background(scale):
-    Level1_im = pygame.transform.scale(level1_im, (int(Title.get_width() * scale4), int(Title.get_height() * scale4)))
+    Level1_im = pygame.transform.scale(level1_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(Level1_im, (0, 0))
-
 def zoomimg_level2_background(scale):
-    Level2_im = pygame.transform.scale(level2_im, (int(Title.get_width() * scale4), int(Title.get_height() * scale4)))
-    screen.blit(Level2_im, (0, 0))
-
+    Level2_im = pygame.transform.scale(level2_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
+    screen.blit(Level2_im, (0, -490))
 def zoomimg_level3_background(scale):
-    Level3_im = pygame.transform.scale(level3_im, (int(Title.get_width() * scale4), int(Title.get_height() * scale4)))
-    screen.blit(Level3_im, (0, 0))
-
+    Level3_im = pygame.transform.scale(level3_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
+    screen.blit(Level3_im, (0, -300))
 def zoomimg_level4_background(scale):
-    Level4_im = pygame.transform.scale(level4_im, (int(Title.get_width() * scale4), int(Title.get_height() * scale4)))
-    screen.blit(Level4_im, (0, 0))
-
+    Level4_im = pygame.transform.scale(level4_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
+    screen.blit(Level4_im, (0, -500))
 
 class Button:
     def __init__(self, x, y, length, height, text, function, r, g, b, alpha=255):
@@ -204,12 +200,14 @@ def level2(cond):
                     player.pressed["RIGHT"] = False
 
         # Update the screen
-        zoomimg_level2_background(scale4)
+        zoomimg_level2_background(scale6)
         player.update()
         zoomimg_player(scale5)
+        screen.blit(block, (200, 500))
         pygame.display.flip()
         pygame.display.update()
         clock.tick(frame_rate)
+
 def level3(cond):
     while cond:
         Menu(False)
