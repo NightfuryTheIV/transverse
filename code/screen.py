@@ -76,12 +76,13 @@ def zoomimg_level4_background(scale):
     Level4_im = pygame.transform.scale(level4_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(Level4_im, (0, -500))
 
+
 class Button:
     def __init__(self, x, y, length, height, text, function, r, g, b, alpha=255):
         self.length = length
         self.height = height
         self.text = text
-        self.rect = pygame.Rect(x, y, length, height)  # Rect representing button position and size
+        self.rect = pygame.Rect(x, y, length, height)
         self.function = function
         self.color = (r, g, b)
         self.surface = pygame.Surface((length, height), pygame.SRCALPHA)
@@ -95,27 +96,28 @@ class Button:
         # Draw the button on the screen
         screen.blit(self.surface, (x, y))
 
-    def pressed_check(self, mouse_x, mouse_y):
-        clock.tick(60)
+    def is_clicked(self, mouse_x, mouse_y):
+        return self.rect.collidepoint(mouse_x, mouse_y)
 
+def buttons(bt1: Button, bt2: Button, bt3: Button, bt4: Button):
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    if self.rect.collidepoint(mouse_x, mouse_y):
-                        self.function(True)  # Call the button function
-                        return True
-        return False  # Return False if no events are handled
-def buttons(bt1:Button, bt2:Button, bt3:Button, bt4:Button):
-    p1, p2, p3, p4 = False, False, False, False  # These variables are used to determine when a button is clicked and will serve to break the loop
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if bt1.is_clicked(mouse_x, mouse_y):
+                    bt1.function(True)
+                elif bt2.is_clicked(mouse_x, mouse_y):
+                    bt2.function(True)
+                elif bt3.is_clicked(mouse_x, mouse_y):
+                    bt3.function(True)
+                elif bt4.is_clicked(mouse_x, mouse_y):
+                    bt4.function(True)
 
-    while not p1 and not p2 and not p3 and not p4:
-        p1 = bt1.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-        p2 = bt2.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-        p3 = bt3.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-        p4 = bt4.pressed_check(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-        # print(p1, p2, p3, p4)
+        pygame.display.update()
+        clock.tick(frame_rate)
 def Menu(cond):
     if cond:
         pygame.display.set_icon(icon_image)
