@@ -131,6 +131,7 @@ def buttons(bt1:Button, bt2:Button, bt3:Button, bt4:Button):
         # print(p1, p2, p3, p4)
 def Menu(cond):
     if cond:
+        pygame.display.set_icon(icon_image)
         zoomimg_menu_background(scale)
         zoomimg_menu_levels(scale2)
         zoomimg_menu_title(scale3)
@@ -146,7 +147,6 @@ def Menu(cond):
 
         # Handle button events
         buttons(easy, medium, hard, insane)
-
 
 def level1(cond):
     while cond:
