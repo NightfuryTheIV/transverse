@@ -42,8 +42,7 @@ class Screen:
     def get_display(self):
         return self.display
 def zoomimg_menu_background(scale):
-    zommimg = pygame.transform.scale(background, (
-    int(background.get_width() * scale), int(background.get_height() * scale)))
+    zommimg = pygame.transform.scale(background, (int(background.get_width() * scale), int(background.get_height() * scale)))
     screen.blit(zommimg, (0, 0))
     pygame.display.flip()
 def zoomimg_menu_levels(scale):
@@ -62,7 +61,6 @@ def zoomimg_player(scale):
     player_im = pygame.transform.scale(player.image, (int(Title.get_width() * scale5), int(Title.get_height() * scale5)))
     screen.blit(player_im, player.rect)
     pygame.display.flip()
-    clock.tick(frame_rate)
     pygame.display.update()
 def zoomimg_level1_background(scale):
     Level1_im = pygame.transform.scale(level1_im, (int(Title.get_width() * scale4), int(Title.get_height() * scale4)))

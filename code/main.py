@@ -20,26 +20,3 @@ while running:
             Menu(False)
 
 
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                technoblade.player.pressed["UP"] = True
-            elif event.key == pygame.K_DOWN:
-                technoblade.player.pressed["DOWN"] = True
-            elif event.key == pygame.K_LEFT:
-                technoblade.player.pressed["LEFT"] = True
-            elif event.key == pygame.K_RIGHT:
-                technoblade.player.pressed["RIGHT"] = True
-
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
-                technoblade.player.pressed["UP"] = False
-            elif event.key == pygame.K_DOWN:
-                technoblade.player.pressed["DOWN"] = False
-            elif event.key == pygame.K_LEFT:
-                technoblade.player.pressed["LEFT"] = False
-            elif event.key == pygame.K_RIGHT:
-                technoblade.player.pressed["RIGHT"] = False
-
-
-
-

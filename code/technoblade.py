@@ -48,7 +48,7 @@ class Player(pygame.sprite.Sprite):
 
 class technoblade:
     def __init__(self):
-        self.player = Player()
-        self.pressed = {"UP": False, "LEFT": False, "RIGHT": False}
+        print
+
 
 
