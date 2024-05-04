@@ -1,18 +1,23 @@
 import pygame
+import sys
 from technoblade import Player
 from technoblade import technoblade
+player = Player()
 # from technoblade import Button
 Title = pygame.image.load('../image/TITLE.png')
 menu = pygame.image.load('../image/menu.png')
 background = pygame.image.load('../image/Fond.png')
 pygame.display.set_caption("Technoblade Trinity")
+level1_im = pygame.image.load('../image/niv 1 jour.png')
 scale=1.7
 scale2=1
 scale3=0.7
+scale4=2.6
+scale5=0.1
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
 frame_rate = 120  # Set your desired frame rate here
-Player = Player()
+player = Player()
 class Screen:
 
     def __init__(self):
@@ -44,14 +49,23 @@ def zoomimg2(scale):
     clock.tick(frame_rate)
     pygame.display.update()
 def zoomimg3(scale):
-    Title_im = pygame.transform.scale(Title,
-                                      (int(Title.get_width() * scale3), int(Title.get_height() * scale3)))
+    Title_im = pygame.transform.scale(Title, (int(Title.get_width() * scale3), int(Title.get_height() * scale3)))
     screen.blit(Title_im, (450, -30))
     pygame.display.flip()
     clock.tick(frame_rate)
     pygame.display.update()
-
-
+def zoomimg4(scale):
+    Level_im = pygame.transform.scale(level1_im, (int(Title.get_width() * scale4), int(Title.get_height() * scale4)))
+    screen.blit(Level_im, (0, 0))
+    pygame.display.flip()
+    clock.tick(frame_rate)
+    pygame.display.update()
+def zoomimg5(scale):
+    player_im = pygame.transform.scale(player.image, (int(Title.get_width() * scale5), int(Title.get_height() * scale5)))
+    screen.blit(player_im, player.rect)
+    pygame.display.flip()
+    clock.tick(frame_rate)
+    pygame.display.update()
 class Button:
     def __init__(self, x, y, length, height, text, function, r, g, b, alpha=255):
         self.length = length
@@ -80,7 +94,7 @@ class Button:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if self.rect.collidepoint(mouse_x, mouse_y):
-                        self.function()  # Call the button function
+                        self.function(True)  # Call the button function
                         return True
         return False  # Return False if no events are handled
 
@@ -99,10 +113,9 @@ def Menu(cond):
         zoomimg(scale)
         zoomimg2(scale2)
         zoomimg3(scale3)
-        screen.blit(Player.image, Player.rect)
         pygame.display.flip()
 
-        easy = Button(525, 275, 210, 70, "Easy", print, 0, 0, 0, 255)  # Example function print
+        easy = Button(525, 275, 210, 70, "Easy", level1, 0, 0, 0, 255)  # Example function print
         medium = Button(525, 365, 210, 70, "Medium", print, 0, 0, 0, 255)  # Example function print
         hard = Button(525, 460, 210, 70, "Hard", print, 0, 0, 0, 255)  # Example function print
         insane = Button(525, 550, 210, 70, "Insane", print, 0, 0, 0, 255)  # Example function print
@@ -114,6 +127,40 @@ def Menu(cond):
         buttons(easy, medium, hard, insane)
 
 
+def level1(cond):
+    while cond:
+        Menu(False)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                Menu(True)
+                level1(False)
 
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    player.pressed["UP"] = True
+                elif event.key == pygame.K_DOWN:
+                    player.pressed["DOWN"] = True
+                elif event.key == pygame.K_LEFT:
+                    player.pressed["LEFT"] = True
+                elif event.key == pygame.K_RIGHT:
+                    player.pressed["RIGHT"] = True
 
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    player.pressed["UP"] = False
+                elif event.key == pygame.K_DOWN:
+                    player.pressed["DOWN"] = False
+                elif event.key == pygame.K_LEFT:
+                    player.pressed["LEFT"] = False
+                elif event.key == pygame.K_RIGHT:
+                    player.pressed["RIGHT"] = False
+
+        # Update the screen
+        zoomimg4(scale4)
+        player.update()
+        zoomimg5(scale5)
+        pygame.display.flip()
+        pygame.display.update()
+        clock.tick(frame_rate)
 

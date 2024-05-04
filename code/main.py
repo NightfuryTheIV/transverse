@@ -40,11 +40,6 @@ while running:
             elif event.key == pygame.K_RIGHT:
                 technoblade.player.pressed["RIGHT"] = False
 
-    technoblade.player.update()
-    screen.blit(technoblade.player.image, technoblade.player.rect)
-    pygame.display.flip()
-    clock.tick(frame_rate)
 
-    print(technoblade.player.pressed)
-'''    pygame.screen.fill('black')'''
+
 
