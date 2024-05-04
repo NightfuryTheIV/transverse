@@ -62,32 +62,23 @@ def zoomimg_menu_title(scale):
 def zoomimg_player(scale):
     player_im = pygame.transform.scale(player.image, (int(Title.get_width() * scale5), int(Title.get_height() * scale5)))
     screen.blit(player_im, player.rect)
-    pygame.display.flip()
-    pygame.display.update()
+
 def zoomimg_level1_background(scale):
     Level1_im = pygame.transform.scale(level1_im, (int(Title.get_width() * scale4), int(Title.get_height() * scale4)))
     screen.blit(Level1_im, (0, 0))
-    pygame.display.flip()
-    clock.tick(frame_rate)
-    pygame.display.update()
+
 def zoomimg_level2_background(scale):
     Level2_im = pygame.transform.scale(level2_im, (int(Title.get_width() * scale4), int(Title.get_height() * scale4)))
     screen.blit(Level2_im, (0, 0))
-    pygame.display.flip()
-    clock.tick(frame_rate)
-    pygame.display.update()
+
 def zoomimg_level3_background(scale):
     Level3_im = pygame.transform.scale(level3_im, (int(Title.get_width() * scale4), int(Title.get_height() * scale4)))
     screen.blit(Level3_im, (0, 0))
-    pygame.display.flip()
-    clock.tick(frame_rate)
-    pygame.display.update()
+
 def zoomimg_level4_background(scale):
     Level4_im = pygame.transform.scale(level4_im, (int(Title.get_width() * scale4), int(Title.get_height() * scale4)))
     screen.blit(Level4_im, (0, 0))
-    pygame.display.flip()
-    clock.tick(frame_rate)
-    pygame.display.update()
+
 
 class Button:
     def __init__(self, x, y, length, height, text, function, r, g, b, alpha=255):
