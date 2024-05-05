@@ -1,7 +1,5 @@
 import pygame
-from technoblade import technoblade
 from screen import Menu
-technoblade = technoblade()
 pygame.init()
 running = True
 Menu(True)#Show the menu

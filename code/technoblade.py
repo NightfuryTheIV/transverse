@@ -32,7 +32,7 @@ class Player(pygame.sprite.Sprite):
         self.health = 100
         self.max_health = 100
         self.attack = 10
-        self.speed = 3
+        self.speed = 5
         self.yspeed = 0
         self.image = pygame.image.load('../image/character/run/run1.png')
         self.rect = self.image.get_rect()
@@ -75,13 +75,16 @@ class Player(pygame.sprite.Sprite):
             self.rect.x = 0
             self.rect.y = 660
         if keys[pygame.K_LEFT]:
-            self.rect.x -= self.speed
+            if self.rect.x > -1:
+                self.rect.x -= self.speed
         if keys[pygame.K_RIGHT]:
-            self.rect.x += self.speed
+            if self.rect.x < 1250:
+                self.rect.x += self.speed
         if keys[pygame.K_SPACE]:
-            self.yspeed = 0
-            for i in range(10):
-                self.jump()
+            if self.rect.y > -1 and self.rect.y < 721:
+                self.yspeed = 0
+                for i in range(10):
+                    self.jump()
 
     def start_runningL(self):
         self.is_running_left = True
@@ -121,8 +124,3 @@ class Projectile:
         self.y = 1/2 * Gravity * self.clock**2 + sin(angle) * self.clock + self.basey
 
         self.clock += self.speed
-
-class technoblade:
-    def __init__(self):
-        print("")
-
