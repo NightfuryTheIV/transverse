@@ -1,7 +1,7 @@
 import pygame
 import sys
-clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
-frame_rate = 1  # Set your desired frame rate here
+from math import sin, cos, pi
+Gravity = 9.81
 
 
 class Player(pygame.sprite.Sprite):
@@ -11,42 +11,62 @@ class Player(pygame.sprite.Sprite):
         self.health = 100
         self.max_health = 100
         self.attack = 10
-        self.velocity = 2.5
-        self.image = pygame.image.load('../image/character/run/Xnip2024-05-04_18-25-53-removebg-preview.png')
+        self.xvelocity = 5
+        self.yvelocity = 0
+        self.image = pygame.image.load('../image/perso.png')
         self.rect = self.image.get_rect()
-        self.rect.x = 0
-        self.rect.y = 670
-        self.pressed = {"UP": False, "LEFT": False, "RIGHT": False}
+        self.rect.x = 400
+        self.rect.y = 400
+        self.pressed = {"UP": False, "LEFT": False, "RIGHT": False, "DOWN": False, "JUMP": False}
+        self.air_time = 0
 
-    def move_up(self):
-        # Gravitational constant
-        g = 9.81
-        # Initial eight
-        h0 = 0
-        # Initial speed
-        Vc = 50
-        #Real angle timme and angle time max
-        temps_angle_reel = 2
-        temps_angle_max = 5
-        # Calcul de V0y
-        V0y = (temps_angle_reel / temps_angle_max) * Vc
-        V0y = min(V0y, Vc)  # Max speed
-        # Trajectory calculator
-        def trajectory_calculator(t):
-            return V0y * t - 0.5 * g * t**2 + h0
+    def jump(self):
+        self.rect.y += -1
 
-        self.rect.y -= trajectory_calculator(1)
+
+
     def update(self):
         if self.pressed["RIGHT"]:
-            self.rect.x += self.velocity
+            self.rect.x += self.xvelocity
         if self.pressed["LEFT"]:
-            self.rect.x -= self.velocity
-        if self.pressed["UP"]:
-            self.move_up()
+            self.rect.x -= self.xvelocity
+        if self.pressed["JUMP"]:
+            self.yvelocity = 0
+            for i in range(50):
+                self.jump()
 
+
+player = Player()
+
+
+class Projectile:
+    def __init__(self, name, type, velocity, speed):
+        self.player = player
+        self.name = name
+        self.type = type  # We might use different types of arrows for diffreent levels in the future
+        self.velocity = velocity  # the actual at which the arrow is flying
+        self.speed = speed  # the speed at which the flight trajectory is refreshed (between 0.1 and 1)
+        self.clock = 0  # This will be used inside the trajectory equations
+        self.basex = player.rect.x
+        self.x = 0
+        self.basey = player.rect.y
+        self.y = 0
+        self.angle = 0
+
+    def firing_angle(self):
+        if player.pressed["UP"]:
+            self.angle += pi/180
+        if player.pressed["DOWN"]:
+            self.angle -= pi/180
+
+    def flight(self, angle):
+        self.x = self.velocity * cos(angle) * self.clock + self.basex
+        self.y = 1/2 * Gravity * self.clock**2 + sin(angle) * self.clock + self.basey
+
+        self.clock += self.speed
 
 
 class technoblade:
     def __init__(self):
-        print
+        print("")
 

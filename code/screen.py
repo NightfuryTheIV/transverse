@@ -1,8 +1,7 @@
 import pygame
 import sys
-from technoblade import Player
+from technoblade import player
 from technoblade import technoblade
-player = Player()
 icon_image = pygame.image.load('../image/gameimage.jpg')
 Title = pygame.image.load('../image/TITLE.png')
 menu = pygame.image.load('../image/menu.png')
@@ -147,23 +146,27 @@ def level1(cond):
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    player.pressed["UP"] = True
+                    player.pressed["JUMP"] = True
                 elif event.key == pygame.K_DOWN:
                     player.pressed["DOWN"] = True
                 elif event.key == pygame.K_LEFT:
                     player.pressed["LEFT"] = True
                 elif event.key == pygame.K_RIGHT:
                     player.pressed["RIGHT"] = True
+                elif event.key == pygame.K_UP:
+                    player.pressed["UP"] = True
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    player.pressed["UP"] = False
+                    player.pressed["JUMP"] = False
                 elif event.key == pygame.K_DOWN:
                     player.pressed["DOWN"] = False
                 elif event.key == pygame.K_LEFT:
                     player.pressed["LEFT"] = False
                 elif event.key == pygame.K_RIGHT:
                     player.pressed["RIGHT"] = False
+                elif event.key == pygame.K_UP:
+                    player.pressed["UP"] = False
 
         # Update the screen
         zoomimg_level1_background(scale4)
@@ -183,23 +186,27 @@ def level2(cond):
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    player.pressed["UP"] = True
+                    player.pressed["JUMP"] = True
                 elif event.key == pygame.K_DOWN:
                     player.pressed["DOWN"] = True
                 elif event.key == pygame.K_LEFT:
                     player.pressed["LEFT"] = True
                 elif event.key == pygame.K_RIGHT:
                     player.pressed["RIGHT"] = True
+                elif event.key == pygame.K_UP:
+                    player.pressed["UP"] = True
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    player.pressed["UP"] = False
+                    player.pressed["JUMP"] = False
                 elif event.key == pygame.K_DOWN:
                     player.pressed["DOWN"] = False
                 elif event.key == pygame.K_LEFT:
                     player.pressed["LEFT"] = False
                 elif event.key == pygame.K_RIGHT:
                     player.pressed["RIGHT"] = False
+                elif event.key == pygame.K_UP:
+                    player.pressed["UP"] = False
 
         # Update the screen
         zoomimg_level2_background(scale6)
@@ -221,23 +228,27 @@ def level3(cond):
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    player.pressed["UP"] = True
+                    player.pressed["JUMP"] = True
                 elif event.key == pygame.K_DOWN:
                     player.pressed["DOWN"] = True
                 elif event.key == pygame.K_LEFT:
                     player.pressed["LEFT"] = True
                 elif event.key == pygame.K_RIGHT:
                     player.pressed["RIGHT"] = True
+                elif event.key == pygame.K_UP:
+                    player.pressed["UP"] = True
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    player.pressed["UP"] = False
+                    player.pressed["JUMP"] = False
                 elif event.key == pygame.K_DOWN:
                     player.pressed["DOWN"] = False
                 elif event.key == pygame.K_LEFT:
                     player.pressed["LEFT"] = False
                 elif event.key == pygame.K_RIGHT:
                     player.pressed["RIGHT"] = False
+                elif event.key == pygame.K_UP:
+                    player.pressed["UP"] = False
 
         # Update the screen
         zoomimg_level3_background(scale4)
@@ -257,23 +268,27 @@ def level4(cond):
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    player.pressed["UP"] = True
+                    player.pressed["JUMP"] = True
                 elif event.key == pygame.K_DOWN:
                     player.pressed["DOWN"] = True
                 elif event.key == pygame.K_LEFT:
                     player.pressed["LEFT"] = True
                 elif event.key == pygame.K_RIGHT:
                     player.pressed["RIGHT"] = True
+                elif event.key == pygame.K_UP:
+                    player.pressed["UP"] = True
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    player.pressed["UP"] = False
+                    player.pressed["JUMP"] = False
                 elif event.key == pygame.K_DOWN:
                     player.pressed["DOWN"] = False
                 elif event.key == pygame.K_LEFT:
                     player.pressed["LEFT"] = False
                 elif event.key == pygame.K_RIGHT:
                     player.pressed["RIGHT"] = False
+                elif event.key == pygame.K_UP:
+                    player.pressed["UP"] = False
 
         # Update the screen
         zoomimg_level4_background(scale4)
