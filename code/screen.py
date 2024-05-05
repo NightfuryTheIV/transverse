@@ -11,30 +11,32 @@ level1_im = pygame.image.load('../image/levels/niv 1 jour.png')
 level2_im = pygame.image.load('../image/levels/level2.png')
 level3_im = pygame.image.load('../image/levels/level3.png')
 level4_im = pygame.image.load('../image/levels/level4.png')
-block= pygame.image.load('../image/elements/platform/grass_block.png')
+block = pygame.image.load('../image/elements/platform/grass_block.png')
 green = pygame.image.load('../image/elements/life bar/health_bar_green.png')
 yellow = pygame.image.load('../image/elements/life bar/health_bar_yellow.png')
 red = pygame.image.load('../image/elements/life bar/health_barred.png')
-scale=1.7
-scale2=1
-scale3=0.7
-scale4=2.6
-scale5=0.1
-scale6=2.6
-scale7=2.6
-scale8=2.6
+pause_im = pygame.image.load('../image/menu/pause.png')
+scale = 1.7
+scale2 = 1
+scale3 = 0.7
+scale4 = 2.6
+scale5 = 0.1
+scale6 = 2.6
+scale7 = 2.6
+scale8 = 2.6
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
 frame_rate = 120  # Set your desired frame rate here
 
-class Screen:
 
+class Screen:
     def __init__(self):
         self.display = pygame.display.set_mode((1280, 720))
         pygame.display.set_caption("Technoblade Trinity")
         pygame.display.set_icon(icon_image)
-        self.clock =pygame.time.Clock()
+        self.clock = pygame.time.Clock()
         self.framerate = 60
+
     def update(self):
         pygame.display.flip()
         pygame.display.update()
@@ -43,43 +45,60 @@ class Screen:
 
     def get_size(self):
         return self.display.get_size()
+
     def get_display(self):
         return self.display
+
+
 def zoomimg_menu_background(scale):
     zommimg = pygame.transform.scale(background, (int(background.get_width() * scale), int(background.get_height() * scale)))
     screen.blit(zommimg, (0, 0))
     pygame.display.flip()
+
+
 def zoomimg_menu_levels(scale):
-    Menu_im = pygame.transform.scale(menu, (int(menu.get_width() * scale), int(menu.get_height() * scale)))
-    screen.blit(Menu_im, (525, 280))
+    menu_im = pygame.transform.scale(menu, (int(menu.get_width() * scale), int(menu.get_height() * scale)))
+    screen.blit(menu_im, (525, 280))
     pygame.display.flip()
     clock.tick(frame_rate)
     pygame.display.update()
+
+
 def zoomimg_menu_title(scale):
-    Title_im = pygame.transform.scale(Title, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
-    screen.blit(Title_im, (450, -30))
-    pygame.display.flip()
-    clock.tick(frame_rate)
-    pygame.display.update()
+    title_im = pygame.transform.scale(Title, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
+    screen.blit(title_im, (450, -30))
+
+
 def zoomimg_player(scale):
     player_im = pygame.transform.scale(player.image, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(player_im, player.rect)
+
+
 def zoomimg_level1_background(scale):
     Level1_im = pygame.transform.scale(level1_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(Level1_im, (0, 0))
+
+
 def zoomimg_level2_background(scale):
     Level2_im = pygame.transform.scale(level2_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(Level2_im, (0, -490))
+
+
 def zoomimg_level3_background(scale):
     Level3_im = pygame.transform.scale(level3_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(Level3_im, (0, -300))
+
+
 def zoomimg_level4_background(scale):
     Level4_im = pygame.transform.scale(level4_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(Level4_im, (0, -500))
+
+
 def zoomimg(image,scale):
     zommimg = pygame.transform.scale(image, (int(background.get_width() * scale), int(image.get_height() * scale)))
     screen.blit(zommimg, (1110, 10))
-    pygame.display.flip()
+
+
 def life_update():
     if player.health == 100:
         zoomimg(green,0.2)
@@ -87,6 +106,8 @@ def life_update():
         zoomimg(yellow, 0.2)
     elif player.health == 34:
         zoomimg(red, 0.2)
+
+
 class Button:
     def __init__(self, x, y, length, height, text, function, r, g, b, alpha=255):
         self.length = length
@@ -108,6 +129,8 @@ class Button:
 
     def is_clicked(self, mouse_x, mouse_y):
         return self.rect.collidepoint(mouse_x, mouse_y)
+
+
 def buttons(bt1: Button, bt2: Button, bt3: Button, bt4: Button):
     while True:
         for event in pygame.event.get():
@@ -127,6 +150,8 @@ def buttons(bt1: Button, bt2: Button, bt3: Button, bt4: Button):
 
         pygame.display.update()
         clock.tick(frame_rate)
+
+
 def Menu(cond):
     if cond:
         player.rect.x = 0
@@ -148,6 +173,31 @@ def Menu(cond):
         # Handle button events
         buttons(easy, medium, hard, insane)
 
+
+def pause(level,cond):
+    if cond == True:
+        # Display the pause screen
+        zoomimg_menu_background(1.7)
+        screen.blit(pause_im, (400, 150))
+        pygame.display.flip()
+        clock.tick(frame_rate)
+    while cond:
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    Menu(True)  # Go back to the menu
+                elif event.key == pygame.K_b:
+                    player.rect.x = 0
+                    player.rect.y = 660
+                    pause(level,False)  # Resume the game
+                    level(True)
+                elif event.key == pygame.K_c:
+                    pause(level,False)  # Resume the game
+                    level(True)
+
+
 def level1(cond):
     while cond:
         Menu(False)
@@ -163,6 +213,8 @@ def level1(cond):
                     player.start_runningL()
                 elif event.key == pygame.K_SPACE:
                     player.start_jumping()
+                elif event.key == pygame.K_ESCAPE:
+                    pause(level1,True)
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:
@@ -183,6 +235,8 @@ def level1(cond):
         pygame.display.flip()
         pygame.display.update()
         clock.tick(frame_rate)
+
+
 def level2(cond):
     while cond:
         Menu(False)
@@ -198,6 +252,8 @@ def level2(cond):
                     player.start_runningL()  # Start running to the left
                 elif event.key == pygame.K_SPACE:
                     player.start_jumping()  # Start jumping
+                elif event.key == pygame.K_ESCAPE:
+                    pause(level2,True)
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:
@@ -218,6 +274,7 @@ def level2(cond):
         pygame.display.update()
         clock.tick(frame_rate)
 
+
 def level3(cond):
     while cond:
         Menu(False)
@@ -233,6 +290,8 @@ def level3(cond):
                     player.start_runningL()  # Start running to the left
                 elif event.key == pygame.K_SPACE:
                     player.start_jumping()  # Start jumping
+                elif event.key == pygame.K_ESCAPE:
+                    pause(level3,True)
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:
@@ -253,6 +312,7 @@ def level3(cond):
         pygame.display.update()
         clock.tick(frame_rate)
 
+
 def level4(cond):
     while cond:
         Menu(False)
@@ -268,6 +328,8 @@ def level4(cond):
                     player.start_runningL()  # Start running to the left
                 elif event.key == pygame.K_SPACE:
                     player.start_jumping()  # Start jumping
+                elif event.key == pygame.K_ESCAPE:
+                    pause(level4,True)
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:

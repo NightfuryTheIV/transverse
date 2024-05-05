@@ -71,9 +71,6 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.image.load('../image/character/run/run1.png')
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_ESCAPE]:
-            self.rect.x = 0
-            self.rect.y = 660
         if keys[pygame.K_LEFT]:
             if self.rect.x > -1:
                 self.rect.x -= self.speed
