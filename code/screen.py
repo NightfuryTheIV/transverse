@@ -1,7 +1,8 @@
 import pygame
 import sys
-from technoblade import player
+from technoblade import Player
 from technoblade import technoblade
+player = Player()
 icon_image = pygame.image.load('../image/gameimage.jpg')
 Title = pygame.image.load('../image/TITLE.png')
 menu = pygame.image.load('../image/menu.png')
@@ -12,6 +13,9 @@ level2_im = pygame.image.load('../image/level2.png')
 level3_im = pygame.image.load('../image/level3.png')
 level4_im = pygame.image.load('../image/level4.png')
 block= pygame.image.load('../image/blockherbe.png')
+green = pygame.image.load('../image/healfbargreen.png')
+yellow = pygame.image.load('../image/healfbaryellow.png')
+red = pygame.image.load('../image/healfbarred.png')
 scale=1.7
 scale2=1
 scale3=0.7
@@ -74,8 +78,17 @@ def zoomimg_level3_background(scale):
 def zoomimg_level4_background(scale):
     Level4_im = pygame.transform.scale(level4_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(Level4_im, (0, -500))
-
-
+def zoomimg(image,scale):
+    zommimg = pygame.transform.scale(image, (int(background.get_width() * scale), int(image.get_height() * scale)))
+    screen.blit(zommimg, (1110, 10))
+    pygame.display.flip()
+def life_update():
+    if player.health == 100:
+        zoomimg(green,0.2)
+    elif player.health == 67 :
+        zoomimg(yellow, 0.2)
+    elif player.health == 34:
+        zoomimg(red, 0.2)
 class Button:
     def __init__(self, x, y, length, height, text, function, r, g, b, alpha=255):
         self.length = length
@@ -97,7 +110,6 @@ class Button:
 
     def is_clicked(self, mouse_x, mouse_y):
         return self.rect.collidepoint(mouse_x, mouse_y)
-
 def buttons(bt1: Button, bt2: Button, bt3: Button, bt4: Button):
     while True:
         for event in pygame.event.get():
@@ -119,6 +131,8 @@ def buttons(bt1: Button, bt2: Button, bt3: Button, bt4: Button):
         clock.tick(frame_rate)
 def Menu(cond):
     if cond:
+        player.rect.x = 0
+        player.rect.y = 660
         pygame.display.set_icon(icon_image)
         zoomimg_menu_background(scale)
         zoomimg_menu_levels(scale2)
@@ -145,33 +159,29 @@ def level1(cond):
                 level1(False)
 
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    player.pressed["JUMP"] = True
-                elif event.key == pygame.K_DOWN:
-                    player.pressed["DOWN"] = True
+                if event.key == pygame.K_RIGHT:
+                    player.start_runningR()
                 elif event.key == pygame.K_LEFT:
-                    player.pressed["LEFT"] = True
-                elif event.key == pygame.K_RIGHT:
-                    player.pressed["RIGHT"] = True
-                elif event.key == pygame.K_UP:
-                    player.pressed["UP"] = True
+                    player.start_runningL()
+                elif event.key == pygame.K_SPACE:
+                    player.start_jumping()
 
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE:
-                    player.pressed["JUMP"] = False
-                elif event.key == pygame.K_DOWN:
-                    player.pressed["DOWN"] = False
+                if event.key == pygame.K_RIGHT:
+                    player.stop_runningR()
                 elif event.key == pygame.K_LEFT:
-                    player.pressed["LEFT"] = False
-                elif event.key == pygame.K_RIGHT:
-                    player.pressed["RIGHT"] = False
-                elif event.key == pygame.K_UP:
-                    player.pressed["UP"] = False
+                    player.stop_runningL()
+                elif event.key == pygame.K_SPACE:
+                    player.stop_jumping()
+
+
+        # Update the player
+        player.update()
 
         # Update the screen
         zoomimg_level1_background(scale4)
-        player.update()
         zoomimg_player(scale5)
+        life_update()
         pygame.display.flip()
         pygame.display.update()
         clock.tick(frame_rate)
@@ -180,39 +190,32 @@ def level2(cond):
         Menu(False)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
                 Menu(True)
-                level1(False)
+                level2(False)
 
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    player.pressed["JUMP"] = True
-                elif event.key == pygame.K_DOWN:
-                    player.pressed["DOWN"] = True
+                if event.key == pygame.K_RIGHT:
+                    player.start_runningR()  # Start running to the right
                 elif event.key == pygame.K_LEFT:
-                    player.pressed["LEFT"] = True
-                elif event.key == pygame.K_RIGHT:
-                    player.pressed["RIGHT"] = True
-                elif event.key == pygame.K_UP:
-                    player.pressed["UP"] = True
+                    player.start_runningL()  # Start running to the left
+                elif event.key == pygame.K_SPACE:
+                    player.start_jumping()  # Start jumping
 
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE:
-                    player.pressed["JUMP"] = False
-                elif event.key == pygame.K_DOWN:
-                    player.pressed["DOWN"] = False
+                if event.key == pygame.K_RIGHT:
+                    player.stop_runningR()  # Stop running to the right
                 elif event.key == pygame.K_LEFT:
-                    player.pressed["LEFT"] = False
-                elif event.key == pygame.K_RIGHT:
-                    player.pressed["RIGHT"] = False
-                elif event.key == pygame.K_UP:
-                    player.pressed["UP"] = False
+                    player.stop_runningL()  # Stop running to the left
+                elif event.key == pygame.K_SPACE:
+                    player.stop_jumping()  # Stop jumping
+
+        # Update the player
+        player.update()
 
         # Update the screen
         zoomimg_level2_background(scale6)
-        player.update()
         zoomimg_player(scale5)
-        screen.blit(block, (200, 500))
+        life_update()
         pygame.display.flip()
         pygame.display.update()
         clock.tick(frame_rate)
@@ -222,79 +225,67 @@ def level3(cond):
         Menu(False)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
                 Menu(True)
-                level1(False)
+                level3(False)
 
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    player.pressed["JUMP"] = True
-                elif event.key == pygame.K_DOWN:
-                    player.pressed["DOWN"] = True
+                if event.key == pygame.K_RIGHT:
+                    player.start_runningR()  # Start running to the right
                 elif event.key == pygame.K_LEFT:
-                    player.pressed["LEFT"] = True
-                elif event.key == pygame.K_RIGHT:
-                    player.pressed["RIGHT"] = True
-                elif event.key == pygame.K_UP:
-                    player.pressed["UP"] = True
+                    player.start_runningL()  # Start running to the left
+                elif event.key == pygame.K_SPACE:
+                    player.start_jumping()  # Start jumping
 
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE:
-                    player.pressed["JUMP"] = False
-                elif event.key == pygame.K_DOWN:
-                    player.pressed["DOWN"] = False
+                if event.key == pygame.K_RIGHT:
+                    player.stop_runningR()  # Stop running to the right
                 elif event.key == pygame.K_LEFT:
-                    player.pressed["LEFT"] = False
-                elif event.key == pygame.K_RIGHT:
-                    player.pressed["RIGHT"] = False
-                elif event.key == pygame.K_UP:
-                    player.pressed["UP"] = False
+                    player.stop_runningL()  # Stop running to the left
+                elif event.key == pygame.K_SPACE:
+                    player.stop_jumping()  # Stop jumping
+
+        # Update the player
+        player.update()
 
         # Update the screen
         zoomimg_level3_background(scale4)
-        player.update()
         zoomimg_player(scale5)
+        life_update()
         pygame.display.flip()
         pygame.display.update()
         clock.tick(frame_rate)
+
 def level4(cond):
     while cond:
         Menu(False)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
                 Menu(True)
-                level1(False)
+                level4(False)
 
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    player.pressed["JUMP"] = True
-                elif event.key == pygame.K_DOWN:
-                    player.pressed["DOWN"] = True
+                if event.key == pygame.K_RIGHT:
+                    player.start_runningR()  # Start running to the right
                 elif event.key == pygame.K_LEFT:
-                    player.pressed["LEFT"] = True
-                elif event.key == pygame.K_RIGHT:
-                    player.pressed["RIGHT"] = True
-                elif event.key == pygame.K_UP:
-                    player.pressed["UP"] = True
+                    player.start_runningL()  # Start running to the left
+                elif event.key == pygame.K_SPACE:
+                    player.start_jumping()  # Start jumping
 
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE:
-                    player.pressed["JUMP"] = False
-                elif event.key == pygame.K_DOWN:
-                    player.pressed["DOWN"] = False
+                if event.key == pygame.K_RIGHT:
+                    player.stop_runningR()  # Stop running to the right
                 elif event.key == pygame.K_LEFT:
-                    player.pressed["LEFT"] = False
-                elif event.key == pygame.K_RIGHT:
-                    player.pressed["RIGHT"] = False
-                elif event.key == pygame.K_UP:
-                    player.pressed["UP"] = False
+                    player.stop_runningL()  # Stop running to the left
+                elif event.key == pygame.K_SPACE:
+                    player.stop_jumping()  # Stop jumping
+
+        # Update the player
+        player.update()
 
         # Update the screen
         zoomimg_level4_background(scale4)
-        player.update()
         zoomimg_player(scale5)
+        life_update()
         pygame.display.flip()
         pygame.display.update()
         clock.tick(frame_rate)
-
