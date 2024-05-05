@@ -1,9 +1,6 @@
 import pygame
-import sys
 from math import sin, cos, pi
 Gravity = 9.81
-clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
-frame_rate = 1  # Set your desired frame rate here
 
 run_1 = pygame.image.load('../image/character/run/run1.png')
 run_2 = pygame.image.load('../image/character/run/run2.png')
@@ -11,11 +8,11 @@ run_3 = pygame.image.load('../image/character/run/run3.png')
 run_4 = pygame.image.load('../image/character/run/run4.png')
 run_5 = pygame.image.load('../image/character/run/run5.png')
 run_6 = pygame.image.load('../image/character/run/run6.png')
-run_7 = pygame.image.load('../image/character/run left/RUNL1.png')
-run_8 = pygame.image.load('../image/character/run left/RUNL2.png')
-run_9 = pygame.image.load('../image/character/run left/RUNL3.png')
-run_10 = pygame.image.load('../image/character/run left/RUNL4.png')
-run_11 = pygame.image.load('../image/character/run left/RUNL5.png')
+run_7 = pygame.image.load('../image/character/run left/RUN_L_1.png')
+run_8 = pygame.image.load('../image/character/run left/RUN_L_2.png')
+run_9 = pygame.image.load('../image/character/run left/RUN_L_3.png')
+run_10 = pygame.image.load('../image/character/run left/RUN_L_4.png')
+run_11 = pygame.image.load('../image/character/run left/RUN_L_5.png')
 jump_1 = pygame.image.load('../image/character/jump/JUMP1.png')
 jump_2 = pygame.image.load('../image/character/jump/JUMP2.png')
 jump_3 = pygame.image.load('../image/character/jump/JUMP3.png')
@@ -49,7 +46,7 @@ class Player(pygame.sprite.Sprite):
         self.animationL_index = 0
         self.animationJ_index = 0
         self.air_time = 0
-        self.jump_delay = 2
+        self.jump_delay = 1
     def jump(self):
         self.rect.y += -1
 
@@ -74,6 +71,9 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.image.load('../image/character/run/run1.png')
 
         keys = pygame.key.get_pressed()
+        if keys[pygame.K_ESCAPE]:
+            self.rect.x = 0
+            self.rect.y = 660
         if keys[pygame.K_LEFT]:
             self.rect.x -= self.speed
         if keys[pygame.K_RIGHT]:
@@ -124,5 +124,5 @@ class Projectile:
 
 class technoblade:
     def __init__(self):
-        print
+        print("")
 

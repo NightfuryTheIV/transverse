@@ -1,21 +1,20 @@
 import pygame
 import sys
 from technoblade import Player
-from technoblade import technoblade
 player = Player()
-icon_image = pygame.image.load('../image/gameimage.jpg')
-Title = pygame.image.load('../image/TITLE.png')
-menu = pygame.image.load('../image/menu.png')
-background = pygame.image.load('../image/Fond.png')
+icon_image = pygame.image.load('../image/menu/game_image.jpg')
+Title = pygame.image.load('../image/menu/TITLE.png')
+menu = pygame.image.load('../image/menu/menu.png')
+background = pygame.image.load('../image/menu/Fond.png')
 pygame.display.set_caption("Technoblade Trinity")
-level1_im = pygame.image.load('../image/niv 1 jour.png')
-level2_im = pygame.image.load('../image/level2.png')
-level3_im = pygame.image.load('../image/level3.png')
-level4_im = pygame.image.load('../image/level4.png')
-block= pygame.image.load('../image/blockherbe.png')
-green = pygame.image.load('../image/healfbargreen.png')
-yellow = pygame.image.load('../image/healfbaryellow.png')
-red = pygame.image.load('../image/healfbarred.png')
+level1_im = pygame.image.load('../image/levels/niv 1 jour.png')
+level2_im = pygame.image.load('../image/levels/level2.png')
+level3_im = pygame.image.load('../image/levels/level3.png')
+level4_im = pygame.image.load('../image/levels/level4.png')
+block= pygame.image.load('../image/elements/platform/grass_block.png')
+green = pygame.image.load('../image/elements/life bar/health_bar_green.png')
+yellow = pygame.image.load('../image/elements/life bar/health_bar_yellow.png')
+red = pygame.image.load('../image/elements/life bar/health_barred.png')
 scale=1.7
 scale2=1
 scale3=0.7
@@ -24,7 +23,6 @@ scale5=0.1
 scale6=2.6
 scale7=2.6
 scale8=2.6
-
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
 frame_rate = 120  # Set your desired frame rate here
