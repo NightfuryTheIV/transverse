@@ -51,7 +51,7 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         if self.rect.y > 672:
-            self.yspeed = -8
+            self.yspeed = -10
         else:
             self.yspeed += 0.4
         self.rect.y += self.yspeed
