@@ -55,12 +55,10 @@ class Player(pygame.sprite.Sprite):
         else:
             self.yspeed += 0.4
         self.rect.y += self.yspeed
-        print(f"pos y : {self.rect.y}, velocity : {self.yspeed}")
 
     def gravity(self):
         self.yspeed += 0.4
         self.rect.y += self.yspeed
-        print(f"pos y : {self.rect.y}, velocity : {self.yspeed}")
 
     def update(self):
         if self.is_running:
