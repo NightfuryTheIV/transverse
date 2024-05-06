@@ -161,10 +161,10 @@ def Menu(cond):
         zoomimg_menu_title(scale3)
         pygame.display.flip()
 
-        easy = Button(525, 275, 210, 70, "Easy", level1, 0, 0, 0, 255)  # Example function print
-        medium = Button(525, 365, 210, 70, "Medium", level2, 0, 0, 0, 255)  # Example function print
-        hard = Button(525, 460, 210, 70, "Hard", level3, 0, 0, 0, 255)  # Example function print
-        insane = Button(525, 550, 210, 70, "Insane", level4, 0, 0, 0, 255)  # Example function print
+        easy = Button(525, 275, 210, 70, "Easy", level1, 0, 0, 0, 255)
+        medium = Button(525, 365, 210, 70, "Medium", level2, 0, 0, 0, 255)
+        hard = Button(525, 460, 210, 70, "Hard", level3, 0, 0, 0, 255)
+        insane = Button(525, 550, 210, 70, "Insane", level4, 0, 0, 0, 255)
 
         # Display buttons
         pygame.display.update()

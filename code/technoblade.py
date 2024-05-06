@@ -49,9 +49,20 @@ class Player(pygame.sprite.Sprite):
         self.animationJ_index = 0
         self.air_time = 0
         self.jump_delay = 1
+        self.keys = {}
 
     def jump(self):
-        self.rect.y += -1
+        if self.rect.y > 680:
+            self.yspeed = -8
+        else:
+            self.yspeed += 0.4
+        self.rect.y += self.yspeed
+        print(f"pos y : {self.rect.y}, velocity : {self.yspeed}")
+
+    def gravity(self):
+        self.yspeed += 0.4
+        self.rect.y += self.yspeed
+        print(f"pos y : {self.rect.y}, velocity : {self.yspeed}")
 
     def update(self):
         if self.is_running:
@@ -79,10 +90,10 @@ class Player(pygame.sprite.Sprite):
             if self.rect.x < 1250:
                 self.rect.x += self.speed
         if self.keys[pygame.K_SPACE]:
-            if self.rect.y > -1 and self.rect.y < 721:
-                self.yspeed = 0
-                for i in range(10):
-                    self.jump()
+            self.jump()
+        else:
+            if self.rect.y < 680:
+                self.gravity()
 
     def start_runningL(self):
         self.is_running_left = True
@@ -115,7 +126,7 @@ class Projectile:
         self.rect.x = 0
         self.basey = player.rect.y
         self.rect.y = 0
-        self.angle = 0
+        self.angle = pi
 
     def firing_angle(self):
         if player.keys[pygame.K_UP]:
