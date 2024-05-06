@@ -25,8 +25,6 @@ jump_7 = pygame.image.load('../image/character/jump/JUMP7.png')
 run_r=[run_1,run_2,run_3,run_4,run_5,run_6]
 run_l= [run_7,run_8,run_9,run_10,run_11]
 run_j= [jump_1,jump_2,jump_3,jump_4,jump_5,jump_6,jump_7]
-
-
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -48,11 +46,11 @@ class Player(pygame.sprite.Sprite):
         self.animationL_index = 0
         self.animationJ_index = 0
         self.air_time = 0
-        self.jump_delay = 1
+        self.jump_delay = 10
         self.keys = {}
 
     def jump(self):
-        if self.rect.y > 680:
+        if self.rect.y > 672:
             self.yspeed = -8
         else:
             self.yspeed += 0.4
@@ -73,7 +71,6 @@ class Player(pygame.sprite.Sprite):
             self.image = run_l[self.animationL_index]
             self.animationL_index = (self.animationL_index + 1) % len(run_l)
         elif self.is_jumping:
-            # Delay the jumping animation
             if self.air_time % self.jump_delay == 0:
                 self.image = run_j[self.animationJ_index]
                 self.animationJ_index = (self.animationJ_index + 1) % len(run_j)
@@ -92,7 +89,7 @@ class Player(pygame.sprite.Sprite):
         if self.keys[pygame.K_SPACE]:
             self.jump()
         else:
-            if self.rect.y < 680:
+            if self.rect.y < 672:
                 self.gravity()
 
     def start_runningL(self):

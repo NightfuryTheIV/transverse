@@ -15,6 +15,7 @@ green = pygame.image.load('../image/elements/life bar/health_bar_green.png')
 yellow = pygame.image.load('../image/elements/life bar/health_bar_yellow.png')
 red = pygame.image.load('../image/elements/life bar/health_barred.png')
 pause_im = pygame.image.load('../image/menu/pause.png')
+waterblock = pygame.image.load('../image/elements/platform/waterplatform.png')
 scale = 1.7
 scale2 = 1
 scale3 = 0.7
@@ -93,18 +94,18 @@ def zoomimg_level4_background(scale):
     screen.blit(Level4_im, (0, -500))
 
 
-def zoomimg(image,scale):
+def zoomimg(image,scale,x,y):
     zommimg = pygame.transform.scale(image, (int(background.get_width() * scale), int(image.get_height() * scale)))
-    screen.blit(zommimg, (1110, 10))
+    screen.blit(zommimg, (x, y))
 
 
 def life_update():
     if player.health == 100:
-        zoomimg(green,0.2)
+        zoomimg(green,0.2,1110,10)
     elif player.health == 67 :
-        zoomimg(yellow, 0.2)
+        zoomimg(yellow, 0.2,1110,10)
     elif player.health == 34:
-        zoomimg(red, 0.2)
+        zoomimg(red, 0.2,1110,10)
 
 
 class Button:
@@ -342,6 +343,7 @@ def level4(cond):
 
         # Update the screen
         zoomimg_level4_background(scale4)
+        zoomimg(waterblock, 0.5,400,600)
         zoomimg_player(scale5)
         life_update()
         pygame.display.flip()
