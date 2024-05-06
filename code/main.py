@@ -1,9 +1,8 @@
 import pygame
 from screen import Menu
-from technoblade import player
 pygame.init()
 running = True
-Menu(True)#Show the menu
+Menu(True)
 
 while running:
     for event in pygame.event.get():
