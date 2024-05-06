@@ -25,6 +25,8 @@ jump_7 = pygame.image.load('../image/character/jump/JUMP7.png')
 run_r=[run_1,run_2,run_3,run_4,run_5,run_6]
 run_l= [run_7,run_8,run_9,run_10,run_11]
 run_j= [jump_1,jump_2,jump_3,jump_4,jump_5,jump_6,jump_7]
+
+
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -47,10 +49,9 @@ class Player(pygame.sprite.Sprite):
         self.animationJ_index = 0
         self.air_time = 0
         self.jump_delay = 1
+
     def jump(self):
         self.rect.y += -1
-
-
 
     def update(self):
         if self.is_running:
@@ -70,14 +71,14 @@ class Player(pygame.sprite.Sprite):
             # Set default image if not running
             self.image = pygame.image.load('../image/character/run/run1.png')
 
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
+        self.keys = pygame.key.get_pressed()
+        if self.keys[pygame.K_LEFT]:
             if self.rect.x > -1:
                 self.rect.x -= self.speed
-        if keys[pygame.K_RIGHT]:
+        if self.keys[pygame.K_RIGHT]:
             if self.rect.x < 1250:
                 self.rect.x += self.speed
-        if keys[pygame.K_SPACE]:
+        if self.keys[pygame.K_SPACE]:
             if self.rect.y > -1 and self.rect.y < 721:
                 self.yspeed = 0
                 for i in range(10):
@@ -96,28 +97,34 @@ class Player(pygame.sprite.Sprite):
     def stop_jumping(self):
         self.is_jumping = False
 
+
+player = Player()
+
+
 class Projectile:
     def __init__(self, name, type, velocity, speed):
-        self.player = Player
+        self.player = player
         self.name = name
         self.type = type  # We might use different types of arrows for diffreent levels in the future
         self.velocity = velocity  # the actual at which the arrow is flying
         self.speed = speed  # the speed at which the flight trajectory is refreshed (between 0.1 and 1)
         self.clock = 0  # This will be used inside the trajectory equations
-        self.basex = Player.rect.x
-        self.x = 0
-        self.basey = Player.rect.y
-        self.y = 0
+        self.image = pygame.image.load('../image/elements/test.jpg')
+        self.rect = self.image.get_rect()
+        self.basex = player.rect.x
+        self.rect.x = 0
+        self.basey = player.rect.y
+        self.rect.y = 0
         self.angle = 0
 
     def firing_angle(self):
-        if Player.pressed["UP"]:
+        if player.keys[pygame.K_UP]:
             self.angle += pi/180
-        if Player.pressed["DOWN"]:
+        if player.keys[pygame.K_DOWN]:
             self.angle -= pi/180
 
     def flight(self, angle):
-        self.x = self.velocity * cos(angle) * self.clock + self.basex
-        self.y = 1/2 * Gravity * self.clock**2 + sin(angle) * self.clock + self.basey
+        self.rect.x = self.velocity * cos(angle) * self.clock + self.basex
+        self.rect.y = 1/2 * Gravity * self.clock**2 + sin(angle) * self.clock + self.basey
 
         self.clock += self.speed

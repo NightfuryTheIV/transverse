@@ -1,7 +1,6 @@
 import pygame
 import sys
-from technoblade import Player
-player = Player()
+from technoblade import player
 icon_image = pygame.image.load('../image/menu/game_image.jpg')
 Title = pygame.image.load('../image/menu/TITLE.png')
 menu = pygame.image.load('../image/menu/menu.png')
@@ -175,15 +174,14 @@ def Menu(cond):
 
 
 def pause(level,cond):
-    if cond == True:
+    if cond:
         # Display the pause screen
         zoomimg_menu_background(1.7)
         screen.blit(pause_im, (400, 150))
         pygame.display.flip()
         clock.tick(frame_rate)
+
     while cond:
-
-
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
