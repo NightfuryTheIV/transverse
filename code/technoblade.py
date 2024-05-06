@@ -88,7 +88,6 @@ class Player(pygame.sprite.Sprite):
     def gravity(self):
         self.yspeed += 0.4
         self.rect.y += self.yspeed
-
     def update(self):
         if not player.is_dead:
             if self.is_running and not self.is_jumping:
