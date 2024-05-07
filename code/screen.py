@@ -1,48 +1,6 @@
-import pygame
 import sys
 from technoblade import player
-pygame.mixer.init()
-icon_image = pygame.image.load('../image/menu/game_image.jpg')
-Title = pygame.image.load('../image/menu/TITLE.png')
-menu = pygame.image.load('../image/menu/menu.png')
-background = pygame.image.load('../image/menu/Fond.png')
-pygame.display.set_caption("Technoblade Trinity")
-level1_im = pygame.image.load('../image/levels/niv 1 jour.png')
-level2_im = pygame.image.load('../image/levels/level2.png')
-level3_im = pygame.image.load('../image/levels/level3.png')
-level4_im = pygame.image.load('../image/levels/level4.png')
-block = pygame.image.load('../image/elements/platform/grass_block.png')
-green = pygame.image.load('../image/elements/life bar/health_bar_green.png')
-yellow = pygame.image.load('../image/elements/life bar/health_bar_yellow.png')
-red = pygame.image.load('../image/elements/life bar/health_barred.png')
-pause_im = pygame.image.load('../image/menu/pause.png')
-waterblock = pygame.image.load('../image/elements/platform/waterplatform.png')
-yad = pygame.image.load('../image/character/death/you_are_dead.jpeg')
-button = pygame.image.load('../image/character/death/button.png')
-arrow_1 = pygame.image.load('../image/menu/1.png')
-arrow_2 = pygame.image.load('../image/menu/2.png')
-arrow_3 = pygame.image.load('../image/menu/3.png')
-arrow_4 = pygame.image.load('../image/menu/4.png')
-
-death_music = "../music/death_music.mp3"
-menu_music = "../music/Menu_music.mp3"
-level1_music = "../music/Easy_music.mp3"
-level2_music = "../music/Medium_music.mp3"
-level3_music = "../music/Hard_music.mp3"
-level4_music = "../music/Insane_music.mp3"
-
-scale = 1.7
-scale2 = 1
-scale3 = 0.7
-scale4 = 2.6
-scale5 = 0.1
-scale6 = 2.6
-scale7 = 2.6
-scale8 = 2.6
-screen = pygame.display.set_mode((1280, 720))
-clock = pygame.time.Clock()  # Creating a clock object for controlling the frame rate
-frame_rate = 120  # Set your desired frame rate here
-
+from objects import *
 
 class Screen:
     def __init__(self):
@@ -63,6 +21,29 @@ class Screen:
 
     def get_display(self):
         return self.display
+
+
+class Button:
+    def __init__(self, x, y, length, height, text, function, r, g, b, alpha=255):
+        self.length = length
+        self.height = height
+        self.text = text
+        self.rect = pygame.Rect(x, y, length, height)
+        self.function = function
+        self.color = (r, g, b)
+        self.surface = pygame.Surface((length, height), pygame.SRCALPHA)
+        self.surface.set_alpha(alpha)
+
+        font = pygame.font.Font(None, 0)
+        text_act = font.render(self.text, True, (self.color[0], self.color[1], self.color[2], alpha))
+        text_rect = text_act.get_rect(center=(self.surface.get_width() / 2, self.surface.get_height() / 2))
+        self.surface.blit(text_act, text_rect)
+
+        # Draw the button on the screen
+        screen.blit(self.surface, (x, y))
+
+    def is_clicked(self, mouse_x, mouse_y):
+        return self.rect.collidepoint(mouse_x, mouse_y)
 
 
 def zoomimg_menu_background(scale):
@@ -121,29 +102,6 @@ def life_update():
         zoomimg(yellow, 0.2,1110,10)
     elif player.health == 34:
         zoomimg(red, 0.2,1110,10)
-
-
-class Button:
-    def __init__(self, x, y, length, height, text, function, r, g, b, alpha=255):
-        self.length = length
-        self.height = height
-        self.text = text
-        self.rect = pygame.Rect(x, y, length, height)
-        self.function = function
-        self.color = (r, g, b)
-        self.surface = pygame.Surface((length, height), pygame.SRCALPHA)
-        self.surface.set_alpha(alpha)
-
-        font = pygame.font.Font(None, 0)
-        text_act = font.render(self.text, True, (self.color[0], self.color[1], self.color[2], alpha))
-        text_rect = text_act.get_rect(center=(self.surface.get_width() / 2, self.surface.get_height() / 2))
-        self.surface.blit(text_act, text_rect)
-
-        # Draw the button on the screen
-        screen.blit(self.surface, (x, y))
-
-    def is_clicked(self, mouse_x, mouse_y):
-        return self.rect.collidepoint(mouse_x, mouse_y)
 
 
 def buttons(bt1: Button, bt2: Button, bt3: Button, bt4: Button):
@@ -274,6 +232,7 @@ def dead_screen(level, cond):
                     dead_screen(level, False)
                     Menu(True)
 
+
 def play_level_music(level_music,cond):
     if not cond:
         pygame.mixer.music.load(level_music)  # Load the specified music file
@@ -281,7 +240,6 @@ def play_level_music(level_music,cond):
         cond = True
     else:
         pass
-
 
 
 def level1(cond):

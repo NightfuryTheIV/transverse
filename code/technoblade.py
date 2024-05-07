@@ -1,54 +1,8 @@
-import pygame
 from math import sin, cos, pi
-Gravity = 9.81
+from objects import *
 pygame.mixer.init()
 
 
-run_1 = pygame.image.load('../image/character/run/run1.png')
-run_2 = pygame.image.load('../image/character/run/run2.png')
-run_3 = pygame.image.load('../image/character/run/run3.png')
-run_4 = pygame.image.load('../image/character/run/run4.png')
-run_5 = pygame.image.load('../image/character/run/run5.png')
-run_6 = pygame.image.load('../image/character/run/run6.png')
-
-run_7 = pygame.image.load('../image/character/run left/RUN_L_1.png')
-run_8 = pygame.image.load('../image/character/run left/RUN_L_2.png')
-run_9 = pygame.image.load('../image/character/run left/RUN_L_3.png')
-run_10 = pygame.image.load('../image/character/run left/RUN_L_4.png')
-run_11 = pygame.image.load('../image/character/run left/RUN_L_5.png')
-
-jump_1 = pygame.image.load('../image/character/jump/JUMP1.png')
-jump_2 = pygame.image.load('../image/character/jump/JUMP2.png')
-jump_3 = pygame.image.load('../image/character/jump/JUMP3.png')
-jump_4 = pygame.image.load('../image/character/jump/JUMP4.png')
-jump_5 = pygame.image.load('../image/character/jump/JUMP5.png')
-jump_6 = pygame.image.load('../image/character/jump/JUMP6.png')
-jump_77 = pygame.image.load('../image/character/jump/JUMP7.png')
-
-jump_7 = pygame.image.load('../image/character/JUMP_L/image (1).png')
-jump_8 = pygame.image.load('../image/character/JUMP_L/image (2).png')
-jump_9 = pygame.image.load('../image/character/JUMP_L/image (3).png')
-jump_10 =pygame.image.load('../image/character/JUMP_L/image (4).png')
-jump_11 = pygame.image.load('../image/character/JUMP_L/image (5).png')
-jump_12 = pygame.image.load('../image/character/JUMP_L/image (6).png')
-jump_13 = pygame.image.load('../image/character/JUMP_L/image (7).png')
-
-death_1 = pygame.image.load('../image/character/death/death1.png')
-death_2 = pygame.image.load('../image/character/death/death2.png')
-death_3 = pygame.image.load('../image/character/death/death3.png')
-death_4 = pygame.image.load('../image/character/death/death4.png')
-death_5 = pygame.image.load('../image/character/death/death5.png')
-death_6 = pygame.image.load('../image/character/death/death6.png')
-death_7 = pygame.image.load('../image/character/death/death7.png')
-death_8 = pygame.image.load('../image/character/death/death8.png')
-death_9 = pygame.image.load('../image/character/death/death9.png')
-
-
-run_r=[run_1,run_2,run_3,run_4,run_5,run_6]
-run_l= [run_7,run_8,run_9,run_10,run_11]
-run_j= [jump_1,jump_2,jump_3,jump_4,jump_5,jump_6,jump_77]
-jump_l = [jump_7,jump_8,jump_9,jump_10,jump_11,jump_12,jump_13]
-death = [death_1,death_1,death_1,death_2,death_2,death_2,death_3,death_3,death_3,death_4,death_4,death_4,death_5,death_5,death_5,death_6,death_6,death_6,death_7,death_7,death_7,death_8,death_8,death_9,death_9,death_9]
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -77,10 +31,10 @@ class Player(pygame.sprite.Sprite):
         self.air_time = 0
         self.jump_delay = 10
         self.keys = {}
-        self.menu_anim =False
-        self.anim1 =False
-        self.anim2 =False
-        self.anim3 =False
+        self.menu_anim = False
+        self.anim1 = False
+        self.anim2 = False
+        self.anim3 = False
 
     def update2(self):
         if self.anim1 :
@@ -103,6 +57,7 @@ class Player(pygame.sprite.Sprite):
     def gravity(self):
         self.yspeed += 0.4
         self.rect.y += self.yspeed
+
     def update(self):
         if not player.is_dead:
             if self.is_running and not self.is_jumping:
@@ -157,17 +112,21 @@ class Player(pygame.sprite.Sprite):
 
     def start_runningL(self):
         self.is_running_left = True
+
     def stop_runningL(self):
         self.is_running_left = False
+
     def start_runningR(self):
         self.is_running = True
+
     def stop_runningR(self):
         self.is_running = False
+
     def start_jumping(self):
         self.is_jumping = True
+
     def stop_jumping(self):
         self.is_jumping = False
-
 
 
 player = Player()
