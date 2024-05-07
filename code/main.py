@@ -10,4 +10,3 @@ while running:
             running = False
             pygame.quit()
             Menu(False)
-

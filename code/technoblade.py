@@ -1,6 +1,8 @@
 import pygame
 from math import sin, cos, pi
 Gravity = 9.81
+pygame.mixer.init()
+
 
 run_1 = pygame.image.load('../image/character/run/run1.png')
 run_2 = pygame.image.load('../image/character/run/run2.png')
@@ -198,3 +200,4 @@ class Projectile:
         self.rect.y = 1/2 * Gravity * self.clock**2 + sin(angle) * self.clock + self.basey
 
         self.clock += self.speed
+

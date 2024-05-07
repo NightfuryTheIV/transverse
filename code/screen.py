@@ -1,6 +1,7 @@
 import pygame
 import sys
 from technoblade import player
+pygame.mixer.init()
 icon_image = pygame.image.load('../image/menu/game_image.jpg')
 Title = pygame.image.load('../image/menu/TITLE.png')
 menu = pygame.image.load('../image/menu/menu.png')
@@ -22,6 +23,14 @@ arrow_1 = pygame.image.load('../image/menu/1.png')
 arrow_2 = pygame.image.load('../image/menu/2.png')
 arrow_3 = pygame.image.load('../image/menu/3.png')
 arrow_4 = pygame.image.load('../image/menu/4.png')
+
+death_music = "../music/death_music.mp3"
+menu_music = "../music/Menu_music.mp3"
+level1_music = "../music/Easy_music.mp3"
+level2_music = "../music/Medium_music.mp3"
+level3_music = "../music/Hard_music.mp3"
+level4_music = "../music/Insane_music.mp3"
+
 scale = 1.7
 scale2 = 1
 scale3 = 0.7
@@ -199,6 +208,8 @@ def anim_menu(cond):
 
 def Menu(cond):
     if cond:
+        pygame.mixer.music.load(menu_music)
+        pygame.mixer.music.play(-1)  # Play the menu music in an infinite loop
         player.rect.x = 0
         player.rect.y = 660
         anim_menu(True)
@@ -214,6 +225,10 @@ def Menu(cond):
 
         # Handle button events
         buttons(easy, medium, hard, insane)
+
+    else:
+        # Stop the music if the menu is deactivated
+        pygame.mixer.music.stop()
 
 
 def pause(level,cond):
@@ -242,11 +257,14 @@ def pause(level,cond):
 def dead_screen(level, cond):
     if cond:
         level(False)
+        pygame.mixer.music.load(death_music)
+        pygame.mixer.music.play(-1)
         zoomimg(yad, 1.7, 0, -120)
         zoomimg(button,0.7,385,350)
         pygame.display.flip()
         clock.tick(frame_rate)
-
+    else:
+        pygame.mixer.music.stop()
     while cond:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:  # Check if it's a keyboard event
@@ -256,14 +274,24 @@ def dead_screen(level, cond):
                     dead_screen(level, False)
                     Menu(True)
 
+def play_level_music(level_music,cond):
+    if not cond:
+        pygame.mixer.music.load(level_music)  # Load the specified music file
+        pygame.mixer.music.play(-1)  # Play the music in an infinite loop
+        cond = True
+    else:
+        pass
+
 
 
 def level1(cond):
+    Menu(False)
+    play_level_music(level1_music, False)
     while cond:
-        if player.dead_screen == True :
-            dead_screen(level1,True)
+        if player.dead_screen:
+            pygame.mixer.music.stop()
+            dead_screen(level1, True)
         else:
-            Menu(False)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     Menu(True)
@@ -277,24 +305,24 @@ def level1(cond):
                     elif event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT and not event.key == pygame.K_LEFT:
                         player.start_jumping()
                     elif event.key == pygame.K_ESCAPE:
-                        pause(level1,True)
+                        pause(level1, True)
                     elif event.key == pygame.K_RIGHT and event.key == pygame.K_SPACE and not event.key == pygame.K_LEFT:
                         player.start_jumping()
-                    elif event.key == pygame.K_LEFT and event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT :
-                        player.start_jumping() and player.start_runningL()
+                    elif event.key == pygame.K_LEFT and event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT:
+                        player.start_jumping()
+                        player.start_runningL()
                     elif event.key == pygame.K_m:
                         player.is_dead = True
 
 
 
                 elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_RIGHT :
+                    if event.key == pygame.K_RIGHT:
                         player.stop_runningR()
                     elif event.key == pygame.K_LEFT:
                         player.stop_runningL()
                     elif event.key == pygame.K_SPACE:
                         player.stop_jumping()
-
 
             player.update()
 
@@ -308,40 +336,43 @@ def level1(cond):
 
 
 def level2(cond):
+    Menu(False)
+    play_level_music(level2_music, False)
     while cond:
-        if player.dead_screen == True:
+        if player.dead_screen:
+            pygame.mixer.music.stop()
             dead_screen(level2, True)
         else:
-            Menu(False)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     Menu(True)
-                    level1(False)
-
+                    level2(False)
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RIGHT:
-                        player.start_runningR()  # Start running to the right
-                    elif event.key == pygame.K_LEFT:
-                        player.start_runningL()  # Start running to the left
-                    elif event.key == pygame.K_SPACE:
-                        player.start_jumping()  # Start jumping
+                    if event.key == pygame.K_RIGHT and not event.key == pygame.K_SPACE:
+                        player.start_runningR()
+                    elif event.key == pygame.K_LEFT and not event.key == pygame.K_SPACE:
+                        player.start_runningL()
+                    elif event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT and not event.key == pygame.K_LEFT:
+                        player.start_jumping()
                     elif event.key == pygame.K_ESCAPE:
-                        pause(level2,True)
+                        pause(level2, True)
+                    elif event.key == pygame.K_RIGHT and event.key == pygame.K_SPACE and not event.key == pygame.K_LEFT:
+                        player.start_jumping()
+                    elif event.key == pygame.K_LEFT and event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT:
+                        player.start_jumping()
+                        player.start_runningL()
                     elif event.key == pygame.K_m:
                         player.is_dead = True
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
-                        player.stop_runningR()  # Stop running to the right
+                        player.stop_runningR()
                     elif event.key == pygame.K_LEFT:
-                        player.stop_runningL()  # Stop running to the left
+                        player.stop_runningL()
                     elif event.key == pygame.K_SPACE:
-                        player.stop_jumping()  # Stop jumping
+                        player.stop_jumping()
 
-            # Update the player
             player.update()
-
-            # Update the screen
             zoomimg_level2_background(scale6)
             zoomimg_player(scale5)
             life_update()
@@ -351,40 +382,43 @@ def level2(cond):
 
 
 def level3(cond):
+    Menu(False)
+    play_level_music(level3_music, False)
     while cond:
-        if player.dead_screen == True:
+        if player.dead_screen:
+            pygame.mixer.music.stop()
             dead_screen(level3, True)
         else:
-            Menu(False)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     Menu(True)
-                    level1(False)
-
+                    level3(False)
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RIGHT:
-                        player.start_runningR()  # Start running to the right
-                    elif event.key == pygame.K_LEFT:
-                        player.start_runningL()  # Start running to the left
-                    elif event.key == pygame.K_SPACE:
-                        player.start_jumping()  # Start jumping
+                    if event.key == pygame.K_RIGHT and not event.key == pygame.K_SPACE:
+                        player.start_runningR()
+                    elif event.key == pygame.K_LEFT and not event.key == pygame.K_SPACE:
+                        player.start_runningL()
+                    elif event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT and not event.key == pygame.K_LEFT:
+                        player.start_jumping()
                     elif event.key == pygame.K_ESCAPE:
-                        pause(level3,True)
+                        pause(level3, True)
+                    elif event.key == pygame.K_RIGHT and event.key == pygame.K_SPACE and not event.key == pygame.K_LEFT:
+                        player.start_jumping()
+                    elif event.key == pygame.K_LEFT and event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT:
+                        player.start_jumping()
+                        player.start_runningL()
                     elif event.key == pygame.K_m:
                         player.is_dead = True
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
-                        player.stop_runningR()  # Stop running to the right
+                        player.stop_runningR()
                     elif event.key == pygame.K_LEFT:
-                        player.stop_runningL()  # Stop running to the left
+                        player.stop_runningL()
                     elif event.key == pygame.K_SPACE:
-                        player.stop_jumping()  # Stop jumping
+                        player.stop_jumping()
 
-            # Update the player
             player.update()
-
-            # Update the screen
             zoomimg_level3_background(scale4)
             zoomimg_player(scale5)
             life_update()
@@ -394,45 +428,46 @@ def level3(cond):
 
 
 def level4(cond):
+    Menu(False)
+    play_level_music(level4_music, False)
     while cond:
-        if player.dead_screen == True:
+        if player.dead_screen:
+            pygame.mixer.music.stop()
             dead_screen(level4, True)
         else:
-            Menu(False)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     Menu(True)
-                    level1(False)
-
+                    level4(False)
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RIGHT:
-                        player.start_runningR()  # Start running to the right
-                    elif event.key == pygame.K_LEFT:
-                        player.start_runningL()  # Start running to the left
-                    elif event.key == pygame.K_SPACE:
-                        player.start_jumping()  # Start jumping
+                    if event.key == pygame.K_RIGHT and not event.key == pygame.K_SPACE:
+                        player.start_runningR()
+                    elif event.key == pygame.K_LEFT and not event.key == pygame.K_SPACE:
+                        player.start_runningL()
+                    elif event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT and not event.key == pygame.K_LEFT:
+                        player.start_jumping()
                     elif event.key == pygame.K_ESCAPE:
-                        pause(level4,True)
+                        pause(level4, True)
+                    elif event.key == pygame.K_RIGHT and event.key == pygame.K_SPACE and not event.key == pygame.K_LEFT:
+                        player.start_jumping()
+                    elif event.key == pygame.K_LEFT and event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT:
+                        player.start_jumping()
+                        player.start_runningL()
                     elif event.key == pygame.K_m:
                         player.is_dead = True
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
-                        player.stop_runningR()  # Stop running to the right
+                        player.stop_runningR()
                     elif event.key == pygame.K_LEFT:
-                        player.stop_runningL()  # Stop running to the left
+                        player.stop_runningL()
                     elif event.key == pygame.K_SPACE:
-                        player.stop_jumping()  # Stop jumping
+                        player.stop_jumping()
 
-            # Update the player
             player.update()
-
-            # Update the screen
             zoomimg_level4_background(scale4)
-            zoomimg(waterblock, 0.5,400,600)
             zoomimg_player(scale5)
             life_update()
             pygame.display.flip()
             pygame.display.update()
             clock.tick(frame_rate)
-
