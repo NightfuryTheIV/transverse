@@ -18,6 +18,10 @@ pause_im = pygame.image.load('../image/menu/pause.png')
 waterblock = pygame.image.load('../image/elements/platform/waterplatform.png')
 yad = pygame.image.load('../image/character/death/you_are_dead.jpeg')
 button = pygame.image.load('../image/character/death/button.png')
+arrow_1 = pygame.image.load('../image/menu/1.png')
+arrow_2 = pygame.image.load('../image/menu/2.png')
+arrow_3 = pygame.image.load('../image/menu/3.png')
+arrow_4 = pygame.image.load('../image/menu/4.png')
 scale = 1.7
 scale2 = 1
 scale3 = 0.7
@@ -154,15 +158,51 @@ def buttons(bt1: Button, bt2: Button, bt3: Button, bt4: Button):
         clock.tick(frame_rate)
 
 
+def anim_menu(cond):
+    if cond:
+        arrow_images = [arrow_1, arrow_2, arrow_3, arrow_4]
+        for i in range(4):  # Loop through each animation step
+            if i == 0:
+                zoomimg(arrow_images[i], 0.3, 900, 500)
+            elif i == 1:
+                player.anim1 = False
+                player.anim2 = False
+                player.anim3 = True
+
+            elif i == 2:
+                player.anim3 = False
+                player.anim1 = False
+                player.anim2 = True
+            elif i == 3:
+                player.anim2 = False
+                player.anim3 = False
+                player.anim1 = True
+
+            player.update2()
+            zoomimg_menu_background(scale)
+            zoomimg_menu_levels(scale2)
+            zoomimg_menu_title(scale3)
+            zoomimg(arrow_images[i], 0.3, 900, 500)
+            screen.blit(player.image, (960, 300))
+            pygame.display.flip()
+            pygame.display.update()
+            clock.tick(frame_rate)
+            pygame.time.delay(1000)  # Add a delay between each animation step
+
+        # Reset animation flags after the loop
+        player.anim1 = False
+        player.anim2 = False
+        player.anim3 = False
+
+        anim_menu(False)
+
+
 def Menu(cond):
     if cond:
         player.rect.x = 0
         player.rect.y = 660
-        pygame.display.set_icon(icon_image)
-        zoomimg_menu_background(scale)
-        zoomimg_menu_levels(scale2)
-        zoomimg_menu_title(scale3)
-        pygame.display.flip()
+        anim_menu(True)
+
 
         easy = Button(525, 275, 210, 70, "Easy", level1, 0, 0, 0, 255)
         medium = Button(525, 365, 210, 70, "Medium", level2, 0, 0, 0, 255)
@@ -210,7 +250,7 @@ def dead_screen(level, cond):
     while cond:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:  # Check if it's a keyboard event
-                if event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_RETURN:
                     player.dead_screen = False
                     player.is_dead = False
                     dead_screen(level, False)
@@ -395,3 +435,4 @@ def level4(cond):
             pygame.display.flip()
             pygame.display.update()
             clock.tick(frame_rate)
+

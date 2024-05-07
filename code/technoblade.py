@@ -8,11 +8,13 @@ run_3 = pygame.image.load('../image/character/run/run3.png')
 run_4 = pygame.image.load('../image/character/run/run4.png')
 run_5 = pygame.image.load('../image/character/run/run5.png')
 run_6 = pygame.image.load('../image/character/run/run6.png')
+
 run_7 = pygame.image.load('../image/character/run left/RUN_L_1.png')
 run_8 = pygame.image.load('../image/character/run left/RUN_L_2.png')
 run_9 = pygame.image.load('../image/character/run left/RUN_L_3.png')
 run_10 = pygame.image.load('../image/character/run left/RUN_L_4.png')
 run_11 = pygame.image.load('../image/character/run left/RUN_L_5.png')
+
 jump_1 = pygame.image.load('../image/character/jump/JUMP1.png')
 jump_2 = pygame.image.load('../image/character/jump/JUMP2.png')
 jump_3 = pygame.image.load('../image/character/jump/JUMP3.png')
@@ -38,7 +40,6 @@ death_6 = pygame.image.load('../image/character/death/death6.png')
 death_7 = pygame.image.load('../image/character/death/death7.png')
 death_8 = pygame.image.load('../image/character/death/death8.png')
 death_9 = pygame.image.load('../image/character/death/death9.png')
-
 
 
 run_r=[run_1,run_2,run_3,run_4,run_5,run_6]
@@ -74,6 +75,18 @@ class Player(pygame.sprite.Sprite):
         self.air_time = 0
         self.jump_delay = 10
         self.keys = {}
+        self.menu_anim =False
+        self.anim1 =False
+        self.anim2 =False
+        self.anim3 =False
+
+    def update2(self):
+        if self.anim1 :
+            self.image = pygame.image.load('../image/character/run/run3.png')
+        elif self.anim2 :
+            self.image = pygame.image.load('../image/character/run left/RUN_L_5.png')
+        elif self.anim3 :
+            self.image = pygame.image.load('../image/character/jump/JUMP2.png')
 
 
 
