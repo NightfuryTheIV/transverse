@@ -105,11 +105,11 @@ def zoomimg(image,scale,x,y):
     screen.blit(zommimg, (x, y))
 
 def life_update():
-    if player.health == 100:
+    if player.health == 30:
         zoomimg(green,0.2,1110,10)
-    elif player.health == 67 :
+    elif player.health == 20:
         zoomimg(yellow, 0.2,1110,10)
-    elif player.health == 34:
+    elif player.health == 10:
         zoomimg(red, 0.2,1110,10)
 
 
@@ -178,7 +178,7 @@ def Menu(cond):
         pygame.mixer.music.load(menu_music)
         pygame.mixer.music.play(-1)  # Play the menu music in an infinite loop
         player.rect.x = 0
-        player.rect.y = 674
+        player.rect.y = 660
         anim_menu(True)
 
 
