@@ -17,7 +17,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('../image/character/run/run1.png')
         self.rect = self.image.get_rect()
         self.rect.x = 0
-        self.rect.y = 660
+        self.rect.y = 674
         self.xdirection = 5
         self.yspeed = 0
         self.xmomentum = 0
@@ -50,10 +50,14 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.image.load('../image/character/jump/JUMP2.png')
 
 
-
+    def on_platform(self):
+        if self.rect.y > 674:
+            return True
+        else:
+            return False
 
     def jump(self):
-        if self.rect.y > 672:
+        if self.on_platform():
             self.yspeed = -10
         else:
             self.yspeed += 0.4
@@ -126,9 +130,6 @@ class Player(pygame.sprite.Sprite):
                 self.dead_screen = True
 
 
-
-
-
         self.keys = pygame.key.get_pressed()
         if self.keys[pygame.K_LEFT]:
             if self.rect.x > -1:
@@ -143,7 +144,7 @@ class Player(pygame.sprite.Sprite):
         if self.keys[pygame.K_SPACE]:
             self.jump()
         else:
-            if self.rect.y < 672:
+            if not self.on_platform():
                 self.gravity()
         self.spike_interaction(spikelist)
 
@@ -217,4 +218,3 @@ class GroundSpike:
             return False
 
 
-spike1 = GroundSpike(400, 610)
