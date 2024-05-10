@@ -155,7 +155,7 @@ def anim_menu(cond):
             pygame.display.flip()
             pygame.display.update()
             clock.tick(frame_rate)
-            pygame.time.delay(1000)  # Add a delay between each animation step
+            pygame.time.delay(10)  # Add a delay between each animation step
 
         # Reset animation flags after the loop
         player.anim1 = False
