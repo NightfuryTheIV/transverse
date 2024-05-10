@@ -9,7 +9,7 @@ class Screen:
         pygame.display.set_caption("Technoblade Trinity")
         pygame.display.set_icon(icon_image)
         self.clock = pygame.time.Clock()
-        self.framerate = 60
+        self.framerate = 120
 
     def update(self):
         pygame.display.flip()
