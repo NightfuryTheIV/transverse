@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
         self.health = 100
         self.max_health = 100
         self.attack = 10
-        self.speed = 5
+        self.speed = 2
         self.yspeed = 0
         self.image = pygame.image.load('../image/character/run/run1.png')
         self.rect = self.image.get_rect()
@@ -74,11 +74,15 @@ class Player(pygame.sprite.Sprite):
                 elif self.is_running_left:
                     # Jumping and running left animation
                     self.image = jump_l[self.animationJL_index]
+                else:
+                    self.image = run_j[self.animationJ_index]
                 if self.air_time % self.jump_delay == 0:
                     if self.is_running:
                         self.animationJ_index = (self.animationJ_index + 1) % len(run_j)
                     elif self.is_running_left:
                         self.animationJL_index = (self.animationJL_index + 1) % len(jump_l)
+                    else:
+                        self.animationJ_index = (self.animationJ_index + 1) % len(run_j)
                 self.air_time += 1
             else:
                 # Set default image if not running

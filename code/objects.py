@@ -106,3 +106,5 @@ run_j= [jump_1,jump_2,jump_3,jump_4,jump_5,jump_6,jump_77]
 jump_l = [jump_7,jump_8,jump_9,jump_10,jump_11,jump_12,jump_13]
 death = [death_1,death_1,death_1,death_2,death_2,death_2,death_3,death_3,death_3,death_4,death_4,death_4,death_5,death_5,death_5,death_6,death_6,death_6,death_7,death_7,death_7,death_8,death_8,death_9,death_9,death_9]
 Gravity = 9.81
+
+laser = pygame.image.load('../image/elements/laser launcher/laser_launcher_1.png')

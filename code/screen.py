@@ -72,7 +72,7 @@ def zoomimg_player(scale):
 
 def zoomimg_level1_background(scale):
     Level1_im = pygame.transform.scale(level1_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
-    screen.blit(Level1_im, (0, 0))
+    screen.blit(Level1_im, (0, -250))
 
 
 def zoomimg_level2_background(scale):
@@ -291,6 +291,7 @@ def level1(cond):
             pygame.display.flip()
             pygame.display.update()
             clock.tick(frame_rate)
+
 
 
 def level2(cond):
