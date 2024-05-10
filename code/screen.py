@@ -47,12 +47,6 @@ class Button:
         return self.rect.collidepoint(mouse_x, mouse_y)
 
 
-def zoomimg_menu_background(scale):
-    zommimg = pygame.transform.scale(background, (int(background.get_width() * scale), int(background.get_height() * scale)))
-    screen.blit(zommimg, (0, 0))
-    pygame.display.flip()
-
-
 def zoomimg_menu_levels(scale):
     menu_im = pygame.transform.scale(menu, (int(menu.get_width() * scale), int(menu.get_height() * scale)))
     screen.blit(menu_im, (525, 280))
@@ -60,35 +54,6 @@ def zoomimg_menu_levels(scale):
     clock.tick(frame_rate)
     pygame.display.update()
 
-
-def zoomimg_menu_title(scale):
-    title_im = pygame.transform.scale(Title, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
-    screen.blit(title_im, (450, -30))
-
-
-def zoomimg_player_old(scale):
-    player_im = pygame.transform.scale(player.image, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
-    screen.blit(player_im, player.rect)
-
-
-def zoomimg_level1_background(scale):
-    Level1_im = pygame.transform.scale(level1_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
-    screen.blit(Level1_im, (0, -250))
-
-
-def zoomimg_level2_background(scale):
-    Level2_im = pygame.transform.scale(level2_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
-    screen.blit(Level2_im, (0, -490))
-
-
-def zoomimg_level3_background(scale):
-    Level3_im = pygame.transform.scale(level3_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
-    screen.blit(Level3_im, (0, -300))
-
-
-def zoomimg_level4_background(scale):
-    Level4_im = pygame.transform.scale(level4_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
-    screen.blit(Level4_im, (0, -500))
 
 def zoomimg_player(scale_a, scale_b):
     rescaled_image1 = pygame.transform.scale(player.image, (scale_a, scale_b))
@@ -102,6 +67,11 @@ def zoomimg_wight(image,scale_a,scale_b,x,y):
 
 def zoomimg(image,scale,x,y):
     zommimg = pygame.transform.scale(image, (int(background.get_width() * scale), int(image.get_height() * scale)))
+    screen.blit(zommimg, (x, y))
+
+
+def zoomimg_backgrounds(image,scale,x,y):
+    zommimg = pygame.transform.scale(image, (int(Title.get_width() * scale), int(Title.get_width() * scale)))
     screen.blit(zommimg, (x, y))
 
 def life_update():
@@ -155,9 +125,9 @@ def anim_menu(cond):
                 player.anim1 = True
 
             player.update2()
-            zoomimg_menu_background(scale)
+            zoomimg(background,1.7,0,0)
             zoomimg_menu_levels(scale2)
-            zoomimg_menu_title(scale3)
+            zoomimg_backgrounds(Title,0.7,450,-30)
             zoomimg(arrow_images[i], 0.3, 900, 500)
             screen.blit(player.image, (960, 300))
             pygame.display.flip()
@@ -201,7 +171,7 @@ def Menu(cond):
 def pause(level,cond):
     if cond:
         # Display the pause screen
-        zoomimg_menu_background(1.7)
+        zoomimg(background,1.7,0,0)
         screen.blit(pause_im, (400, 150))
         pygame.display.flip()
         clock.tick(frame_rate)
@@ -249,6 +219,7 @@ def play_level_music(level_music,cond):
         cond = True
     else:
         pass
+
 
 def get_mouse_position():
     mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -299,7 +270,7 @@ def level1(cond):
             player.update()
 
             # Update the screen
-            zoomimg_level1_background(scale4)
+            zoomimg_backgrounds(level1_im, 2.6, 0, -250)
             zoomimg_player(60, 60)
             life_update()
             pygame.display.flip()
@@ -348,7 +319,7 @@ def level2(cond):
                         player.stop_jumping()
 
             player.update()
-            zoomimg_level2_background(scale6)
+            zoomimg_backgrounds(level2_im, 2.6, 0, -490)
             zoomimg_player(60, 60)
             life_update()
             pygame.display.flip()
@@ -396,7 +367,7 @@ def level3(cond):
                         player.stop_jumping()
 
             player.update()
-            zoomimg_level3_background(scale4)
+            zoomimg_backgrounds(level3_im, 2.6, 0, -300)
             zoomimg_player(60, 60)
             life_update()
             pygame.display.flip()
@@ -444,7 +415,7 @@ def level4(cond):
                         player.stop_jumping()
 
             player.update()
-            zoomimg_level4_background(scale4)
+            zoomimg_backgrounds(level4_im, 2.6, 0, -500)
             zoomimg_player(60, 60)
             life_update()
             pygame.display.flip()
