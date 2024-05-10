@@ -66,7 +66,7 @@ def zoomimg_menu_title(scale):
     screen.blit(title_im, (450, -30))
 
 
-def zoomimg_player(scale):
+def zoomimg_player_old(scale):
     player_im = pygame.transform.scale(player.image, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(player_im, player.rect)
 
@@ -90,11 +90,19 @@ def zoomimg_level4_background(scale):
     Level4_im = pygame.transform.scale(level4_im, (int(Title.get_width() * scale), int(Title.get_height() * scale)))
     screen.blit(Level4_im, (0, -500))
 
+def zoomimg_player(scale_a, scale_b):
+    rescaled_image1 = pygame.transform.scale(player.image, (scale_a, scale_b))
+    screen.blit(rescaled_image1,player.rect)
+
+
+def zoomimg_wight(image,scale_a,scale_b,x,y):
+    rescaled_image = pygame.transform.scale(image, (scale_a, scale_b))
+    screen.blit(rescaled_image, (x, y))
+
 
 def zoomimg(image,scale,x,y):
     zommimg = pygame.transform.scale(image, (int(background.get_width() * scale), int(image.get_height() * scale)))
     screen.blit(zommimg, (x, y))
-
 
 def life_update():
     if player.health == 100:
@@ -292,7 +300,7 @@ def level1(cond):
 
             # Update the screen
             zoomimg_level1_background(scale4)
-            zoomimg_player(scale5)
+            zoomimg_player(60, 60)
             life_update()
             pygame.display.flip()
             pygame.display.update()
@@ -341,7 +349,7 @@ def level2(cond):
 
             player.update()
             zoomimg_level2_background(scale6)
-            zoomimg_player(scale5)
+            zoomimg_player(60, 60)
             life_update()
             pygame.display.flip()
             pygame.display.update()
@@ -389,7 +397,7 @@ def level3(cond):
 
             player.update()
             zoomimg_level3_background(scale4)
-            zoomimg_player(scale5)
+            zoomimg_player(60, 60)
             life_update()
             pygame.display.flip()
             pygame.display.update()
@@ -437,7 +445,7 @@ def level4(cond):
 
             player.update()
             zoomimg_level4_background(scale4)
-            zoomimg_player(scale5)
+            zoomimg_player(60, 60)
             life_update()
             pygame.display.flip()
             pygame.display.update()
