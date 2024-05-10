@@ -3,20 +3,25 @@ from objects import *
 pygame.mixer.init()
 
 
+spikelist = []
+
+
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
         super().__init__()
         # All characteristics of character
-        self.health = 100
-        self.max_health = 100
+        self.health = 30
+        self.max_health = 30
         self.attack = 10
-        self.speed = 2
-        self.yspeed = 0
         self.image = pygame.image.load('../image/character/run/run1.png')
         self.rect = self.image.get_rect()
         self.rect.x = 0
-        self.rect.y = 674
+        self.rect.y = 660
+        self.xdirection = 5
+        self.yspeed = 0
+        self.xmomentum = 0
+        self.iframes = False
         self.is_running = False
         self.is_running_left = False
         self.is_jumping = False
@@ -37,18 +42,18 @@ class Player(pygame.sprite.Sprite):
         self.anim3 = False
 
     def update2(self):
-        if self.anim1 :
+        if self.anim1:
             self.image = pygame.image.load('../image/character/run/run3.png')
-        elif self.anim2 :
+        elif self.anim2:
             self.image = pygame.image.load('../image/character/run left/RUN_L_5.png')
-        elif self.anim3 :
+        elif self.anim3:
             self.image = pygame.image.load('../image/character/jump/JUMP2.png')
 
 
 
 
     def jump(self):
-        if self.rect.y > 674:
+        if self.rect.y > 672:
             self.yspeed = -10
         else:
             self.yspeed += 0.4
@@ -57,6 +62,29 @@ class Player(pygame.sprite.Sprite):
     def gravity(self):
         self.yspeed += 0.4
         self.rect.y += self.yspeed
+
+    def no_slide(self):
+        self.xmomentum = 600
+        base_momentum = self.xmomentum
+        while self.xmomentum != 0 and self.xmomentum > base_momentum/10000:
+            print(self.xmomentum, self.xdirection)
+            self.rect.x = self.rect.x - (self.xdirection/5) * (self.xmomentum/10)
+            self.xmomentum *= 3/5
+
+    def spike_interaction(self, spikes):
+        touches_spike = False
+        i = 0
+
+        while touches_spike is False and i < len(spikes):
+            if spikes[i].touching():
+                if not self.iframes:
+                    self.health -= spikes[i].damage
+                touches_spike = True
+                self.iframes = True
+            i += 1
+
+        if touches_spike:
+            self.no_slide()
 
     def update(self):
         if not player.is_dead:
@@ -104,15 +132,21 @@ class Player(pygame.sprite.Sprite):
         self.keys = pygame.key.get_pressed()
         if self.keys[pygame.K_LEFT]:
             if self.rect.x > -1:
-                self.rect.x -= self.speed
+                self.xdirection = -5
         if self.keys[pygame.K_RIGHT]:
             if self.rect.x < 1250:
-                self.rect.x += self.speed
+                self.xdirection = 5
+
+        if self.keys[pygame.K_LEFT] or self.keys[pygame.K_RIGHT]:
+            self.rect.x += self.xdirection
+
         if self.keys[pygame.K_SPACE]:
             self.jump()
         else:
-            if self.rect.y < 674:
+            if self.rect.y < 672:
                 self.gravity()
+        self.spike_interaction(spikelist)
+
 
     def start_runningL(self):
         self.is_running_left = True
@@ -164,3 +198,23 @@ class Projectile:
 
         self.clock += self.speed
 
+
+class GroundSpike:
+    def __init__(self, x, y):
+        self.damage = 10
+        self.image = pygame.image.load('../image/elements/test.jpg')
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.rect.width = 100
+        self.rect.height = 10
+        spikelist.append(self)
+
+    def touching(self):
+        if pygame.Rect.colliderect(self.rect, player.rect):
+            return True
+        else:
+            return False
+
+
+spike1 = GroundSpike(400, 610)
