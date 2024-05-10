@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('../image/character/run/run1.png')
         self.rect = self.image.get_rect()
         self.rect.x = 0
-        self.rect.y = 660
+        self.rect.y = 674
         self.is_running = False
         self.is_running_left = False
         self.is_jumping = False
@@ -48,7 +48,7 @@ class Player(pygame.sprite.Sprite):
 
 
     def jump(self):
-        if self.rect.y > 672:
+        if self.rect.y > 674:
             self.yspeed = -10
         else:
             self.yspeed += 0.4
@@ -111,7 +111,7 @@ class Player(pygame.sprite.Sprite):
         if self.keys[pygame.K_SPACE]:
             self.jump()
         else:
-            if self.rect.y < 672:
+            if self.rect.y < 674:
                 self.gravity()
 
     def start_runningL(self):

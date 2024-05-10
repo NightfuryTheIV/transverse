@@ -178,7 +178,7 @@ def Menu(cond):
         pygame.mixer.music.load(menu_music)
         pygame.mixer.music.play(-1)  # Play the menu music in an infinite loop
         player.rect.x = 0
-        player.rect.y = 660
+        player.rect.y = 674
         anim_menu(True)
 
 
