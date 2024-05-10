@@ -35,12 +35,6 @@ arrow_4 = pygame.image.load('../image/menu/4.png')
 # Scales :
 scale = 1.7
 scale2 = 1
-scale3 = 0.7
-scale4 = 2.6
-scale5 = 0.1
-scale6 = 2.6
-scale7 = 2.6
-scale8 = 2.6
 
 # Musics :
 death_music = "../music/death_music.mp3"
