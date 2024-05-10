@@ -2,6 +2,7 @@ import sys
 from technoblade import player
 from objects import *
 
+
 class Screen:
     def __init__(self):
         self.display = pygame.display.set_mode((1280, 720))
@@ -241,6 +242,11 @@ def play_level_music(level_music,cond):
     else:
         pass
 
+def get_mouse_position():
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    print(mouse_x, mouse_y)
+
+
 
 def level1(cond):
     Menu(False)
@@ -271,8 +277,8 @@ def level1(cond):
                         player.start_runningL()
                     elif event.key == pygame.K_m:
                         player.is_dead = True
-
-
+                    elif event.key == pygame.K_n:
+                        get_mouse_position()
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
@@ -322,6 +328,8 @@ def level2(cond):
                         player.start_runningL()
                     elif event.key == pygame.K_m:
                         player.is_dead = True
+                    elif event.key == pygame.K_n:
+                        get_mouse_position()
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
@@ -368,6 +376,8 @@ def level3(cond):
                         player.start_runningL()
                     elif event.key == pygame.K_m:
                         player.is_dead = True
+                    elif event.key == pygame.K_n:
+                        get_mouse_position()
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
@@ -414,6 +424,8 @@ def level4(cond):
                         player.start_runningL()
                     elif event.key == pygame.K_m:
                         player.is_dead = True
+                    elif event.key == pygame.K_n:
+                        get_mouse_position()
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
