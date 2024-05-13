@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.image_knew = pygame.transform.scale(self.image, (60, 60))
         self.rect = self.image_knew.get_rect()
         self.rect.x = 0
-        self.rect.y = 674
+        self.rect.y = 660
         self.xdirection = 5
         self.yspeed = 0
         self.xmomentum = 0
@@ -96,20 +96,18 @@ class Player(pygame.sprite.Sprite):
         if not player.is_dead:
             if self.is_running and not self.is_jumping:
                 # Update animation
-                self.image = run_r[self.animationR_index]
+                self.image_knew = pygame.transform.scale(run_r[self.animationR_index], (60, 60))
                 self.animationR_index = (self.animationR_index + 1) % len(run_r)
             elif self.is_running_left and not self.is_jumping:
-                self.image = run_l[self.animationL_index]
+                self.image_knew = pygame.transform.scale(run_l[self.animationL_index], (60, 60))
                 self.animationL_index = (self.animationL_index + 1) % len(run_l)
             elif self.is_jumping:
                 if self.is_running:
-                    # Jumping and running right animation
-                    self.image = run_j[self.animationJ_index]
+                    self.image_knew = pygame.transform.scale(run_j[self.animationJ_index], (60, 60))
                 elif self.is_running_left:
-                    # Jumping and running left animation
-                    self.image = jump_l[self.animationJL_index]
+                    self.image_knew = pygame.transform.scale(jump_l[self.animationJL_index], (60, 60))
                 else:
-                    self.image = run_j[self.animationJ_index]
+                    self.image_knew = pygame.transform.scale(run_j[self.animationJ_index], (60, 60))
                 if self.air_time % self.jump_delay == 0:
                     if self.is_running:
                         self.animationJ_index = (self.animationJ_index + 1) % len(run_j)
@@ -120,34 +118,36 @@ class Player(pygame.sprite.Sprite):
                 self.air_time += 1
             else:
                 # Set default image if not running
-                self.image = pygame.image.load('../image/character/run/run1.png')
+                self.image_knew = pygame.transform.scale(self.image, (60, 60))
         else:
             if self.animationD_index < len(death) - 1:
-                self.image = death[self.animationD_index]
+                self.image_knew = pygame.transform.scale(death[self.animationD_index], (60, 60))
                 self.animationD_index = (self.animationD_index + 1) % len(death)
             else:
                 player.is_dead = False
                 self.dead_screen = True
-
-
         self.keys = pygame.key.get_pressed()
-        if self.keys[pygame.K_LEFT]:
-            if self.rect.x > -1:
-                self.xdirection = -5
-        if self.keys[pygame.K_RIGHT]:
-            if self.rect.x < 1250:
-                self.xdirection = 5
 
-        if self.keys[pygame.K_LEFT] or self.keys[pygame.K_RIGHT]:
+        # Adjust the direction based on key press
+        if self.keys[pygame.K_LEFT]:
+            self.xdirection = -5
+        elif self.keys[pygame.K_RIGHT]:
+            self.xdirection = 5
+        else:
+            self.xdirection = 0
+
+        # Update character position only if within screen limits
+        if 0 <= self.rect.x + self.xdirection <= 1250:
             self.rect.x += self.xdirection
 
         if self.keys[pygame.K_SPACE]:
             self.jump()
         else:
             if not self.on_platform():
-                self.gravity()
-        self.spike_interaction(spikelist)
+                if self.rect.y < 670:
+                    self.gravity()
 
+        self.spike_interaction(spikelist)
 
     def start_runningL(self):
         self.is_running_left = True
