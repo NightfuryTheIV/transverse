@@ -83,7 +83,7 @@ def life_update():
         zoomimg(red, 0.2,1110,10)
 
 
-def buttons(bt1: Button, bt2: Button, bt3: Button, bt4: Button):
+def buttons(bt1: Button, bt2: Button, bt3: Button, bt4: Button, arg1, arg2, arg3, arg4):
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -92,13 +92,13 @@ def buttons(bt1: Button, bt2: Button, bt3: Button, bt4: Button):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 if bt1.is_clicked(mouse_x, mouse_y):
-                    bt1.function(True)
+                    bt1.function(arg1)
                 elif bt2.is_clicked(mouse_x, mouse_y):
-                    bt2.function(True)
+                    bt2.function(arg2)
                 elif bt3.is_clicked(mouse_x, mouse_y):
-                    bt3.function(True)
+                    bt3.function(arg3)
                 elif bt4.is_clicked(mouse_x, mouse_y):
-                    bt4.function(True)
+                    bt4.function(arg4)
 
         pygame.display.update()
         clock.tick(frame_rate)
@@ -151,7 +151,6 @@ def Menu(cond):
         player.rect.y = 660
         anim_menu(True)
 
-
         easy = Button(525, 275, 210, 70, "Easy", level1, 0, 0, 0, 255)
         medium = Button(525, 365, 210, 70, "Medium", level2, 0, 0, 0, 255)
         hard = Button(525, 460, 210, 70, "Hard", level3, 0, 0, 0, 255)
@@ -161,34 +160,52 @@ def Menu(cond):
         pygame.display.update()
 
         # Handle button events
-        buttons(easy, medium, hard, insane)
+        buttons(easy, medium, hard, insane, True, True, True, True)
 
     else:
         # Stop the music if the menu is deactivated
         pygame.mixer.music.stop()
 
 
-def pause(level,cond):
+def restarts(level):
+    player.rect.x = 10
+    player.rect.y = 660
+    v = level1
+    pause(v, False)
+    level(True)
+
+
+def pause(level, cond):
+    resume = Button(517, 290, 115, 110, "Resume", level, 0, 0, 0, 255)
+    restart = Button(660, 290, 115, 110, "Restart", restarts, 0, 0, 0, 255)
+    back2menu = Button(660, 440, 115, 110, "Back to Menu", Menu, 0, 0, 0, 255)
+    useless_button = Button(0, 0, 1, 1, "Hello There!", print, 0, 0, 0, 255)
+
     if cond:
         # Display the pause screen
         zoomimg(background,1.7,0,0)
         screen.blit(pause_im, (400, 150))
         pygame.display.flip()
         clock.tick(frame_rate)
+        buttons(resume, restart, back2menu, useless_button, True, level, True, True)
 
     while cond:
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    Menu(True)  # Go back to the menu
-                elif event.key == pygame.K_b:
-                    player.rect.x = 0
-                    player.rect.y = 660
-                    pause(level,False)  # Resume the game
-                    level(True)
-                elif event.key == pygame.K_c:
-                    pause(level,False)  # Resume the game
-                    level(True)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if resume.is_clicked(mouse_x, mouse_y):
+                    pause(level, False)  # Resume the game
+                    resume.function(True)
+                elif restart.is_clicked(mouse_x, mouse_y):
+                    restart.function(True, level)
+                elif useless_button.is_clicked(mouse_x, mouse_y):
+                    pass
+                elif back2menu.is_clicked(mouse_x, mouse_y):
+                    back2menu.function(True)
+                elif event.key == pygame.K_n:
+                    get_mouse_position()
+
+
 
 
 def dead_screen(level, cond):
