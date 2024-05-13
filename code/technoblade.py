@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.image_knew = pygame.transform.scale(self.image, (60, 60))
         self.rect = self.image_knew.get_rect()
         self.rect.x = 0
-        self.rect.y = 660
+        self.rect.y = 670
         self.xdirection = 5
         self.yspeed = 0
         self.xmomentum = 0
@@ -53,7 +53,7 @@ class Player(pygame.sprite.Sprite):
 
 
     def on_platform(self):
-        if self.rect.y > 674:
+        if self.rect.y > 670:
             return True
         else:
             return False
@@ -144,7 +144,7 @@ class Player(pygame.sprite.Sprite):
             self.jump()
         else:
             if not self.on_platform():
-                if self.rect.y < 670:
+                if self.rect.y < 668:
                     self.gravity()
 
         self.spike_interaction(spikelist)
