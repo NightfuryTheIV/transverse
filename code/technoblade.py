@@ -7,7 +7,6 @@ spikelist = []
 
 
 class Player(pygame.sprite.Sprite):
-
     def __init__(self):
         super().__init__()
         # All characteristics of character
@@ -17,7 +16,8 @@ class Player(pygame.sprite.Sprite):
         self.speed = 5
         self.yspeed = 0
         self.image = pygame.image.load('../image/character/run/run1.png')
-        self.rect = self.image.get_rect()
+        self.image_knew = pygame.transform.scale(self.image, (60, 60))
+        self.rect = self.image_knew.get_rect()
         self.rect.x = 0
         self.rect.y = 674
         self.xdirection = 5
@@ -121,13 +121,11 @@ class Player(pygame.sprite.Sprite):
             else:
                 # Set default image if not running
                 self.image = pygame.image.load('../image/character/run/run1.png')
-        else :
-            if self.animationD_index < len(death) - 1:  # Check if animationD_index is less than the total number of death frames
+        else:
+            if self.animationD_index < len(death) - 1:
                 self.image = death[self.animationD_index]
                 self.animationD_index = (self.animationD_index + 1) % len(death)
             else:
-                # Animation loop completed, reset animationD_index
-                self.animationD_index = 0
                 player.is_dead = False
                 self.dead_screen = True
 
@@ -205,7 +203,6 @@ class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y, image, scale_a, scale_b,):
         super().__init__()
         self.image = pygame.transform.scale(image, (scale_a, scale_b))
-        '''self.image = image'''
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y

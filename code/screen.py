@@ -57,8 +57,8 @@ def zoomimg_menu_levels(scale):
 
 
 def zoomimg_player(scale_a, scale_b):
-    rescaled_image1 = pygame.transform.scale(player.image, (scale_a, scale_b))
-    screen.blit(rescaled_image1,player.rect)
+    screen.blit(player.image_knew, player.rect)
+    player.update()
 
 
 def zoomimg_wight(image,scale_a,scale_b,x,y):
@@ -254,50 +254,47 @@ def level1(cond):
     platform3 = Platform(400, 300, block_mid_l4, 60, 60)
 
     while cond:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                Menu(True)
+                level1(False)
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT and not event.key == pygame.K_SPACE:
+                    player.start_runningR()
+                elif event.key == pygame.K_LEFT and not event.key == pygame.K_SPACE:
+                    player.start_runningL()
+                elif event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT and not event.key == pygame.K_LEFT:
+                    player.start_jumping()
+                elif event.key == pygame.K_ESCAPE:
+                    pause(level1, True)
+                elif event.key == pygame.K_RIGHT and event.key == pygame.K_SPACE and not event.key == pygame.K_LEFT:
+                    player.start_jumping()
+                elif event.key == pygame.K_LEFT and event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT:
+                    player.start_jumping()
+                    player.start_runningL()
+                elif event.key == pygame.K_m:
+                    player.is_dead = True
+                elif event.key == pygame.K_n:
+                    get_mouse_position()
+
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    player.stop_runningR()
+                elif event.key == pygame.K_LEFT:
+                    player.stop_runningL()
+                elif event.key == pygame.K_SPACE:
+                    player.stop_jumping()
+
         if player.dead_screen:
             pygame.mixer.music.stop()
             dead_screen(level1, True)
         else:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    Menu(True)
-                    level1(False)
-
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RIGHT and not event.key == pygame.K_SPACE:
-                        player.start_runningR()
-                    elif event.key == pygame.K_LEFT and not event.key == pygame.K_SPACE:
-                        player.start_runningL()
-                    elif event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT and not event.key == pygame.K_LEFT:
-                        player.start_jumping()
-                    elif event.key == pygame.K_ESCAPE:
-                        pause(level1, True)
-                    elif event.key == pygame.K_RIGHT and event.key == pygame.K_SPACE and not event.key == pygame.K_LEFT:
-                        player.start_jumping()
-                    elif event.key == pygame.K_LEFT and event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT:
-                        player.start_jumping()
-                        player.start_runningL()
-                    elif event.key == pygame.K_m:
-                        player.is_dead = True
-                    elif event.key == pygame.K_n:
-                        get_mouse_position()
-
-                elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_RIGHT:
-                        player.stop_runningR()
-                    elif event.key == pygame.K_LEFT:
-                        player.stop_runningL()
-                    elif event.key == pygame.K_SPACE:
-                        player.stop_jumping()
-
             player.update()
-
-            # Handle player-platform collision
             platform1.handle_collision(player)
             platform2.handle_collision(player)
             platform3.handle_collision(player)
 
-            # Update the screen
             zoomimg_backgrounds(level1_im, 2.6, 0, -250)
             zoomimg_player(60, 60)
             platform1.draw()
