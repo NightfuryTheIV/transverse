@@ -1,6 +1,7 @@
 import sys
 from technoblade import player
 from objects import *
+from technoblade import Platform
 
 
 class Screen:
@@ -220,7 +221,6 @@ def play_level_music(level_music,cond):
     else:
         pass
 
-
 def get_mouse_position():
     mouse_x, mouse_y = pygame.mouse.get_pos()
     print(mouse_x, mouse_y)
@@ -230,6 +230,11 @@ def get_mouse_position():
 def level1(cond):
     Menu(False)
     play_level_music(level1_music, False)
+
+    platform1 = Platform(100, 300, block_mid_l4, 60, 60)
+    platform2 = Platform(240, 670, block_mid_l4, 60, 60)
+    platform3 = Platform(400, 300, block_mid_l4, 60, 60)
+
     while cond:
         if player.dead_screen:
             pygame.mixer.music.stop()
@@ -269,9 +274,19 @@ def level1(cond):
 
             player.update()
 
+            # Handle player-platform collision
+            platform1.handle_collision(player)
+            platform2.handle_collision(player)
+            platform3.handle_collision(player)
+
             # Update the screen
             zoomimg_backgrounds(level1_im, 2.6, 0, -250)
             zoomimg_player(60, 60)
+            platform1.draw()
+            platform2.draw()
+            platform3.draw()
+            pygame.draw.rect(screen, (255, 255, 255), player.rect, 2)
+            pygame.draw.rect(screen, (255, 255, 255), platform2.rect, 2)
             life_update()
             pygame.display.flip()
             pygame.display.update()
@@ -418,6 +433,13 @@ def level4(cond):
             zoomimg_backgrounds(level4_im, 2.6, 0, -500)
             zoomimg_player(60, 60)
             life_update()
+            '''platform = Platform(500, 620, midle_block_l4)
+            screen.blit(midle_block_l4, (500, 620))
+            if platform.check_collision(player.rect):
+                if player.rect.y > platform.rect.y:
+                    player.rect.y = platform.rect.y - 100
+                    print(player.rect)
+                    player.yspeed = 1'''
             pygame.display.flip()
             pygame.display.update()
             clock.tick(frame_rate)

@@ -14,6 +14,8 @@ class Player(pygame.sprite.Sprite):
         self.health = 30
         self.max_health = 30
         self.attack = 10
+        self.speed = 5
+        self.yspeed = 0
         self.image = pygame.image.load('../image/character/run/run1.png')
         self.rect = self.image.get_rect()
         self.rect.x = 0
@@ -60,7 +62,7 @@ class Player(pygame.sprite.Sprite):
         if self.on_platform():
             self.yspeed = -10
         else:
-            self.yspeed += 0.4
+            self.yspeed += 0.2
         self.rect.y += self.yspeed
 
     def gravity(self):
@@ -198,6 +200,41 @@ class Projectile:
         self.rect.y = 1/2 * Gravity * self.clock**2 + sin(angle) * self.clock + self.basey
 
         self.clock += self.speed
+
+class Platform(pygame.sprite.Sprite):
+    def __init__(self, x, y, image, scale_a, scale_b,):
+        super().__init__()
+        self.image = pygame.transform.scale(image, (scale_a, scale_b))
+        '''self.image = image'''
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def draw(self):
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+
+    def check_collision(self, player_rect):
+        # Check if the player's rectangle overlaps with the platform's rectangle
+        return self.rect.colliderect(player_rect)
+
+    def handle_collision(self, player):
+        if self.check_collision(player.rect):
+            # If player is colliding with the platform from the bottom, stop their vertical movement
+            if player.yspeed < 0 and player.rect.bottom <= self.rect.top:
+                player.rect.bottom = self.rect.top
+                player.yspeed = 0
+            # If player is colliding with the platform from the top, stop their vertical movement
+            elif player.yspeed > 0 and player.rect.top >= self.rect.bottom:
+                player.rect.top = self.rect.bottom
+                player.yspeed = 0
+            # If player is colliding with the platform from the left, stop their horizontal movement
+            elif player.rect.right > self.rect.left and player.rect.left < self.rect.right:
+                player.rect.right = self.rect.left
+                player.is_running = False
+            # If player is colliding with the platform from the right, stop their horizontal movement
+            elif player.rect.left < self.rect.right and player.rect.right > self.rect.left:
+                player.rect.left = self.rect.right
+                player.is_running_left = False
 
 
 class GroundSpike:

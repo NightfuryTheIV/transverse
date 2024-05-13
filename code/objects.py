@@ -102,3 +102,5 @@ death = [death_1,death_1,death_1,death_2,death_2,death_2,death_3,death_3,death_3
 Gravity = 9.81
 
 TEST = pygame.image.load('../image/character/image (1).jpg')
+
+block_mid_l4 = pygame.image.load('../image/elements/platform/midlenlockwater.png')
