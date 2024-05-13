@@ -170,6 +170,7 @@ def Menu(cond):
 def restarts(level):
     player.rect.x = 10
     player.rect.y = 660
+    player.health = 30
     v = level1
     pause(v, False)
     level(True)
