@@ -42,55 +42,25 @@ class Player(pygame.sprite.Sprite):
         self.anim1 = False
         self.anim2 = False
         self.anim3 = False
-
-    def update2(self):
-        if self.anim1:
-            self.image = pygame.image.load('../image/character/run/run3.png')
-        elif self.anim2:
-            self.image = pygame.image.load('../image/character/run left/RUN_L_5.png')
-        elif self.anim3:
-            self.image = pygame.image.load('../image/character/jump/JUMP2.png')
+        self.stand = False
+        self.platfrom = False
 
 
-    def on_platform(self):
-        if self.rect.y > 670:
-            return True
-        else:
-            return False
+
 
     def jump(self):
-        if self.on_platform():
+        if self.stand:
             self.yspeed = -10
-        else:
-            self.yspeed += 0.2
+        self.yspeed += 0.2
         self.rect.y += self.yspeed
+        self.stand = False
 
     def gravity(self):
         self.yspeed += 0.4
         self.rect.y += self.yspeed
 
-    def no_slide(self):
-        self.xmomentum = 600
-        base_momentum = self.xmomentum
-        while self.xmomentum != 0 and self.xmomentum > base_momentum/10000:
-            print(self.xmomentum, self.xdirection)
-            self.rect.x = self.rect.x - (self.xdirection/5) * (self.xmomentum/10)
-            self.xmomentum *= 3/5
 
-    def spike_interaction(self, spikes):
-        touches_spike = False
-        i = 0
 
-        while touches_spike is False and i < len(spikes):
-            if spikes[i].touching():
-                if not self.iframes:
-                    self.health -= spikes[i].damage
-                touches_spike = True
-                self.iframes = True
-            i += 1
-
-        if touches_spike:
-            self.no_slide()
 
     def update(self):
         if not player.is_dead:
@@ -119,35 +89,65 @@ class Player(pygame.sprite.Sprite):
             else:
                 # Set default image if not running
                 self.image_knew = pygame.transform.scale(self.image, (60, 60))
-        else:
-            if self.animationD_index < len(death) - 1:
-                self.image_knew = pygame.transform.scale(death[self.animationD_index], (60, 60))
-                self.animationD_index = (self.animationD_index + 1) % len(death)
+
+            self.keys = pygame.key.get_pressed()
+
+            # Adjust the direction based on key press
+            if self.keys[pygame.K_LEFT]:
+                self.xdirection = -3
+            elif self.keys[pygame.K_RIGHT]:
+                self.xdirection = 3
             else:
-                player.is_dead = False
-                self.dead_screen = True
-        self.keys = pygame.key.get_pressed()
+                self.xdirection = 0
 
-        # Adjust the direction based on key press
-        if self.keys[pygame.K_LEFT]:
-            self.xdirection = -3
-        elif self.keys[pygame.K_RIGHT]:
-            self.xdirection = 3
-        else:
-            self.xdirection = 0
+            # Update character position only if within screen limits
+            if 0 <= self.rect.x + self.xdirection <= 1250:
+                self.rect.x += self.xdirection
 
-        # Update character position only if within screen limits
-        if 0 <= self.rect.x + self.xdirection <= 1250:
-            self.rect.x += self.xdirection
+            elif self.platfrom:
+                self.stand = True
+            elif not self.platfrom:
+                self.stand = False
 
-        if self.keys[pygame.K_SPACE]:
-            self.jump()
-        else:
-            if not self.on_platform():
-                if self.rect.y < 668:
-                    self.gravity()
+            # Apply gravity
+            self.gravity()
 
-        self.spike_interaction(spikelist)
+            # Check for jumping and apply jump only when standing on a platform
+            if self.keys[pygame.K_SPACE] and self.stand == True:
+                self.jump()
+
+            self.spike_interaction(spikelist)
+
+    def no_slide(self):
+        self.xmomentum = 600
+        base_momentum = self.xmomentum
+        while self.xmomentum != 0 and self.xmomentum > base_momentum/10000:
+            print(self.xmomentum, self.xdirection)
+            self.rect.x = self.rect.x - (self.xdirection/5) * (self.xmomentum/10)
+            self.xmomentum *= 3/5
+
+    def update2(self):
+        if self.anim1:
+            self.image = pygame.image.load('../image/character/run/run3.png')
+        elif self.anim2:
+            self.image = pygame.image.load('../image/character/run left/RUN_L_5.png')
+        elif self.anim3:
+            self.image = pygame.image.load('../image/character/jump/JUMP2.png')
+
+    def spike_interaction(self, spikes):
+        touches_spike = False
+        i = 0
+
+        while touches_spike is False and i < len(spikes):
+            if spikes[i].touching():
+                if not self.iframes:
+                    self.health -= spikes[i].damage
+                touches_spike = True
+                self.iframes = True
+            i += 1
+
+        if touches_spike:
+            self.no_slide()
 
     def start_runningL(self):
         self.is_running_left = True
@@ -225,6 +225,7 @@ class Platform(pygame.sprite.Sprite):
             self.image_name = "door3"
         elif self.image_name == door4 :
             self.image_name = "door4"
+
     '''    def win(self,cond):
         if cond == True:
 
@@ -256,25 +257,27 @@ class Platform(pygame.sprite.Sprite):
         if self.check_collision(player.rect):
             # Si le joueur est en collision avec la plateforme depuis le bas et en train de tomber
             if player.yspeed >= 0 and player.rect.bottom >= self.rect.top > player.rect.top:
-
                 player.rect.bottom = self.rect.top
                 player.yspeed = 0
-                player.on_ground = True  # Marquer que le joueur est au sol
+                player.platfrom = True
+                player.stand = True
+            elif not player.rect.bottom >= self.rect.top > player.rect.top:
+                player.platfrom = False
             # Si le joueur est en collision avec la plateforme depuis le haut, arrêter son mouvement vertical
             elif player.yspeed < 0 and player.rect.bottom <= self.rect.bottom:
                 player.rect.top = self.rect.bottom
                 player.yspeed = 0
-                # Marquer que le joueur est au sol
-                player.on_ground = True
-
+                player.platfrom = False
             # Si le joueur est en collision avec la plateforme depuis la gauche, arrêter son mouvement horizontal vers la droite
             elif player.xdirection > 0 and player.rect.left < self.rect.left < player.rect.right:
                 player.rect.right = self.rect.left
                 player.is_running = False
+                player.platfrom = False
             # Si le joueur est en collision avec la plateforme depuis la droite, arrêter son mouvement horizontal vers la gauche
             elif player.xdirection < 0 and player.rect.right > self.rect.right > player.rect.left:
                 player.rect.left = self.rect.right
                 player.is_running_left = False
+                player.platfrom = False
 
 class GroundSpike:
     def __init__(self, x, y):

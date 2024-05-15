@@ -153,7 +153,7 @@ def Menu(cond):
         pygame.mixer.music.load(menu_music)
         pygame.mixer.music.play(-1)  # Play the menu music in an infinite loop
         player.rect.x = 0
-        player.rect.y = 660
+        player.rect.y = 650
         anim_menu(True)
 
         easy = Button(525, 275, 210, 70, "Easy", level1, 0, 0, 0, 255)
@@ -252,7 +252,7 @@ def level1(cond):
     play_level_music(level1_music, False)
 
     platform1 = Platform(100, 300, block_mid_l4, 60, 60)
-    platform2 = Platform(240, 670, block_mid_l4, 60, 60)
+    platform2 = Platform(-100, 670, block_mid_l4, 2000, 60)
     platform3 = Platform(400, 300, block_mid_l4, 60, 60)
     platform4 = Platform(1100, 670,door1, 60, 60)
 
