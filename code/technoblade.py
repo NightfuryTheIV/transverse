@@ -130,9 +130,9 @@ class Player(pygame.sprite.Sprite):
 
         # Adjust the direction based on key press
         if self.keys[pygame.K_LEFT]:
-            self.xdirection = -5
+            self.xdirection = -3
         elif self.keys[pygame.K_RIGHT]:
-            self.xdirection = 5
+            self.xdirection = 3
         else:
             self.xdirection = 0
 
@@ -211,28 +211,36 @@ class Platform(pygame.sprite.Sprite):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
     def check_collision(self, player_rect):
-        # Check if the player's rectangle overlaps with the platform's rectangle
-        return self.rect.colliderect(player_rect)
+        # Ajout d'une marge pour la détection de collision
+        margin = 0
+        # Vérifier si le rectangle du joueur chevauche le rectangle de la plateforme en ajoutant une marge
+        return self.rect.colliderect(
+            pygame.Rect(player_rect.left + margin, player_rect.top + margin, player_rect.width - margin * 2,
+                        player_rect.height - margin * 2))
 
     def handle_collision(self, player):
         if self.check_collision(player.rect):
-            # If player is colliding with the platform from the bottom, stop their vertical movement
-            if player.yspeed < 0 and player.rect.bottom <= self.rect.top:
+            # Si le joueur est en collision avec la plateforme depuis le bas et en train de tomber
+            if player.yspeed >= 0 and player.rect.bottom >= self.rect.top > player.rect.top:
+
                 player.rect.bottom = self.rect.top
                 player.yspeed = 0
-            # If player is colliding with the platform from the top, stop their vertical movement
-            elif player.yspeed > 0 and player.rect.top >= self.rect.bottom:
+                player.on_ground = True  # Marquer que le joueur est au sol
+            # Si le joueur est en collision avec la plateforme depuis le haut, arrêter son mouvement vertical
+            elif player.yspeed < 0 and player.rect.bottom <= self.rect.bottom:
                 player.rect.top = self.rect.bottom
                 player.yspeed = 0
-            # If player is colliding with the platform from the left, stop their horizontal movement
-            elif player.rect.right > self.rect.left and player.rect.left < self.rect.right:
+                # Marquer que le joueur est au sol
+                player.on_ground = True
+
+            # Si le joueur est en collision avec la plateforme depuis la gauche, arrêter son mouvement horizontal vers la droite
+            elif player.xdirection > 0 and player.rect.left < self.rect.left < player.rect.right:
                 player.rect.right = self.rect.left
                 player.is_running = False
-            # If player is colliding with the platform from the right, stop their horizontal movement
-            elif player.rect.left < self.rect.right and player.rect.right > self.rect.left:
+            # Si le joueur est en collision avec la plateforme depuis la droite, arrêter son mouvement horizontal vers la gauche
+            elif player.xdirection < 0 and player.rect.right > self.rect.right > player.rect.left:
                 player.rect.left = self.rect.right
                 player.is_running_left = False
-
 
 class GroundSpike:
     def __init__(self, x, y):
