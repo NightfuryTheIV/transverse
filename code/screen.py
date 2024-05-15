@@ -2,7 +2,7 @@ import sys
 from technoblade import player
 from objects import *
 from technoblade import Platform
-
+from technoblade import menu
 
 class Screen:
     def __init__(self):
@@ -49,8 +49,8 @@ class Button:
 
 
 def zoomimg_menu_levels(scale):
-    menu_im = pygame.transform.scale(menu, (int(menu.get_width() * scale), int(menu.get_height() * scale)))
-    screen.blit(menu_im, (525, 280))
+    menu_i = pygame.transform.scale(menu_im, (int(menu_im.get_width() * scale), int(menu_im.get_height() * scale)))
+    screen.blit(menu_i, (525, 280))
     pygame.display.flip()
     clock.tick(frame_rate)
     pygame.display.update()
@@ -134,7 +134,7 @@ def anim_menu(cond):
             pygame.display.flip()
             pygame.display.update()
             clock.tick(frame_rate)
-            pygame.time.delay(10)  # Add a delay between each animation step
+            pygame.time.delay(1)  # Add a delay between each animation step
 
         # Reset animation flags after the loop
         player.anim1 = False
@@ -142,6 +142,10 @@ def anim_menu(cond):
         player.anim3 = False
 
         anim_menu(False)
+
+def menu_check():
+    if menu(True):
+        Menu(True)
 
 
 def Menu(cond):
@@ -209,7 +213,6 @@ def pause(level, cond):
 
 
 
-
 def dead_screen(level, cond):
     if cond:
         level(False)
@@ -244,7 +247,6 @@ def get_mouse_position():
     print(mouse_x, mouse_y)
 
 
-
 def level1(cond):
     Menu(False)
     play_level_music(level1_music, False)
@@ -252,6 +254,7 @@ def level1(cond):
     platform1 = Platform(100, 300, block_mid_l4, 60, 60)
     platform2 = Platform(240, 670, block_mid_l4, 60, 60)
     platform3 = Platform(400, 300, block_mid_l4, 60, 60)
+    platform4 = Platform(1100, 670,door1, 60, 60)
 
     while cond:
         for event in pygame.event.get():
@@ -277,6 +280,9 @@ def level1(cond):
                     player.is_dead = True
                 elif event.key == pygame.K_n:
                     get_mouse_position()
+                elif event.key == pygame.K_v:
+                    victory(True)
+
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:
@@ -294,14 +300,17 @@ def level1(cond):
             platform1.handle_collision(player)
             platform2.handle_collision(player)
             platform3.handle_collision(player)
+            platform4.handle_collision(player)
 
             zoomimg_backgrounds(level1_im, 2.6, 0, -250)
             zoomimg_player(60, 60)
             platform1.draw()
             platform2.draw()
             platform3.draw()
+            platform4.draw()
             pygame.draw.rect(screen, (255, 255, 255), player.rect, 2)
             pygame.draw.rect(screen, (255, 255, 255), platform2.rect, 2)
+            pygame.draw.rect(screen, (255, 255, 255), platform4.rect, 2)
             life_update()
             pygame.display.flip()
             pygame.display.update()
@@ -339,6 +348,7 @@ def level2(cond):
                         player.is_dead = True
                     elif event.key == pygame.K_n:
                         get_mouse_position()
+
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
@@ -436,6 +446,7 @@ def level4(cond):
                     elif event.key == pygame.K_n:
                         get_mouse_position()
 
+
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
                         player.stop_runningR()
@@ -448,13 +459,6 @@ def level4(cond):
             zoomimg_backgrounds(level4_im, 2.6, 0, -500)
             zoomimg_player(60, 60)
             life_update()
-            '''platform = Platform(500, 620, midle_block_l4)
-            screen.blit(midle_block_l4, (500, 620))
-            if platform.check_collision(player.rect):
-                if player.rect.y > platform.rect.y:
-                    player.rect.y = platform.rect.y - 100
-                    print(player.rect)
-                    player.yspeed = 1'''
             pygame.display.flip()
             pygame.display.update()
             clock.tick(frame_rate)

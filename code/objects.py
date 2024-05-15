@@ -4,7 +4,7 @@ pygame.mixer.init()
 # Menu images and settings :
 icon_image = pygame.image.load('../image/menu/game_image.jpg')
 Title = pygame.image.load('../image/menu/TITLE.png')
-menu = pygame.image.load('../image/menu/menu.png')
+menu_im = pygame.image.load('../image/menu/menu.png')
 background = pygame.image.load('../image/menu/Fond.png')
 pygame.display.set_caption("Technoblade Trinity")
 
@@ -26,6 +26,8 @@ pause_im = pygame.image.load('../image/menu/pause.png')
 yad = pygame.image.load('../image/character/death/you_are_dead.jpeg')
 button = pygame.image.load('../image/character/death/button.png')
 
+# Victory :
+victory = pygame.image.load('../image/menu/victory.jpeg')
 # Menu game arrows :
 arrow_1 = pygame.image.load('../image/menu/1.png')
 arrow_2 = pygame.image.load('../image/menu/2.png')
@@ -43,6 +45,7 @@ level1_music = "../music/Easy_music.mp3"
 level2_music = "../music/Medium_music.mp3"
 level3_music = "../music/Hard_music.mp3"
 level4_music = "../music/Insane_music.mp3"
+win_music = "../music/WIN.mp3"
 
 # Screen settings :
 screen = pygame.display.set_mode((1280, 730))
@@ -104,3 +107,9 @@ Gravity = 9.81
 TEST = pygame.image.load('../image/character/image (1).jpg')
 
 block_mid_l4 = pygame.image.load('../image/elements/platform/midlenlockwater.png')
+
+# Doors:
+door1 = pygame.image.load('../image/elements/Doors/Doorl1.png')
+door2 = pygame.image.load('../image/elements/Doors/Doorl2.png')
+door3 = pygame.image.load('../image/elements/Doors/Doorl3.png')
+door4 = pygame.image.load('../image/elements/Doors/Doorl4.png')

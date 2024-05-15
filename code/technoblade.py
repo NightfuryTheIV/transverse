@@ -199,13 +199,46 @@ class Projectile:
 
         self.clock += self.speed
 
+def menu(cond):
+    if cond == True:
+        pass
+    else:
+        cond = False
+
 class Platform(pygame.sprite.Sprite):
-    def __init__(self, x, y, image, scale_a, scale_b,):
+    def __init__(self, x, y, image, scale_a, scale_b):
         super().__init__()
+        self.image_name = image
+        self.check = True
         self.image = pygame.transform.scale(image, (scale_a, scale_b))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
+
+    def name (self):
+        if self.image_name == door1 :
+            self.image_name = "door1"
+        elif self.image_name == door2 :
+            self.image_name = "door2"
+        elif self.image_name == door3 :
+            self.image_name = "door3"
+        elif self.image_name == door4 :
+            self.image_name = "door4"
+    '''    def win(self,cond):
+        if cond == True:
+
+            pygame.mixer.music.load(win_music)
+            pygame.mixer.music.play(-1)
+            zommimg = pygame.transform.scale(victory,(int(victory.get_width() * 1.7), int(victory.get_height() * 1.7)))
+            screen.blit(zommimg, (-20, -120))
+        while cond == True:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:  # Check if it's a keyboard event
+                    if event.key == pygame.K_RETURN:
+                        cond = False
+                        menu_im(True)'''
+
 
     def draw(self):
         screen.blit(self.image, (self.rect.x, self.rect.y))
@@ -219,6 +252,7 @@ class Platform(pygame.sprite.Sprite):
                         player_rect.height - margin * 2))
 
     def handle_collision(self, player):
+        self.name()
         if self.check_collision(player.rect):
             # Si le joueur est en collision avec la plateforme depuis le bas et en train de tomber
             if player.yspeed >= 0 and player.rect.bottom >= self.rect.top > player.rect.top:
