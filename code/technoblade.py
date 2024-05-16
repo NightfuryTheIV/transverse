@@ -266,15 +266,21 @@ class Platform(pygame.sprite.Sprite):
                 player.yspeed = 0
                 player.platfrom = False
             # Si le joueur est en collision avec la plateforme depuis la gauche, arrêter son mouvement horizontal vers la droite
-            elif player.xdirection > 0 and player.rect.left < self.rect.left < player.rect.right:
-                player.rect.right = self.rect.left
-                player.is_running = False
-                player.platfrom = False
-            # Si le joueur est en collision avec la plateforme depuis la droite, arrêter son mouvement horizontal vers la gauche
-            elif player.xdirection < 0 and player.rect.right > self.rect.right > player.rect.left:
-                player.rect.left = self.rect.right
-                player.is_running_left = False
-                player.platfrom = False
+            if player.rect.colliderect(self.rect):
+                # Check if player is moving right and collides from the left side of the platform
+                if player.xdirection > 0 and player.rect.right >= self.rect.left > player.rect.left:
+                    print("lol")
+                    player.rect.right = self.rect.left
+                    player.xdirection = 0
+                    player.is_running = False
+
+                # Check if player is moving left and collides from the right side of the platform
+                elif player.xdirection < 0 and player.rect.left <= self.rect.right < player.rect.right:
+                    print("lol")
+                    player.rect.left = self.rect.right
+                    player.xdirection = 0
+                    player.is_running_left = False
+
 
 class GroundSpike:
     def __init__(self, x, y):

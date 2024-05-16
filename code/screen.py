@@ -363,7 +363,6 @@ def level1(cond):
             door.draw()
 
             pygame.draw.rect(screen, (255, 255, 255), player.rect, 2)
-            pygame.draw.rect(screen, (255, 255, 255), sol.rect, 2)
             life_update()
             pygame.display.flip()
             pygame.display.update()
@@ -376,7 +375,7 @@ def level2(cond):
     while cond:
         if player.dead_screen:
             pygame.mixer.music.stop()
-            dead_screen(level2, True)
+            dead_screen(level2, True),
         else:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -483,7 +482,6 @@ def level3(cond):
             door.draw()
 
             pygame.draw.rect(screen, (255, 255, 255), player.rect, 2)
-            pygame.draw.rect(screen, (255, 255, 255), sol.rect, 2)
             life_update()
             pygame.display.flip()
             pygame.display.update()
