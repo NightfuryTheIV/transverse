@@ -3,6 +3,7 @@ from technoblade import player
 from objects import *
 from technoblade import Platform
 from technoblade import menu
+from technoblade import Projectile
 
 class Screen:
     def __init__(self):
@@ -275,6 +276,7 @@ def level1(cond):
     laser_launcher_g = Platform(0, 250, laser_launcher1, 60, 60)
     door = Platform(960, 70, door1, 60, 60)
 
+
     while cond:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -340,6 +342,9 @@ def level1(cond):
 
             zoomimg_backgrounds(level1_im, 2.6, 0, -250)
             zoomimg_player(60, 60)
+            po = Projectile("a", "r", 10, 10)
+            po.show_projectile()
+            po.update_kunai()
             sol.draw()
 
             platform2.draw()

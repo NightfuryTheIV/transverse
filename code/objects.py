@@ -119,3 +119,6 @@ door1 = pygame.image.load('../image/elements/Doors/Doorl1.png')
 door2 = pygame.image.load('../image/elements/Doors/Doorl2.png')
 door3 = pygame.image.load('../image/elements/Doors/Doorl3.png')
 door4 = pygame.image.load('../image/elements/Doors/Doorl4.png')
+
+
+kunai = pygame.image.load('../image/character/kunai.png')

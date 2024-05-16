@@ -45,9 +45,6 @@ class Player(pygame.sprite.Sprite):
         self.stand = False
         self.platfrom = False
 
-
-
-
     def jump(self):
         if self.stand:
             self.yspeed = -13
@@ -176,19 +173,30 @@ class Projectile:
         self.velocity = velocity  # the actual at which the arrow is flying
         self.speed = speed  # the speed at which the flight trajectory is refreshed (between 0.1 and 1)
         self.clock = 0  # This will be used inside the trajectory equations
-        self.image = pygame.image.load('../image/elements/test.jpg')
+        self.image = pygame.transform.scale(kunai, (30, 30))
         self.rect = self.image.get_rect()
         self.basex = player.rect.x
         self.rect.x = 0
         self.basey = player.rect.y
         self.rect.y = 0
-        self.angle = pi
+        self.angle = 0
 
-    def firing_angle(self):
-        if player.keys[pygame.K_UP]:
-            self.angle += pi/180
-        if player.keys[pygame.K_DOWN]:
-            self.angle -= pi/180
+    def show_projectile(self):
+        screen.blit(self.image, self.rect)
+        pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)
+
+    def get_distance(self, mousex, mousey):
+        xcenter = abs(self.rect.bottom - self.rect.top)/2
+        ycenter = abs(self.rect.right - self.rect.left)/2
+        return sqrt((xcenter - mousex)**2 + (ycenter - mousey)**2)
+
+    def firing_control(self):
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 2:
+                print("Initializating systems!")
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 2:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                self.velocity = self.get_distance(mouse_x, mouse_y)
 
     def flight(self, angle):
         self.rect.x = self.velocity * cos(angle) * self.clock + self.basex
@@ -196,8 +204,15 @@ class Projectile:
 
         self.clock += self.speed
 
+    def update_kunai(self):
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    print(True)
+
+
 def menu(cond):
-    if cond == True:
+    if cond:
         pass
     else:
         cond = False
@@ -252,7 +267,7 @@ class Platform(pygame.sprite.Sprite):
     def handle_collision(self, player):
         self.name()
         if self.check_collision(player.rect):
-            # Check collision from the bottom
+            # Si le joueur est en collision avec la plateforme depuis le bas et en train de tomber
             if player.yspeed >= 0 and player.rect.bottom >= self.rect.top > player.rect.top:
                 player.rect.bottom = self.rect.top
                 player.yspeed = 0
@@ -260,17 +275,23 @@ class Platform(pygame.sprite.Sprite):
                 player.stand = True
             elif not player.rect.bottom >= self.rect.top > player.rect.top:
                 player.platfrom = False
-
-            # Check collision from the sides
+            # Si le joueur est en collision avec la plateforme depuis le haut, arrêter son mouvement vertical
+            elif player.yspeed < 0 and player.rect.bottom <= self.rect.top:
+                player.rect.top = self.rect.bottom
+                player.yspeed = 0
+                player.platfrom = False
+            # Si le joueur est en collision avec la plateforme depuis la gauche, arrêter son mouvement horizontal vers la droite
             if player.rect.colliderect(self.rect):
                 # Check if player is moving right and collides from the left side of the platform
                 if player.xdirection > 0 and player.rect.right >= self.rect.left > player.rect.left:
+                    print("lol")
                     player.rect.right = self.rect.left
                     player.xdirection = 0
                     player.is_running = False
 
                 # Check if player is moving left and collides from the right side of the platform
                 elif player.xdirection < 0 and player.rect.left <= self.rect.right < player.rect.right:
+                    print("lol")
                     player.rect.left = self.rect.right
                     player.xdirection = 0
                     player.is_running_left = False
