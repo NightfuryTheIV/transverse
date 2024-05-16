@@ -50,7 +50,7 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         if self.stand:
-            self.yspeed = -10
+            self.yspeed = -13
         self.yspeed += 0.2
         self.rect.y += self.yspeed
         self.stand = False
@@ -252,7 +252,7 @@ class Platform(pygame.sprite.Sprite):
     def handle_collision(self, player):
         self.name()
         if self.check_collision(player.rect):
-            # Si le joueur est en collision avec la plateforme depuis le bas et en train de tomber
+            # Check collision from the bottom
             if player.yspeed >= 0 and player.rect.bottom >= self.rect.top > player.rect.top:
                 player.rect.bottom = self.rect.top
                 player.yspeed = 0
@@ -260,26 +260,27 @@ class Platform(pygame.sprite.Sprite):
                 player.stand = True
             elif not player.rect.bottom >= self.rect.top > player.rect.top:
                 player.platfrom = False
-            # Si le joueur est en collision avec la plateforme depuis le haut, arrêter son mouvement vertical
-            elif player.yspeed < 0 and player.rect.bottom <= self.rect.top:
-                player.rect.top = self.rect.bottom
-                player.yspeed = 0
-                player.platfrom = False
-            # Si le joueur est en collision avec la plateforme depuis la gauche, arrêter son mouvement horizontal vers la droite
+
+            # Check collision from the sides
             if player.rect.colliderect(self.rect):
                 # Check if player is moving right and collides from the left side of the platform
                 if player.xdirection > 0 and player.rect.right >= self.rect.left > player.rect.left:
-                    print("lol")
                     player.rect.right = self.rect.left
                     player.xdirection = 0
                     player.is_running = False
 
                 # Check if player is moving left and collides from the right side of the platform
                 elif player.xdirection < 0 and player.rect.left <= self.rect.right < player.rect.right:
-                    print("lol")
                     player.rect.left = self.rect.right
                     player.xdirection = 0
                     player.is_running_left = False
+
+                # Check collision from below while jumping
+                elif player.yspeed > 0 and player.rect.top <= self.rect.bottom:
+                    print("lol")
+                    player.rect.top = self.rect.bottom
+                    player.yspeed = 0
+                    player.platfrom = False
 
 
 class GroundSpike:
