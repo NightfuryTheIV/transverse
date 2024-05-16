@@ -107,6 +107,12 @@ Gravity = 9.81
 TEST = pygame.image.load('../image/character/image (1).jpg')
 
 block_mid_l4 = pygame.image.load('../image/elements/platform/midlenlockwater.png')
+block_long_l1 = pygame.image.load('../image/elements/platform/rectangledurt.png')
+block_court_l1 = pygame.image.load('../image/elements/platform/triangledurt.png')
+
+spike = pygame.image.load('../image/elements/block platefrom/1.png')
+
+laser_launcher1 = pygame.image.load('../image/elements/laser launcher/laser_launcher_2.png')
 
 # Doors:
 door1 = pygame.image.load('../image/elements/Doors/Doorl1.png')
