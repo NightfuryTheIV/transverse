@@ -251,7 +251,7 @@ def level1(cond):
     Menu(False)
     play_level_music(level1_music, False)
 
-    platform1 = Platform(100, 300, block_mid_l4, 60, 60)
+    platform1 = Platform(519, 583, block_mid_l4, 60, 60)
     platform2 = Platform(-100, 670, block_mid_l4, 2000, 60)
     platform3 = Platform(400, 300, block_mid_l4, 60, 60)
     platform4 = Platform(1100, 670,door1, 60, 60)

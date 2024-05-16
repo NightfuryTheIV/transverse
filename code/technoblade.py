@@ -59,9 +59,6 @@ class Player(pygame.sprite.Sprite):
         self.yspeed += 0.4
         self.rect.y += self.yspeed
 
-
-
-
     def update(self):
         if not player.is_dead:
             if self.is_running and not self.is_jumping:
@@ -264,7 +261,7 @@ class Platform(pygame.sprite.Sprite):
             elif not player.rect.bottom >= self.rect.top > player.rect.top:
                 player.platfrom = False
             # Si le joueur est en collision avec la plateforme depuis le haut, arrêter son mouvement vertical
-            elif player.yspeed < 0 and player.rect.bottom <= self.rect.bottom:
+            elif player.yspeed < 0 and player.rect.bottom <= self.rect.top:
                 player.rect.top = self.rect.bottom
                 player.yspeed = 0
                 player.platfrom = False
