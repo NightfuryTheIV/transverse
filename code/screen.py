@@ -249,12 +249,31 @@ def get_mouse_position():
 
 def level1(cond):
     Menu(False)
+    player.rect.x = 60
+    player.rect.y = 430
     play_level_music(level1_music, False)
 
-    platform1 = Platform(100, 300, block_mid_l4, 60, 60)
-    platform2 = Platform(-100, 670, block_mid_l4, 2000, 60)
-    platform3 = Platform(400, 300, block_mid_l4, 60, 60)
-    platform4 = Platform(1100, 670,door1, 60, 60)
+    sol = Platform(-50, 670, block_long_l1, 1400, 100)
+
+    platform2 = Platform(60, 490, block_long_l1, 120, 180)
+    platform3 = Platform(0, 310, block_long_l1, 60, 700)
+    platform4 = Platform(60, 310, block_long_l1, 120, 60)
+    platform5 = Platform(180, 490, block_court_l1, 60, 60)
+    platform6 = Platform(420, 370, block_court_l1, 60, 600)
+    platform7 = Platform(660, 310, block_court_l1, 60, 600)
+    platform8 = Platform(900, 370, block_court_l1, 60, 60)
+    platform9 = Platform(1020, 370, block_long_l1, 300, 800)
+    platform10 = Platform(1140, 310, block_court_l1, 100, 60)
+    platform11 = Platform(1220, 200, block_court_l1, 60, 1000)
+    platform12 = Platform(900, 130, block_court_l1, 180, 60)
+
+    spike1 = Platform(180, 610, spike, 240, 60)
+    spike2 = Platform(480, 610, spike, 180, 60)
+    spike3 = Platform(720, 610, spike, 300, 60)
+    spike4 = Platform(1020, 310, spike, 120, 60)
+
+    laser_launcher_g = Platform(0, 250, laser_launcher1, 60, 60)
+    door = Platform(960, 70, door1, 60, 60)
 
     while cond:
         for event in pygame.event.get():
@@ -297,25 +316,58 @@ def level1(cond):
             dead_screen(level1, True)
         else:
             player.update()
-            platform1.handle_collision(player)
+            sol.handle_collision(player)
+
             platform2.handle_collision(player)
             platform3.handle_collision(player)
             platform4.handle_collision(player)
+            platform5.handle_collision(player)
+            platform6.handle_collision(player)
+            platform7.handle_collision(player)
+            platform8.handle_collision(player)
+            platform9.handle_collision(player)
+            platform10.handle_collision(player)
+            platform11.handle_collision(player)
+            platform12.handle_collision(player)
+
+            spike1.handle_collision(player)
+            spike2.handle_collision(player)
+            spike3.handle_collision(player)
+            spike4.handle_collision(player)
+
+            laser_launcher_g.handle_collision(player)
+            door.handle_collision(player)
 
             zoomimg_backgrounds(level1_im, 2.6, 0, -250)
             zoomimg_player(60, 60)
-            platform1.draw()
+            sol.draw()
+
             platform2.draw()
             platform3.draw()
             platform4.draw()
+            platform5.draw()
+            platform6.draw()
+            platform7.draw()
+            platform8.draw()
+            platform9.draw()
+            platform10.draw()
+            platform11.draw()
+            platform12.draw()
+
+            spike1.draw()
+            spike2.draw()
+            spike3.draw()
+            spike4.draw()
+
+            laser_launcher_g.draw()
+            door.draw()
+
             pygame.draw.rect(screen, (255, 255, 255), player.rect, 2)
-            pygame.draw.rect(screen, (255, 255, 255), platform2.rect, 2)
-            pygame.draw.rect(screen, (255, 255, 255), platform4.rect, 2)
+            pygame.draw.rect(screen, (255, 255, 255), sol.rect, 2)
             life_update()
             pygame.display.flip()
             pygame.display.update()
             clock.tick(frame_rate)
-
 
 
 def level2(cond):
@@ -369,52 +421,73 @@ def level2(cond):
 
 def level3(cond):
     Menu(False)
-    play_level_music(level3_music, False)
+    '''play_level_music(level3_music, False)'''
+
+    sol = Platform(-50, 670, block_mid_l4, 1400, 100)
+
+
+    laser_launcher_g = Platform(0, 250, laser_launcher1, 60, 60)
+    door = Platform(960, 70, door3, 60, 60)
+
     while cond:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                Menu(True)
+                level3(False)
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT and not event.key == pygame.K_SPACE:
+                    player.start_runningR()
+                elif event.key == pygame.K_LEFT and not event.key == pygame.K_SPACE:
+                    player.start_runningL()
+                elif event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT and not event.key == pygame.K_LEFT:
+                    player.start_jumping()
+                elif event.key == pygame.K_ESCAPE:
+                    pause(level3, True)
+                elif event.key == pygame.K_RIGHT and event.key == pygame.K_SPACE and not event.key == pygame.K_LEFT:
+                    player.start_jumping()
+                elif event.key == pygame.K_LEFT and event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT:
+                    player.start_jumping()
+                    player.start_runningL()
+                elif event.key == pygame.K_m:
+                    player.is_dead = True
+                elif event.key == pygame.K_n:
+                    get_mouse_position()
+                elif event.key == pygame.K_v:
+                    victory(True)
+
+
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    player.stop_runningR()
+                elif event.key == pygame.K_LEFT:
+                    player.stop_runningL()
+                elif event.key == pygame.K_SPACE:
+                    player.stop_jumping()
+
         if player.dead_screen:
             pygame.mixer.music.stop()
             dead_screen(level3, True)
         else:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    Menu(True)
-                    level3(False)
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RIGHT and not event.key == pygame.K_SPACE:
-                        player.start_runningR()
-                    elif event.key == pygame.K_LEFT and not event.key == pygame.K_SPACE:
-                        player.start_runningL()
-                    elif event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT and not event.key == pygame.K_LEFT:
-                        player.start_jumping()
-                    elif event.key == pygame.K_ESCAPE:
-                        pause(level3, True)
-                    elif event.key == pygame.K_RIGHT and event.key == pygame.K_SPACE and not event.key == pygame.K_LEFT:
-                        player.start_jumping()
-                    elif event.key == pygame.K_LEFT and event.key == pygame.K_SPACE and not event.key == pygame.K_RIGHT:
-                        player.start_jumping()
-                        player.start_runningL()
-                    elif event.key == pygame.K_m:
-                        player.is_dead = True
-                    elif event.key == pygame.K_n:
-                        get_mouse_position()
-
-                elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_RIGHT:
-                        player.stop_runningR()
-                    elif event.key == pygame.K_LEFT:
-                        player.stop_runningL()
-                    elif event.key == pygame.K_SPACE:
-                        player.stop_jumping()
-
             player.update()
-            zoomimg_backgrounds(level3_im, 2.6, 0, -300)
+            sol.handle_collision(player)
+
+            laser_launcher_g.handle_collision(player)
+            door.handle_collision(player)
+
+            zoomimg_backgrounds(level3_im, 2.6, 0, -250)
             zoomimg_player(60, 60)
+            sol.draw()
+
+            laser_launcher_g.draw()
+            door.draw()
+
+            pygame.draw.rect(screen, (255, 255, 255), player.rect, 2)
+            pygame.draw.rect(screen, (255, 255, 255), sol.rect, 2)
             life_update()
             pygame.display.flip()
             pygame.display.update()
             clock.tick(frame_rate)
-
-
 def level4(cond):
     Menu(False)
     play_level_music(level4_music, False)
