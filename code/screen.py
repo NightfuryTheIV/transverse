@@ -11,7 +11,7 @@ class Screen:
         pygame.display.set_caption("Technoblade Trinity")
         pygame.display.set_icon(icon_image)
         self.clock = pygame.time.Clock()
-        self.framerate = 120
+        self.framerate = 15
 
     def update(self):
         pygame.display.flip()
@@ -239,6 +239,7 @@ def play_level_music(level_music,cond):
     if not cond:
         pygame.mixer.music.load(level_music)  # Load the specified music file
         pygame.mixer.music.play(-1)  # Play the music in an infinite loop
+        pygame.mixer.music.set_volume(0.05)
         cond = True
     else:
         pass
@@ -342,9 +343,10 @@ def level1(cond):
 
             zoomimg_backgrounds(level1_im, 2.6, 0, -250)
             zoomimg_player(60, 60)
-            po = Projectile("a", "r", 10, 10)
-            po.show_projectile()
-            po.update_kunai()
+            kunaii = Projectile("The Kunai", "Kunai")
+            kunaii.show_projectile()
+            # kunaii.update_kunai()
+            screen.blit(kunaii.update_kunai(), kunaii.kunai_rect)
             sol.draw()
 
             platform2.draw()
