@@ -1,4 +1,5 @@
 from math import sin, cos, sqrt, atan2, degrees, radians
+from objects import platformslevel1, platformslevel2, platformslevel3, platformslevel4
 
 import pygame.mouse
 
@@ -176,7 +177,7 @@ class Projectile:
         self.velocity = 1  # the actual at which the arrow is flying
         self.speed = 0.1  # the speed at which the flight trajectory is refreshed (between 0.1 and 1)
         self.clock = 0  # This will be used inside the trajectory equations
-        self.kunai_image = pygame.transform.scale(kunai, (60, 60))
+        self.kunai_image = pygame.transform.scale(kunai, (40, 40))
         self.rect = self.kunai_image.get_rect()
         self.basex = player.rect.x
         self.rect.x = 0
@@ -184,15 +185,23 @@ class Projectile:
         self.rect.y = 0
         self.angle = 0
         self.kunai_rect = self.kunai_image.get_rect(center=(self.rect.x, self.rect.y))
+        self.initially_on_platform = False
 
     def show_projectile(self):
         screen.blit(self.kunai_image, self.rect)
-        pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)
+        pygame.draw.rect(screen, (255, 255, 255), self.kunai_rect, 2)
 
     def get_distance(self, mousex, mousey):
         xcenter = abs(self.rect.bottom - self.rect.top)/2
         ycenter = abs(self.rect.right - self.rect.left)/2
         return round(sqrt((xcenter - mousex)**2 + (ycenter - mousey)**2))
+
+    def platform_collision(self, platformmatrix: list):
+        for platformlist in platformmatrix:
+            for platform in platformlist:
+                if platform.check_collision(self.rect):
+                    return True
+        return False
 
     def flight(self, angle):
         g = 0.001
@@ -211,27 +220,30 @@ class Projectile:
                 self.rect.center = player.rect.center
                 self.clock = 0
                 self.basex = player.rect.centerx
-                self.basey = player.rect.centery
+                self.basey = player.rect.centery - 10
 
                 player_rect = self.rect
                 dx, dy = mouse_x - player_rect.centerx, player_rect.centery - mouse_y
                 self.angle = 1*degrees(atan2(-dy, dx))
 
-                # Rotate the kunai image
                 rotated_kunai = pygame.transform.rotate(self.kunai_image, self.angle)
                 rotated_kunai_rect = rotated_kunai.get_rect(center=self.rect.center)
 
-                # Set the initial velocity based on the angle
                 self.velocity = abs(self.rect.centerx - mouse_x) / 1000
 
                 # Now you can use 'rotated_kunai' and 'self.velocity' in your game logic
                 # ...
-
-                while 0 < self.rect.x < 1280 and 0 < self.rect.y < 720:
+                if self.platform_collision([platformslevel1, platformslevel2, platformslevel3, platformslevel4]):
+                    self.initially_on_platform = True
+                while 0 < self.rect.x < 1280 and 0 < self.rect.y < 720 and not self.platform_collision([platformslevel1, platformslevel2, platformslevel3, platformslevel4]):
                     self.flight(self.angle)
                     screen.blit(rotated_kunai, self.kunai_rect)
+                    self.initially_on_platform = False
 
         return rotated_kunai
+
+    def draw(self):
+        screen.blit(self.kunai_image, (self.kunai_rect.x, self.kunai_rect.y))
 
 
 def menu(cond):
@@ -241,7 +253,7 @@ def menu(cond):
         cond = False
 
 class Platform(pygame.sprite.Sprite):
-    def __init__(self, x, y, image, scale_a, scale_b):
+    def __init__(self, x, y, image, scale_a, scale_b, direction):
         super().__init__()
         self.image_name = image
         self.check = True
@@ -249,6 +261,7 @@ class Platform(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.direction = direction
 
 
     def name (self):

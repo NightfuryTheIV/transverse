@@ -122,3 +122,10 @@ door4 = pygame.image.load('../image/elements/Doors/Doorl4.png')
 
 
 kunai = pygame.image.load('../image/character/kunai.png')
+
+
+
+platformslevel1 = []
+platformslevel2 = []
+platformslevel3 = []
+platformslevel4 = []
