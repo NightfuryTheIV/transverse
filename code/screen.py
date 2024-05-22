@@ -4,6 +4,7 @@ from objects import *
 from technoblade import Platform
 from technoblade import menu
 from technoblade import Projectile
+from objects import platformslevel1, platformslevel2, platformslevel3, platformslevel4
 
 class Screen:
     def __init__(self):
@@ -11,7 +12,7 @@ class Screen:
         pygame.display.set_caption("Technoblade Trinity")
         pygame.display.set_icon(icon_image)
         self.clock = pygame.time.Clock()
-        self.framerate = 120
+        self.framerate = 15
 
     def update(self):
         pygame.display.flip()
@@ -213,7 +214,6 @@ def pause(level, cond):
                     get_mouse_position()
 
 
-
 def dead_screen(level, cond):
     if cond:
         level(False)
@@ -239,6 +239,7 @@ def play_level_music(level_music,cond):
     if not cond:
         pygame.mixer.music.load(level_music)  # Load the specified music file
         pygame.mixer.music.play(-1)  # Play the music in an infinite loop
+        pygame.mixer.music.set_volume(0.05)
         cond = True
     else:
         pass
@@ -254,27 +255,31 @@ def level1(cond):
     player.rect.y = 430
     play_level_music(level1_music, False)
 
-    sol = Platform(-50, 670, block_long_l1, 1400, 100)
+    sol = Platform(-50, 670, block_long_l1, 1400, 100, "right")
 
-    platform2 = Platform(60, 490, block_long_l1, 120, 180)
-    platform3 = Platform(0, 310, block_long_l1, 60, 700)
-    platform4 = Platform(60, 310, block_long_l1, 120, 60)
-    platform5 = Platform(180, 490, block_court_l1, 60, 60)
-    platform6 = Platform(420, 370, block_court_l1, 60, 600)
-    platform7 = Platform(660, 310, block_court_l1, 60, 600)
-    platform8 = Platform(900, 370, block_court_l1, 60, 60)
-    platform9 = Platform(1020, 370, block_long_l1, 300, 800)
-    platform10 = Platform(1140, 310, block_court_l1, 100, 60)
-    platform11 = Platform(1220, 200, block_court_l1, 60, 1000)
-    platform12 = Platform(900, 130, block_court_l1, 180, 60)
+    platform2 = Platform(60, 490, block_long_l1, 120, 180, None)
+    platform3 = Platform(0, 310, block_long_l1, 60, 700, None)
+    platform4 = Platform(60, 310, block_long_l1, 120, 60, None)
+    platform5 = Platform(180, 490, block_court_l1, 60, 60, None)
+    platform6 = Platform(420, 370, block_court_l1, 60, 600, None)
+    platform7 = Platform(660, 310, block_court_l1, 60, 600, None)
+    platform8 = Platform(900, 370, block_court_l1, 60, 60, None)
+    platform9 = Platform(1020, 370, block_long_l1, 300, 800, None)
+    platform10 = Platform(1140, 310, block_court_l1, 100, 60, None)
+    platform11 = Platform(1220, 200, block_court_l1, 60, 1000, None)
+    platform12 = Platform(900, 130, block_court_l1, 180, 60, None)
 
-    spike1 = Platform(180, 610, spike, 240, 60)
-    spike2 = Platform(480, 610, spike, 180, 60)
-    spike3 = Platform(720, 610, spike, 300, 60)
-    spike4 = Platform(1020, 310, spike, 120, 60)
+    if len(platformslevel1) == 0:
+        platformslevel1.extend([platform2, platform3, platform4, platform5, platform6, platform7, platform8, platform9, platform10, platform11, platform12])
 
-    laser_launcher_g = Platform(0, 250, laser_launcher1, 60, 60)
-    door = Platform(960, 70, door1, 60, 60)
+    spike1 = Platform(180, 610, spike, 240, 60, None)
+    spike2 = Platform(480, 610, spike, 180, 60, None)
+    spike3 = Platform(720, 610, spike, 300, 60, None)
+    spike4 = Platform(1020, 310, spike, 120, 60, None)
+
+    laser_launcher_g = Platform(0, 250, laser_launcher1, 60, 60, None)
+    door = Platform(960, 70, door1, 60, 60, None)
+    kunaii = Projectile("The Kunai", "Kunai")
 
 
     while cond:
@@ -342,9 +347,6 @@ def level1(cond):
 
             zoomimg_backgrounds(level1_im, 2.6, 0, -250)
             zoomimg_player(60, 60)
-            po = Projectile("a", "r", 10, 10)
-            po.show_projectile()
-            po.update_kunai()
             sol.draw()
 
             platform2.draw()
@@ -366,6 +368,10 @@ def level1(cond):
 
             laser_launcher_g.draw()
             door.draw()
+            # kunaii.show_projectile()
+            # kunaii.update_kunai()
+            screen.blit(kunaii.update_kunai(), kunaii.kunai_rect)
+            kunaii.draw()
 
             pygame.draw.rect(screen, (255, 255, 255), player.rect, 2)
             life_update()
@@ -376,6 +382,10 @@ def level1(cond):
 
 def level2(cond):
     Menu(False)
+
+    if len(platformslevel2) == 0:
+        platformslevel2.extend([])  # Ajoutez les platformes quand vous faites
+
     play_level_music(level2_music, False)
     while cond:
         if player.dead_screen:
@@ -427,11 +437,14 @@ def level3(cond):
     Menu(False)
     '''play_level_music(level3_music, False)'''
 
-    sol = Platform(-50, 670, block_mid_l4, 1400, 100)
+    if len(platformslevel3) == 0:
+        platformslevel3.extend([])  # Ajoutez les platformes quand vous faites
+
+    sol = Platform(-50, 670, block_mid_l4, 1400, 100, None)
 
 
-    laser_launcher_g = Platform(0, 250, laser_launcher1, 60, 60)
-    door = Platform(960, 70, door3, 60, 60)
+    laser_launcher_g = Platform(0, 250, laser_launcher1, 60, 60, None)
+    door = Platform(960, 70, door3, 60, 60, None)
 
     while cond:
         for event in pygame.event.get():
@@ -495,6 +508,10 @@ def level3(cond):
 
 def level4(cond):
     Menu(False)
+
+    if len(platformslevel4) == 0:
+        platformslevel4.extend([])  # Ajoutez les platformes quand vous faites
+
     play_level_music(level4_music, False)
     while cond:
         if player.dead_screen:

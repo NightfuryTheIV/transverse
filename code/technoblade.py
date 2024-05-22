@@ -1,4 +1,8 @@
-from math import sin, cos, pi
+from math import sin, cos, sqrt, atan2, degrees, radians
+from objects import platformslevel1, platformslevel2, platformslevel3, platformslevel4
+
+import pygame.mouse
+
 from objects import *
 pygame.mixer.init()
 
@@ -47,7 +51,7 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         if self.stand:
-            self.yspeed = -13
+            self.yspeed = -15
         self.yspeed += 0.2
         self.rect.y += self.yspeed
         self.stand = False
@@ -166,49 +170,80 @@ player = Player()
 
 
 class Projectile:
-    def __init__(self, name, type, velocity, speed):
+    def __init__(self, name, type):
         self.player = player
         self.name = name
         self.type = type  # We might use different types of arrows for diffreent levels in the future
-        self.velocity = velocity  # the actual at which the arrow is flying
-        self.speed = speed  # the speed at which the flight trajectory is refreshed (between 0.1 and 1)
+        self.velocity = 1  # the actual at which the arrow is flying
+        self.speed = 0.1  # the speed at which the flight trajectory is refreshed (between 0.1 and 1)
         self.clock = 0  # This will be used inside the trajectory equations
-        self.image = pygame.transform.scale(kunai, (30, 30))
-        self.rect = self.image.get_rect()
+        self.kunai_image = pygame.transform.scale(kunai, (40, 40))
+        self.rect = self.kunai_image.get_rect()
         self.basex = player.rect.x
         self.rect.x = 0
         self.basey = player.rect.y
         self.rect.y = 0
         self.angle = 0
+        self.kunai_rect = self.kunai_image.get_rect(center=(self.rect.x, self.rect.y))
+        self.initially_on_platform = False
 
     def show_projectile(self):
-        screen.blit(self.image, self.rect)
-        pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)
+        screen.blit(self.kunai_image, self.rect)
+        pygame.draw.rect(screen, (255, 255, 255), self.kunai_rect, 2)
 
     def get_distance(self, mousex, mousey):
         xcenter = abs(self.rect.bottom - self.rect.top)/2
         ycenter = abs(self.rect.right - self.rect.left)/2
-        return sqrt((xcenter - mousex)**2 + (ycenter - mousey)**2)
+        return round(sqrt((xcenter - mousex)**2 + (ycenter - mousey)**2))
 
-    def firing_control(self):
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 2:
-                print("Initializating systems!")
-            if event.type == pygame.MOUSEBUTTONUP and event.button == 2:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                self.velocity = self.get_distance(mouse_x, mouse_y)
+    def platform_collision(self, platformmatrix: list):
+        for platformlist in platformmatrix:
+            for platform in platformlist:
+                if platform.check_collision(self.rect):
+                    return True
+        return False
 
     def flight(self, angle):
-        self.rect.x = self.velocity * cos(angle) * self.clock + self.basex
-        self.rect.y = 1/2 * Gravity * self.clock**2 + sin(angle) * self.clock + self.basey
+        g = 0.001
+        self.rect.x = (self.velocity * cos(radians(angle)) * self.clock)*3 + self.basex
+        self.rect.y = 1/2 * g * self.clock**2 + self.basey + sin(angle) * self.clock
 
         self.clock += self.speed
+        self.kunai_rect.center = (self.rect.x, self.rect.y)
+        print(self.rect.x, self.rect.y, cos(angle), sin(angle), self.clock, angle)
 
     def update_kunai(self):
+        rotated_kunai = pygame.transform.rotate(self.kunai_image, 0)
         for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    print(True)
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 3:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                self.rect.center = player.rect.center
+                self.clock = 0
+                self.basex = player.rect.centerx
+                self.basey = player.rect.centery - 10
+
+                player_rect = self.rect
+                dx, dy = mouse_x - player_rect.centerx, player_rect.centery - mouse_y
+                self.angle = 1*degrees(atan2(-dy, dx))
+
+                rotated_kunai = pygame.transform.rotate(self.kunai_image, self.angle)
+                rotated_kunai_rect = rotated_kunai.get_rect(center=self.rect.center)
+
+                self.velocity = abs(self.rect.centerx - mouse_x) / 1000
+
+                # Now you can use 'rotated_kunai' and 'self.velocity' in your game logic
+                # ...
+                if self.platform_collision([platformslevel1, platformslevel2, platformslevel3, platformslevel4]):
+                    self.initially_on_platform = True
+                while 0 < self.rect.x < 1280 and 0 < self.rect.y < 720 and not self.platform_collision([platformslevel1, platformslevel2, platformslevel3, platformslevel4]):
+                    self.flight(self.angle)
+                    screen.blit(rotated_kunai, self.kunai_rect)
+                    self.initially_on_platform = False
+
+        return rotated_kunai
+
+    def draw(self):
+        screen.blit(self.kunai_image, (self.kunai_rect.x, self.kunai_rect.y))
 
 
 def menu(cond):
@@ -218,7 +253,7 @@ def menu(cond):
         cond = False
 
 class Platform(pygame.sprite.Sprite):
-    def __init__(self, x, y, image, scale_a, scale_b):
+    def __init__(self, x, y, image, scale_a, scale_b, direction):
         super().__init__()
         self.image_name = image
         self.check = True
@@ -226,6 +261,7 @@ class Platform(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.direction = direction
 
 
     def name (self):
@@ -295,13 +331,6 @@ class Platform(pygame.sprite.Sprite):
                     player.rect.left = self.rect.right
                     player.xdirection = 0
                     player.is_running_left = False
-
-                # Check collision from below while jumping
-                elif player.yspeed > 0 and player.rect.top <= self.rect.bottom:
-                    print("lol")
-                    player.rect.top = self.rect.bottom
-                    player.yspeed = 0
-                    player.platfrom = False
 
 
 class GroundSpike:
