@@ -136,7 +136,7 @@ def anim_menu(cond):
             pygame.display.flip()
             pygame.display.update()
             clock.tick(frame_rate)
-            pygame.time.delay(1)  # Add a delay between each animation step
+            pygame.time.delay(500)  # Add a delay between each animation step
 
         # Reset animation flags after the loop
         player.anim1 = False
@@ -241,7 +241,6 @@ def play_level_music(level_music,cond):
     if not cond:
         pygame.mixer.music.load(level_music)  # Load the specified music file
         pygame.mixer.music.play(-1)  # Play the music in an infinite loop
-        pygame.mixer.music.set_volume(0.05)
         cond = True
     else:
         pass
@@ -375,7 +374,6 @@ def level1(cond):
             screen.blit(kunaii.update_kunai(), kunaii.kunai_rect)
             kunaii.draw()
 
-            pygame.draw.rect(screen, (255, 255, 255), player.rect, 2)
             life_update()
             pygame.display.flip()
             pygame.display.update()
@@ -444,7 +442,7 @@ def level3(cond):
 
     sol = Platform(-50, 670, block_mid_l4, 1400, 100, None)
 
-
+    sol = Platform(-50, 670, block_long_l1, 1400, 100, "right")
     laser_launcher_g = Platform(0, 250, laser_launcher1, 60, 60, None)
     door = Platform(960, 70, door3, 60, 60, None)
 
@@ -502,7 +500,7 @@ def level3(cond):
             laser_launcher_g.draw()
             door.draw()
 
-            pygame.draw.rect(screen, (255, 255, 255), player.rect, 2)
+
             life_update()
             pygame.display.flip()
             pygame.display.update()
