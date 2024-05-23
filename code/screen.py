@@ -279,7 +279,7 @@ def level1(cond):
 
     laser_launcher_g = Platform(0, 250, laser_launcher1, 60, 60, None)
     door = Platform(960, 70, door1, 60, 60, None)
-    kunaii = Projectile("The Kunai", "Kunai")
+    kunaii = Projectile("The Kunai")
 
 
     while cond:
