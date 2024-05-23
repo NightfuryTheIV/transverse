@@ -115,6 +115,16 @@ class Player(pygame.sprite.Sprite):
                 self.jump()
 
             self.spike_interaction(spikelist)
+        if player.is_dead :
+            if self.animationD_index < len(death) - 1:  # Check if animationD_index is less than the total number of death frames
+                self.image_knew = pygame.transform.scale(death[self.animationD_index], (60, 60))
+                self.animationD_index = (self.animationD_index + 1) % len(death)
+            else:
+                # Animation loop completed, reset animationD_index
+                self.animationD_index = 0
+                player.is_dead = False
+                self.dead_screen = True
+
 
     def no_slide(self):
         self.xmomentum = 600

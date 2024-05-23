@@ -216,23 +216,25 @@ def pause(level, cond):
 
 def dead_screen(level, cond):
     if cond:
-        level(False)
-        pygame.mixer.music.load(death_music)
-        pygame.mixer.music.play(-1)
-        zoomimg(yad, 1.7, 0, -120)
-        zoomimg(button,0.7,385,350)
-        pygame.display.flip()
-        clock.tick(frame_rate)
-    else:
-        pygame.mixer.music.stop()
-    while cond:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:  # Check if it's a keyboard event
-                if event.key == pygame.K_RETURN:
-                    player.dead_screen = False
-                    player.is_dead = False
-                    dead_screen(level, False)
-                    Menu(True)
+        if player.dead_screen == True :
+            level(False)
+            pygame.mixer.music.load(death_music)
+            pygame.mixer.music.play(-1)
+            zoomimg(yad, 1.7, 0, -120)
+            zoomimg(button, 0.7, 385, 350)
+            pygame.display.flip()
+            clock.tick(frame_rate)
+        else:
+            pygame.mixer.music.stop()
+        while cond:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:  # Check if it's a keyboard event
+                    if event.key == pygame.K_RETURN:
+                        player.dead_screen = False
+                        player.is_dead = False
+                        dead_screen(level, False)
+                        Menu(True)
+
 
 
 def play_level_music(level_music,cond):
@@ -435,7 +437,7 @@ def level2(cond):
 
 def level3(cond):
     Menu(False)
-    '''play_level_music(level3_music, False)'''
+    play_level_music(level3_music, False)
 
     if len(platformslevel3) == 0:
         platformslevel3.extend([])  # Ajoutez les platformes quand vous faites
@@ -468,6 +470,7 @@ def level3(cond):
                     player.start_runningL()
                 elif event.key == pygame.K_m:
                     player.is_dead = True
+
                 elif event.key == pygame.K_n:
                     get_mouse_position()
                 elif event.key == pygame.K_v:
